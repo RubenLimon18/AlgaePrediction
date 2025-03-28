@@ -35,4 +35,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Angular vesion
 18.0.2
 
+## Install dependencies
+npm install
+
 >>>>>>> 5d667ec24571388faf36f18bd9cf7b6102f6a7ff
