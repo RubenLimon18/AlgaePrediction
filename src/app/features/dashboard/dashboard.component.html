@@ -1,5 +1,5 @@
 <div>
-    <div class="row">
+    <div class="row mb-4">
         
         <div class="col-sm-12 col-md-6">
     
@@ -15,6 +15,24 @@
                     class="light-blue-btn small-btn">
                     <i class="fas fa-download fa-sm text-white-50 me-2"></i>
                     Generate Report</button>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div 
+            class="col-xl-3 col-md-6 col-12 mb-4" 
+            *ngFor="let card of cards">
+
+            <!-- Mat Card (componente reutilizable) -->
+            <app-earnings-card
+            [title]="card.title"
+            [amount]="card.amount"
+            [progress]="card.progress"
+            [icon]="card.icon"
+            [borderColor]="card.borderColor">
+            </app-earnings-card>
+            
         </div>
 
     </div>

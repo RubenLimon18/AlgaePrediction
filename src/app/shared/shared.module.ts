@@ -4,10 +4,23 @@ import { CommonModule } from '@angular/common';
 
 
 import { ButtonComponent } from './components/button/button.component';
+import { EarningsCardComponent } from './components/earnings-card/earnings-card.component';
+
+// Angular Material
+import { MatCardModule } from '@angular/material/card'; // <-- necesario
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 
 @NgModule({
-  declarations: [ButtonComponent],
-  imports: [CommonModule],
-  exports: [ButtonComponent] // Esto permite que ButtonComponent sea accesible fuera de SharedModule
+  declarations: [ButtonComponent, EarningsCardComponent],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatProgressBarModule
+  ],
+  exports: [
+    ButtonComponent,
+    EarningsCardComponent,
+  ] // Esto permite que los componentes sean accesibles fuera de SharedModule
 })
 export class SharedModule {}
