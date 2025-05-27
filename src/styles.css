@@ -11313,6 +11313,14 @@
     display: none !important;
   }
 
+
+
+
+
+  
+
+
+
   /* Cuando el sidebar está toggled, cambia layout a columna */
   .sidebar.toggled .nav-link.vertical-toggle {
     display: flex;
@@ -11331,6 +11339,34 @@
     margin-left: 0;
   }
 
+  body {
+    font-family: 'Nunito', sans-serif !important;
+  }
 
 
+
+
+
+  /* Classes Angular Material */
+  .light-blue-btn {
+    background-color: #276ef6 !important;
+    color: white !important;
+  }
+
+  .small-btn {
+    padding: 4px 8px !important;
+    font-size: 0.75rem !important;
+    min-width: auto !important;
+  }
+
+  @media (min-width: 768px) {
+    .small-btn {
+      padding: 0 16px !important;
+      font-size: 14px !important;
+      line-height: 36px !important;
+      min-height: 36px !important;
+      border-radius: 4px !important;
+      min-width: 64px !important;
+    }
+  }
 
