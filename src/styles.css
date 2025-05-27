@@ -11345,6 +11345,42 @@
 
 
 
+  /* Clases mat card */
+  .custom-card {
+    padding: 16px;
+  }
+  
+  .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0.3rem;
+  }
+  
+  .title {
+    font-size: 0.75rem;
+    font-weight: 650;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  
+  .amount {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #5a5c69;
+  }
+  
+
+  .progress-spacing {
+    flex-grow: 1;             /* La barra ocupa todo el espacio restante */
+    height: 10px;             /* Ajusta la altura de la barra si quieres */
+    min-width: 100px;         /* Ancho mínimo para la barra, opcional */
+  }
+
+
 
 
   /* Classes Angular Material */
@@ -11370,3 +11406,9 @@
     }
   }
 
+
+
+
+
+  
+  
