@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import {MatButtonModule} from '@angular/material/button';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -18,7 +20,9 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
     BrowserModule,
     AppRoutingModule,
     
-    SharedModule // We can use ButtonComponent everywhere
+    SharedModule, // We can use ButtonComponent everywhere
+
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
