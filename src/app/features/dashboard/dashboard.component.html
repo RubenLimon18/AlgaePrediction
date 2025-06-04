@@ -1,4 +1,6 @@
 <div>
+
+    <!-- Button Dashboard (Generar Reporte) -->
     <div class="row mb-4">
         
         <div class="col-sm-12 col-md-6">
@@ -19,6 +21,9 @@
 
     </div>
 
+
+
+    <!-- Earnings card -->
     <div class="row">
         <div 
             class="col-xl-3 col-md-6 col-12 mb-4" 
@@ -36,4 +41,20 @@
         </div>
 
     </div>
+
+
+
+    <!-- Card (Chart Line)-->
+     <div class="row">
+
+        <div class="col-12">
+            <div class="card shadow mb-4">
+
+                <app-chart-line [data]="data"></app-chart-line>
+
+            </div>
+        </div>
+
+     </div>
+     
 </div>

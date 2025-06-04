@@ -9,10 +9,11 @@ import { EarningsCardComponent } from './components/earnings-card/earnings-card.
 // Angular Material
 import { MatCardModule } from '@angular/material/card'; // <-- necesario
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ChartLineComponent } from './components/chart-line/chart-line.component';
 
 
 @NgModule({
-  declarations: [ButtonComponent, EarningsCardComponent],
+  declarations: [ButtonComponent, EarningsCardComponent, ChartLineComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -21,6 +22,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   exports: [
     ButtonComponent,
     EarningsCardComponent,
+    ChartLineComponent
   ] // Esto permite que los componentes sean accesibles fuera de SharedModule
 })
 export class SharedModule {}
