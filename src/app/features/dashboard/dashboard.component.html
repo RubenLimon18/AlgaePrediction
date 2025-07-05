@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
 
     <!-- Button Dashboard (Generar Reporte) -->
     <div class="row mb-4">
@@ -44,17 +44,36 @@
 
 
 
-    <!-- Card (Chart Line)-->
+    <!-- Card (Charts Line and Circle)-->
      <div class="row">
 
-        <div class="col-12">
-            <div class="card shadow mb-4">
+        <!-- Chart Line -->
+        <div class="col-12 col-xl-8 col-lg-7">
+            <div class="card shadow mb-4 ">
 
                 <app-chart-line [data]="data"></app-chart-line>
 
             </div>
         </div>
 
+
+
+        <!-- Chart circle -->
+        <div class="col-12 col-xl-4 col-lg-5">
+            <div class="card shadow mb-4 ">
+
+                <app-chart-circle></app-chart-circle>
+
+    
+            </div>
+        </div>
+
+
      </div>
      
+
+     <div class="row">
+        <h1>Hi!</h1>
+     </div>
+
 </div>
