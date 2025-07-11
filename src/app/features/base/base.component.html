@@ -9,12 +9,13 @@
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-leaf"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">Algae</div>
+            <div class="sidebar-brand-text mx-3">Algae Predict</div>
          </a>
 
 
          <!-- Divider -->
          <hr class="sidebar-divider my-0" style="border-color: #e0e0e0;">  <!-- Color gris claro -->
+
 
 
          <!-- Nav Item - Dashboard -->
@@ -29,9 +30,11 @@
           <!-- Divider -->
         <hr class="sidebar-divider" style="border-color: #e0e0e0;">
 
+
+
         <!-- Heading -->
          <div class="sidebar-heading">
-            Interface
+            General Data
          </div>
 
          
@@ -40,16 +43,18 @@
          <li class="nav-item">
 
             <a href="" class="nav-link collapsed d-flex align-items-center vertical-toggle" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Components</span>
+                <i class="fas fa-fw fa-cloud"></i>
+                <span>Environmental data</span>
                 <i class="fas fa-fw fa-chevron-right ms-auto"></i>  <!-- Flecha hacia la derecha -->
             </a>
 
             <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Components:</h6>
-                    <a class="collapse-item" routerLink="/buttons">Buttons</a>
-                    <a class="collapse-item" routerLink="/cards">Cards</a>
+                    <h6 class="collapse-header">Parameters</h6>
+                    <a class="collapse-item" routerLink="/buttons">Water temperature</a>
+                    <a class="collapse-item" routerLink="/cards">Salinity and pH</a>
+                    <a class="collapse-item" routerLink="/cards">Solar radiation</a>
+                    <a class="collapse-item" routerLink="/cards">Wind and currents</a>
                 </div>
             </div>
          </li>
@@ -65,8 +70,8 @@
                aria-expanded="false"
                aria-controls="collapseUtilities">
 
-              <i class="fas fa-fw fa-wrench"></i>
-              <span>Utilities</span>
+              <i class="fas fa-fw fa-eye"></i>
+              <span>Predictions</span>
               <i class="fas fa-fw fa-chevron-right ms-auto"></i>
 
             </a>
@@ -75,11 +80,11 @@
                  aria-labelledby="headingUtilities"
                  data-bs-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" routerLink="/utilities-color">Colors</a>
-                <a class="collapse-item" routerLink="/utilities-border">Borders</a>
-                <a class="collapse-item" routerLink="/utilities-animation">Animations</a>
-                <a class="collapse-item" routerLink="/utilities-other">Other</a>
+                <h6 class="collapse-header">Predictions</h6>
+                <a class="collapse-item" routerLink="/utilities-color">Prediction of algae</a>
+                <a class="collapse-item" routerLink="/utilities-border">Monthly projections</a>
+                <a class="collapse-item" routerLink="/utilities-animation">Model summary</a>
+                <a class="collapse-item" routerLink="/utilities-other">Trends</a>
               </div>
             </div>
           </li>
