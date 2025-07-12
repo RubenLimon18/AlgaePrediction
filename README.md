@@ -1,41 +1,75 @@
-<<<<<<< HEAD
-# Algae
+# 🌿 Algae Prediction Dashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+> Proyecto científico para la **predicción de floraciones algales marinas** mediante el análisis de datos ambientales. Esta aplicación está diseñada para apoyar a biólogos marinos y científicos en el monitoreo y análisis de floraciones algales en zonas costeras de Baja California Sur, México.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 📍 Zonas de estudio
 
-## Code scaffolding
+- **Tecolote**
+- **Casa Marino**
+- **San Juan de la Costa**
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## 🧬 Especies monitoreadas
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+El sistema realiza seguimiento y predicción sobre las siguientes especies de algas:
 
-## Running unit tests
+- *Acanthophora spicifera*
+- *Hypnea* sp1, sp2
+- *Gracilaria* sp1, sp2, sp3, sp4
+- *Gelidium*
+- *Laurencia* sp1, sp2
+- *Spyridia filamentosa*
+- *Prionitis* sp
+- *Rhodymenia* sp
+- *Ceramium*
+- *Cladophora* sp.
+- *Palisada pedrochei*
+- *Ulva foliosa*
+- *Ulva filamentosa*
+- *Filamentosa verde*
+- *Caulerpa sertularioides*
+- *Halimeda* sp
+- *Sargassum* sp1, sp2
+- *Dyctiota*
+- *Padina* spp.
+- *Rosenvingea*
+- *Codium*
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## 🚀 Tecnologías utilizadas
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+| Herramienta       | Versión     |
+|-------------------|-------------|
+| **Angular CLI**   | 18.0.2      |
+| **Node.js**       | 20.19.0     |
+| **TypeScript**    | Integrado   |
+| **JavaScript**    | Integrado   |
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-=======
-# AlgaePrediction
+## ⚙️ Instalación y uso
 
-## Node version
-20.19.0
+### 1. Clonar el repositorio
 
-## Angular vesion
-18.0.2
+```bash
+git clone https://github.com/tu-usuario/algae-prediction.git
+cd algae-prediction
+```
 
-## Install dependencies
+### 2. Instalar dependencias
 npm install
 
->>>>>>> 5d667ec24571388faf36f18bd9cf7b6102f6a7ff
+### 3. Iniciar proyecto
+ng serve
+
+## ✉️ Contacto
+### Desarrolladores
+Ruben Limon Rangel (ruben.limon4554@alumnos.udg.mx )
+
+Carlos Humberto Avila Sanchez (carlos.avila7744@alumnos.udg.mx )
+
+Julio Alejandro Mendoza Bernardo ( julio.mendoza4559@alumnos.udg.mx )
