@@ -388,7 +388,7 @@
   }
   
   h6, .h6 {
-    font-size: 1rem;
+    font-size: 1rem !important;
   }
   
   .lead {
@@ -4783,21 +4783,19 @@
   
   .page-link {
     position: relative;
+    font-size: 0.8rem;
     display: block;
     padding: 0.5rem 0.75rem;
     margin-left: -1px;
     line-height: 1.25;
     color: #4e73df;
     background-color: #fff;
-    border: 1px solid #dddfeb;
   }
   
   .page-link:hover {
     z-index: 2;
     color: #224abe;
     text-decoration: none;
-    background-color: #eaecf4;
-    border-color: #dddfeb;
   }
   
   .page-link:focus {
@@ -11406,10 +11404,3 @@
       min-width: 64px !important;
     }
   }
-
-
-
-
-
-  
-  

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <div class="form-container">
+        <p class="title">Login</p>
+
+        <!-- Spinner -->
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+        <form class="form" [formGroup]="formLogin" (submit)="onLogin()" *ngIf="!isLoading">
+
+
+            <!-- Email -->
+            <mat-form-field appearance="outline">
+                <mat-label><i class="fas fa-envelope me-2"></i> E-mail</mat-label>
+                <input matInput
+                    type="email"
+                    name="email"
+                    placeholder="E-mail"
+                    formControlName="email">
+
+                <mat-error
+                    *ngIf="formLogin.get('email')?.invalid && formLogin.get('email')?.touched">
+                    Please enter a valid email.
+                </mat-error>
+
+            </mat-form-field>
+
+
+
+            <!-- Password -->
+            <mat-form-field appearance="outline">
+                 <mat-label><i class="fas fa-lock me-2"></i> Password</mat-label>
+                <input matInput
+                    [type]="hidePassword ? 'password' : 'text'"
+                    type="password"
+                    name="password"
+                    formControlName="password">
+
+                <button mat-icon-button
+                        type="button"
+                        matSuffix
+                        (click)="hidePassword = !hidePassword"
+                        [attr.aria-label]="'Toggle password visibility'"
+                        [attr.aria-pressed]="!hidePassword">
+                    <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+
+                </button>
+                
+
+                <mat-error
+                    *ngIf="formLogin.get('password')?.invalid && formLogin.get('password')?.touched">
+                    Please enter a valid password.
+                </mat-error>
+            </mat-form-field>
+
+
+
+            <!-- Forgot password -->
+            <a class="page-link" routerLink="/auth/login/forgot-password">Forgot Password</a>
+
+            <span>P&#64;ssw0rd!23</span>
+
+            <!-- Button -->
+            <button 
+                class="form-btn"
+                type="submit">Login</button>
+
+
+        </form>
+
+
+    </div>
+</body>
+</html>

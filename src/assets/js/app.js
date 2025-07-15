@@ -20,8 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Add click event to both toggle buttons
-  toggleBtn.addEventListener('click', toggleSidebar);
-  toggleTopBtn.addEventListener('click', toggleSidebar);
+   if (toggleBtn) {
+    toggleBtn.addEventListener('click', toggleSidebar);
+  }
+
+  if (toggleTopBtn) {
+    toggleTopBtn.addEventListener('click', toggleSidebar);
+  }
+
 
   function updateNavLinkSpacing() {
     const spans = document.querySelectorAll('.nav-link span');
@@ -37,6 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // Manejar redimensionamiento para ocultar sidebar en pantallas pequeñas
   function handleResize() {
     const isSmallScreen = window.innerWidth < 768; // Ajusta el breakpoint si quieres
+
+    // Solo continúa si sidebar existe
+    if (!sidebar) return;
 
     if (isSmallScreen) {
       // En pantallas pequeñas siempre ocultar sidebar al cargar
