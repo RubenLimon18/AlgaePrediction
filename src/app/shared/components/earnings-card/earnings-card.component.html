@@ -12,9 +12,9 @@
 
                 <mat-progress-bar
                     *ngIf="amount === '0'"
-                    class="progress-spacing ms-3 me-1"
+                    class="rounded-progress ms-3 me-1"
                     [value]="progress"
-                    color="accent"
+                    [color]="borderColor"
                     mode="determinate">
                 </mat-progress-bar>
 
