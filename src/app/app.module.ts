@@ -13,6 +13,8 @@ import { BaseComponent } from './features/base/base.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { DialogComponent } from './features/dialog/dialog.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ProfileComponent } from './features/profile/profile.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,12 +22,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     BaseComponent,
     DashboardComponent,
     DialogComponent,
+    ProfileComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule, // We can use ButtonComponent everywhere
-
+    ReactiveFormsModule,
     
     // Angular material
     AngularMaterialModule

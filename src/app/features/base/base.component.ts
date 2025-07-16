@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-base',
@@ -8,6 +9,14 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrl: './base.component.css'
 })
 export class BaseComponent {
+  // Atributos
+
+
+  // Métodos
+  constructor(
+    private router: Router
+  ){}
+
 
   readonly dialog = inject(MatDialog);
 
@@ -23,5 +32,12 @@ export class BaseComponent {
       console.log(`El usuario hizo clic en: ${result ? 'Logout' : 'Cancelar'}`);
     });
   }
+
+
+  onProfile(){
+    this.router.navigate(["/algae/profile"])
+  }
+
+
 
 }

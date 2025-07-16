@@ -1,0 +1,135 @@
+<div>
+    <div class="row justify-content-center">
+        <div class="col col-md-4 col-lg-6">
+            
+            <mat-card>
+
+                <!-- Lectura -->
+                <mat-card-content class="text-center py-4" *ngIf="!edit">
+
+                    <!-- Imagen -->
+                     <img
+                        src="assets/img/undraw_profile.svg"
+                        alt="User Avatar"
+                        class="img-fluid rounded-circle mb-3 shadow"
+                        style="max-width: 120px; height: auto;"
+                    />
+
+                    <!-- Nombre -->
+                    <div class="mb-4">
+                        <h2 class="fw-bold fs-4">
+                        <mat-icon class="me-2" color="primary">person</mat-icon>
+                        {{ profile.name }}
+                        </h2>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <h2 class="text-muted fs-4">
+                        <mat-icon class="me-2" color="accent">email</mat-icon>
+                        {{ profile.email }}
+                        </h2>
+                    </div>
+
+                    <!-- Biografía -->
+                    <div class="mb-4">
+                        <p class="fs-5">
+                        {{ profile.bio }}
+                        </p>
+                    </div>
+
+                    <!-- Button -->
+                    <mat-action-row>
+                        <button mat-button color="primary" (click)="toggleEditing(true)" >Edit profile</button>
+                    </mat-action-row>
+
+                </mat-card-content>
+
+
+                <!-- Edit -->
+                <mat-card-content class="text-center py-4" *ngIf="edit">
+                    <!-- Spinner -->
+                     <!-- <mat-spinner></mat-spinner> -->
+
+                    <!-- Imagen -->
+                     <img
+                        src="assets/img/undraw_profile.svg"
+                        alt="User Avatar"
+                        class="img-fluid rounded-circle mb-3 shadow"
+                        style="max-width: 120px; height: auto;"
+                    />
+
+                     <!-- Form -->
+                    <form [formGroup]="formEditProfile" (submit)="onEditProfile()">
+
+                        <!-- Name -->
+                        <mat-form-field appearance="outline" class="mb-4">
+                            <mat-label><i class="fas fa-address-card"></i> Name</mat-label>
+                            <input matInput
+                                type="text"
+                                name="name"
+                                placeholder="Name"
+                                formControlName="name">
+
+                            <mat-error
+                                *ngIf="formEditProfile.get('name')?.invalid && formEditProfile.get('name')?.touched">
+                                Please enter a valid name.
+                            </mat-error>
+
+                        </mat-form-field>
+
+                        <!-- Email -->
+                        <mat-form-field appearance="outline" class="mb-4">
+                            <mat-label><i class="fas fa-envelope me-2"></i> E-mail</mat-label>
+                            <input matInput
+                                type="email"
+                                name="email"
+                                placeholder="E-mail"
+                                formControlName="email">
+
+                            <mat-error
+                                *ngIf="formEditProfile.get('email')?.invalid && formEditProfile.get('email')?.touched">
+                                Please enter a valid email.
+                            </mat-error>
+
+                        </mat-form-field>
+
+
+                        <!-- Bio -->
+                        <mat-form-field class="mb-4">
+                            <mat-label>Bio</mat-label>
+                            <textarea matInput 
+                                name="bio" 
+                                placeholder="I'm a software developer" 
+                                rows="6" 
+                                style="resize: none;" 
+                                type="text"
+                                formControlName="bio"></textarea>
+
+                            <mat-error
+                                *ngIf="formEditProfile.get('bio')?.invalid && formEditProfile.get('bio')?.touched"
+                                >Please enter a bio.
+                            </mat-error>
+                        </mat-form-field>
+
+                        
+                        <!-- Button -->
+                         <mat-action-row>
+                            <button type="submit" class="btn-save mr-4">Save</button>
+                            <button class="btn-cancel" type="button" (click)="toggleEditing(false)">Cancel</button>
+                         </mat-action-row>
+
+                        
+                    </form>
+
+
+                </mat-card-content>
+
+
+                
+
+            </mat-card>
+
+        </div>
+    </div>
+</div>
