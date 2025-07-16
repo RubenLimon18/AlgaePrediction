@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 // Validators
 import { emailDomainValidator, passwordValidation } from '../../shared/validators/validators.component';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit{
 
   //Metodos
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ){}
 
   ngOnInit(): void {
@@ -50,13 +52,14 @@ export class LoginComponent implements OnInit{
 
 
   onLogin(){
-    if(!this.formLogin.valid){
-      return;
-    }
+    // if(!this.formLogin.valid){
+    //   return;
+    // }
 
-    console.log(this.formLogin.value);
+    // console.log(this.formLogin.value);
     this.isLoading = true;
-    this.router.navigate(["/"])
+    // this.router.navigate(["/"])
+    this.authService.createUser("ruben.limonrangel@gmail.com", "Rubencito1.$", "usuario");
 
 
     // setTimeout(()=>{

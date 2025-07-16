@@ -15,6 +15,7 @@ import { DialogComponent } from './features/dialog/dialog.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ProfileComponent } from './features/profile/profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     SharedModule, // We can use ButtonComponent everywhere
     ReactiveFormsModule,
+    HttpClientModule,
     
     // Angular material
     AngularMaterialModule

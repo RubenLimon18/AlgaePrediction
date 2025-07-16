@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthRoutingModule } from "./auth-routing.module";
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
         AuthRoutingModule,
         RouterModule,
         ReactiveFormsModule,
-        AngularMaterialModule
+        AngularMaterialModule,
+        
     ]
 })
 export class AuthModule{}

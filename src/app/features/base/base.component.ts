@@ -1,21 +1,28 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { authData } from '../../auth/auth-data-model';
 
 @Component({
   selector: 'app-base',
   templateUrl: './base.component.html',
   styleUrl: './base.component.css'
 })
-export class BaseComponent {
+export class BaseComponent implements OnInit{
   // Atributos
-
+  data: authData | null;
 
   // Métodos
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ){}
+
+  ngOnInit(): void {
+    this.data = this.authService.getData("usuario");
+  }
 
 
   readonly dialog = inject(MatDialog);
@@ -37,6 +44,7 @@ export class BaseComponent {
   onProfile(){
     this.router.navigate(["/algae/profile"])
   }
+
 
 
 
