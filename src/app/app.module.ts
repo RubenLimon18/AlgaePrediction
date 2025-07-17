@@ -14,8 +14,11 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { DialogComponent } from './features/dialog/dialog.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ProfileComponent } from './features/profile/profile.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { UserListComponent } from './features/users/user-list/user-list.component';
+import { UserAddComponent } from './features/users/user-add/user-add.component';
+import { NotFoundComponent } from './features/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { HttpClientModule } from '@angular/common/http';
     DashboardComponent,
     DialogComponent,
     ProfileComponent,
+    UserListComponent,
+    UserAddComponent,
+    NotFoundComponent,
     
   ],
   imports: [
@@ -32,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule, // We can use ButtonComponent everywhere
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule,
     
     // Angular material
     AngularMaterialModule

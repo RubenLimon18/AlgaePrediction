@@ -60,3 +60,8 @@ mat-icon {
   background-color: #fdecea;
   color: #c50606;
 }
+
+
+mat-spinner{
+    margin: auto
+}

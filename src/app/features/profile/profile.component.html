@@ -3,9 +3,11 @@
         <div class="col col-md-4 col-lg-6">
             
             <mat-card>
+                <!-- Spinner -->
+                <mat-spinner *ngIf="isLoading"></mat-spinner>
 
                 <!-- Lectura -->
-                <mat-card-content class="text-center py-4" *ngIf="!edit">
+                <mat-card-content class="text-center py-4" *ngIf="!edit && !isLoading">
 
                     <!-- Imagen -->
                      <img
@@ -19,7 +21,7 @@
                     <div class="mb-4">
                         <h2 class="fw-bold fs-4">
                         <mat-icon class="me-2" color="primary">person</mat-icon>
-                        {{ profile.name }}
+                        {{ dataProfile.name }}
                         </h2>
                     </div>
 
@@ -27,14 +29,14 @@
                     <div class="mb-4">
                         <h2 class="text-muted fs-4">
                         <mat-icon class="me-2" color="accent">email</mat-icon>
-                        {{ profile.email }}
+                        {{ dataProfile.email }}
                         </h2>
                     </div>
 
                     <!-- Biografía -->
                     <div class="mb-4">
                         <p class="fs-5">
-                        {{ profile.bio }}
+                        {{ dataProfile.bio }}
                         </p>
                     </div>
 
@@ -47,9 +49,7 @@
 
 
                 <!-- Edit -->
-                <mat-card-content class="text-center py-4" *ngIf="edit">
-                    <!-- Spinner -->
-                     <!-- <mat-spinner></mat-spinner> -->
+                <mat-card-content class="text-center py-4" *ngIf="edit && !isLoading">
 
                     <!-- Imagen -->
                      <img
@@ -60,7 +60,7 @@
                     />
 
                      <!-- Form -->
-                    <form [formGroup]="formEditProfile" (submit)="onEditProfile()">
+                    <form [formGroup]="formEditProfile" (submit)="saveProfile()">
 
                         <!-- Name -->
                         <mat-form-field appearance="outline" class="mb-4">

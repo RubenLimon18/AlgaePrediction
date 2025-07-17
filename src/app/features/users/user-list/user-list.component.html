@@ -1,0 +1,74 @@
+<!-- Contenedor con display flex -->
+<div class="d-flex align-items-center justify-content-between mb-4">
+
+  <!-- Título -->
+  <h1 class="text-primary fw-bold custom-title mb-0">User List</h1>
+
+  <!-- Barra de búsqueda alineada a la derecha -->
+  <form class="form-inline d-flex" style="max-width: 300px;">
+    <div class="input-group">
+      <input type="text" class="form-control bg-light border-0 small" placeholder="Search for a user..."
+             aria-label="Search" aria-describedby="basic-addon2"
+             [(ngModel)] = "searchUser"
+             name="name"
+             (input)="onSearchChange()">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button">
+          <i class="fas fa-search fa-sm"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+<!-- Botón Add User -->
+<button mat-button color="primary mb-3" class="rounded-pill px-3 shadow-sm" routerLink="/algae/users/user-add">
+  Add user
+</button>
+
+<!-- Spinner -->
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+
+
+<mat-accordion multi="true" *ngIf="users.length > 0 && !isLoading">
+    <div class="mt-4" *ngFor="let user of filteredUsers">
+        <mat-expansion-panel  (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="user-panel">
+        
+          <!-- NAME -->
+          <mat-expansion-panel-header>
+              <mat-panel-title class="user-name">{{ user.name }}</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <!-- EMAIL -->
+          <div class="user-info">
+              <p><span class="label">Email:</span> {{ user.email }}</p>
+              <p><span class="label">Fecha de creación:</span> {{ user.createdAt | date: 'longDate' }}</p>
+          </div>
+
+          <!-- BUTTONS -->
+          <mat-action-row>
+              <!-- <button mat-button color="warn" (click)="onDelete(user.id)">Delete</button> -->
+              <button onclick="document.getElementById('modal').showModal()" mat-button color="warn" (click)="onUserSelect(user.id)">Delete</button>
+          </mat-action-row>
+
+          
+        </mat-expansion-panel>
+
+
+    </div>
+</mat-accordion>
+
+<!-- MODAL -->
+<dialog id="modal">
+
+  <h2>Eliminar usuario</h2>
+  <p>Estas seguro de eliminar este usuario?</p>
+
+  <div class="actions">
+    <button class="cancel-btn" onclick="document.getElementById('modal').close()">Cancel</button>
+    <button class="delete-btn" (click)="onDelete(userSelected)">Delete</button>
+  </div>
+
+</dialog>
