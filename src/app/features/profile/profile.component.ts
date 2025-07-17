@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { emailDomainValidator } from '../../shared/validators/validators.component';
+import { emailDomainValidator, onlyLetters } from '../../shared/validators/validators.component';
+import { profileData } from '../users/profile-data-model';
+import { AuthService } from '../../auth/auth.service';
 
-
-type Profile = {
-  name: string;
-  email: string;
-  bio: string;
-};
 
 
 @Component({
@@ -19,75 +15,87 @@ type Profile = {
 export class ProfileComponent implements OnInit{
   // Atributos
   edit = false;
+  isLoading = false;
   formEditProfile: FormGroup;
+  dataProfile: profileData;
 
-
-  profile: Profile ={
-    name: "Ruben",
-    email: "ruben.limonrangel@gmail.com",
-    bio: "Ingeniero en computacion"
-  }
 
   // Metodos
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ){}
 
 
   ngOnInit(): void {
 
+    // Datos profile
+    // Se obtienen los datos almacenados en el navegador, posteriormente sera con un id en la base de datos.
+    this.dataProfile = this.authService.getDataProfile("profile");
+
+
     // Form
     this.formEditProfile =  new FormGroup({
-      'email': new FormControl(this.profile.email, {
+      'email': new FormControl(this.dataProfile.email, {
               validators: [
                 Validators.email,
                 Validators.required,
                 emailDomainValidator()
               ]
       }),
-      'name': new FormControl(this.profile.name, {
+      'name': new FormControl(this.dataProfile.name, {
         validators: [
           Validators.required,
           Validators.pattern(/^[a-zA-Z\s]*$/)
         ]
       }),
-      'bio' : new FormControl(this.profile.bio, {
+      'bio' : new FormControl(this.dataProfile.bio, {
         validators: [
-          Validators.required,
+          Validators.maxLength(100),
         ]
       })
       
     })
+
+    
   }
 
-
-
-  onEditProfile(){
+  // Guarda los cambios cuando se quiere editar el perfil
+  saveProfile(){
 
     if(!this.formEditProfile.valid){
       return;
     }
 
+    // Se obtienen los valores ingresados en el formulario
     const name = this.formEditProfile.controls['name'].value;
     const email = this.formEditProfile.controls['email'].value;
     const bio = this.formEditProfile.controls['bio'].value;
 
-    this.profile.name = name;
-    this.profile.email = email;
-    this.profile.bio = bio;
+    // Se establecen los nuevos valores a los que teniamos almacenados en el navegador
+    this.dataProfile.name = name;
+    this.dataProfile.email = email;
+    this.dataProfile.bio = bio;
 
-    this.edit = false;
-    console.log(this.formEditProfile.value);
+    // Actualizar datos y almacenamos en el navegador
+    localStorage.setItem('profile', JSON.stringify(this.dataProfile)); // Lo vuelves a guardar
+
+
+    // Simulacion de peticion HTTP al guardar los cambios
+    this.isLoading = true;
+
+    setTimeout(()=>{
+      this.edit = false;
+      console.log(this.formEditProfile.value);
+      this.isLoading = false;
+    },500)
+  
+
   }
 
+  // Permite activar o desactivar el modo edicion
   toggleEditing(value: boolean) {
     this.edit = value;
   }
 
-  saveProfile() {
-    // Tu lógica para guardar los cambios
-
-    // Luego de guardar, salir de modo edición:
-    this.edit = false;
-  }
 }

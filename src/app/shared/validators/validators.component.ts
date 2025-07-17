@@ -55,3 +55,20 @@ export function passwordValidation(): ValidatorFn{
     };
   };
 }
+
+
+// Name validation
+
+export function onlyLetters(): ValidatorFn {
+return (control: AbstractControl): ValidationErrors | null => {
+  const value = control.value;
+
+  if (!value) return null;
+
+  const lettersOnlyRegex = /^[A-Za-z]+$/;
+
+  return lettersOnlyRegex.test(value)
+    ? null
+    : { onlyLetters: true };
+};
+}

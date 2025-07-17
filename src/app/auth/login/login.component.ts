@@ -50,8 +50,9 @@ export class LoginComponent implements OnInit{
   }
 
 
-
+  // Funcion submit del formulario
   onLogin(){
+    // IMPORTANTE ESTE IF PARA VALIDAR TODO EL FORMULARIO
     // if(!this.formLogin.valid){
     //   return;
     // }
@@ -59,8 +60,11 @@ export class LoginComponent implements OnInit{
     // console.log(this.formLogin.value);
     this.isLoading = true;
     // this.router.navigate(["/"])
-    this.authService.createUser("ruben.limonrangel@gmail.com", "Rubencito1.$", "usuario");
 
+    // Función que crea el usuario momentaneo en la memoria del navegador
+    this.authService.createUser("ruben.limonrangel@gmail.com", "Rubencito1.$", "user");
+
+    // Se tiene que poner isLoading = false, cuando se hace la peticio  HTTP
 
     // setTimeout(()=>{
     //   this.isLoading = false;

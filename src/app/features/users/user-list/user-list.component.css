@@ -1,0 +1,68 @@
+.user-panel {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-name {
+  font-weight: lighter;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.user-info {
+  padding: 0 16px 8px;
+  font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.label {
+  font-weight: 600;
+  color: #4a90e2; /* o usa 'text-primary' si usas Bootstrap */
+  margin-right: 6px;
+}
+
+mat-spinner{
+    margin: auto
+}
+
+.custom-title{
+  font-size: 2rem;
+}
+
+dialog {
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  width: 300px;
+  text-align: center;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* Espacio entre botones */
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  background-color: #ddd;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
