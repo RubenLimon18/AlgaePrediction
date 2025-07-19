@@ -31,6 +31,7 @@ async def register(user_data: UserRegister):
 
 @router.post("/login", response_model=TokenResponse)
 async def login(login_data: UserLogin):
+    
     """Login with email and password"""
     user = await user_service.authenticate_user(login_data.email, login_data.password)
     if not user:

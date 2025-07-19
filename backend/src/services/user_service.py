@@ -5,7 +5,7 @@ from models.user import User, UserRole, UserStatus
 from schemas.auth import UserRegister, InviteUser, AcceptInvitation
 from utils.security import get_password_hash, verify_password, generate_verification_token, generate_magic_link_token, generate_invitation_token
 from services.email_service import email_service
-from database.connection import get_database
+from database.db import get_database
 from config.settings import settings
 from fastapi import HTTPException, status
 

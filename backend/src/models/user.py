@@ -3,6 +3,13 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
 from enum import Enum
 
+
+# Ejemplo
+class Todo(BaseModel):
+    name: str
+    description: str
+    complete: bool
+
 class UserRole(str, Enum):
     ADMIN = "admin"
     RESEARCHER = "researcher"
