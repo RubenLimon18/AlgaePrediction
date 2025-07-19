@@ -4,9 +4,14 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 // Code validation ( A7dE-9BfT2-Xk91-J4Lz )
 export function codeFormatValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
-    const pattern = /^[A-Za-z0-9]{4}-[A-Za-z0-9]{5}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$/;
 
+    // Se toma el valor del control del campo donde se define el validador
+    const value = control.value;
+
+    // Se define el valor
+    const pattern = /^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$/;
+
+    // 
     return pattern.test(value) ? null : { invalidFormat: true };
   };
 }

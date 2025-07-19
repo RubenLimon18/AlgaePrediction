@@ -22,16 +22,21 @@
 
 </div>
 
+
+
 <!-- Botón Add User -->
 <button mat-button color="primary mb-3" class="rounded-pill px-3 shadow-sm" routerLink="/algae/users/user-add">
   Add user
 </button>
+
+
 
 <!-- Spinner -->
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 
 
+<!-- List -->
 <mat-accordion multi="true" *ngIf="users.length > 0 && !isLoading">
     <div class="mt-4" *ngFor="let user of filteredUsers">
         <mat-expansion-panel  (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="user-panel">
@@ -59,6 +64,8 @@
 
     </div>
 </mat-accordion>
+
+
 
 <!-- MODAL -->
 <dialog id="modal">

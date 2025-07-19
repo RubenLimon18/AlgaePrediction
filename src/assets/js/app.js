@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+function initSideBar(){
   const toggleBtn = document.getElementById('sidebarToggle');
   const toggleTopBtn = document.getElementById('sidebarToggleTop');
   const body = document.body;
@@ -66,4 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Ejecutar una vez al cargar
   handleResize();
-});
+};
+
+// Exporta la función para usarla en Angular (opcional)
+if (typeof window !== 'undefined') {
+  window.initSideBar = initSideBar;
+}
