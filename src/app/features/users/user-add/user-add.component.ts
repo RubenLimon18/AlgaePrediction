@@ -20,6 +20,7 @@ export class UserAddComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
+
     //Form
     this.form = new FormGroup({
       'name': new FormControl(null,{validators: [
@@ -43,7 +44,7 @@ export class UserAddComponent implements OnInit{
     });
   }
 
-
+  // Agrega el usuario utilizando el servicio UserService
   onAddUser(){
     if(!this.form.valid) return;
   

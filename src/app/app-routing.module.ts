@@ -7,6 +7,7 @@ import { ProfileComponent } from './features/profile/profile.component';
 import { UserListComponent } from './features/users/user-list/user-list.component';
 import { UserAddComponent } from './features/users/user-add/user-add.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
+import { AuthGuard, AuthGuardAdmin } from './guards/auth.guard';
 
 const routes: Routes = [
   // Redirect to
@@ -16,10 +17,10 @@ const routes: Routes = [
     path: '',
     component: BaseComponent,
     children: [
-      {path: "algae/dashboard", component: DashboardComponent },
-      {path: "algae/profile", component: ProfileComponent},
-      {path: "algae/users/user-list", component: UserListComponent},
-      {path: "algae/users/user-add", component: UserAddComponent}
+      {path: "algae/dashboard", component: DashboardComponent, canActivate:[AuthGuard]},
+      {path: "algae/profile", component: ProfileComponent, canActivate:[AuthGuard]},
+      {path: "algae/users/user-list", component: UserListComponent, canActivate:[AuthGuardAdmin]},
+      {path: "algae/users/user-add", component: UserAddComponent, canActivate:[AuthGuardAdmin]}
       
     ]
   },

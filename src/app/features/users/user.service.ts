@@ -62,7 +62,7 @@ export class UserService {
     }
 
 
-    // Aqui se hace el post a la API tarda unos ms
+    // Aqui se hace el post a la API tarda unos ms HTTP
     // Simula la peticion HTTP
     // Se puede hacer un FormData
     setTimeout(() => {

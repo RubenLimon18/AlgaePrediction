@@ -12,8 +12,9 @@ export class AuthService {
   // Atributos 
   private isAuth: boolean;
   private userId: string;
+  private userRol: string;
 
-  private authStatusListener = new BehaviorSubject<boolean | null>(null);
+  private authStatusListener = new BehaviorSubject<boolean>(false);
   private authStatusSignUp = new Subject<boolean>; // SIGN UP
 
 
@@ -56,7 +57,10 @@ export class AuthService {
       name: "Ruben",
       email: email
     }
-     
+    
+    // Se establece el rol
+    this.userRol = authData.rol;
+
     // Se almacena la información en el navegador
     localStorage.setItem(key, JSON.stringify(authData));
     localStorage.setItem("profile", JSON.stringify(profileData));
@@ -149,4 +153,8 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
+
+  getUserRol(){
+    return this.userRol;
+  }
 }

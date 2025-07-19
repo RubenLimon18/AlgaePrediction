@@ -12,10 +12,9 @@ export class DashboardComponent {
 
   // Earnings-cards
   cards = [
-    { title: 'Earnings (Monthly)', amount: '$40,000', icon: 'fa-calendar', borderColor: 'primary', progress: '0'},
-    { title: 'Earnings (Annual)', amount: '$215,000', icon: 'fa-dollar-sign', borderColor: 'success', progress: '0' },
-    { title: 'Tasks', amount: '0', icon: 'fa-clipboard-list', borderColor: 'info', progress: '22' },
-    { title: 'Pending Requests', amount: '18', icon: 'fa-comments', borderColor: 'warning', progress: '0' }
+    { title: 'Casa del marino', amount: '', icon: 'fa-map-marker-alt', borderColor: 'primary', progress: '0'},
+    { title: 'Tecolote', amount: '', icon: 'fa-map-marker-alt', borderColor: 'info', progress: '0'},
+    { title: 'San Juan de la Costa', amount: '', icon: 'fa-map-marker-alt', borderColor: 'warning', progress: '0'},
   ];
   
   // Chart-line

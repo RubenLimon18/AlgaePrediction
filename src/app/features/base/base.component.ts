@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
@@ -7,12 +7,15 @@ import { authData } from '../../auth/auth-data-model';
 import { Subscription } from 'rxjs';
 import { profileData } from '../users/profile-data-model';
 
+// Declaracion de la funcion de app.js
+declare function initSideBar(): void; // Declara la función de app.js
+
 @Component({
   selector: 'app-base',
   templateUrl: './base.component.html',
   styleUrl: './base.component.css'
 })
-export class BaseComponent implements OnInit{
+export class BaseComponent implements OnInit, AfterViewInit{
   // Atributos
   dataUser: authData | null;
   dataProfile: profileData | null;
@@ -46,6 +49,11 @@ export class BaseComponent implements OnInit{
         status ?  this.authtStatus = status : this.authtStatus = false;
       })
   } 
+
+  // Despues de la renderizacion se inicia el sidebar
+  ngAfterViewInit() {
+    initSideBar(); // Inicializa el sidebar después de la renderización
+  }
 
   ngOnDestroy(): void {
     this.authSub.unsubscribe();

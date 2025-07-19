@@ -6,9 +6,23 @@
         <div class="col-sm-12 col-md-6">
     
             <!-- maybe class h3 -->
-            <h1 class="mb-0 text-gray-800 font-nunito">Dashboard</h1>
+            <h1 class="display-3 fw-bold position-relative pb-3 mb-4" style="
+                background: linear-gradient(90deg, #0d6efd 0%, #0dcaf0 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                ">
+                Dashboard
+                <div class="position-absolute bottom-0 start-0 w-100" style="
+                    height: 2px;
+                    background: linear-gradient(90deg, transparent, #0dcaf0, transparent);
+                ">
+                </div>
+            </h1>
 
         </div>
+
+
 
         <div class="col-md-6 text-md-end mt-3 mt-md-0">
             <!-- Generate Report -->
@@ -21,12 +35,17 @@
 
     </div>
 
-
+    <div>
+        <h2 class="h5 text-muted fw-semibold mb-3">
+            <i class="fas fa-map-marker-alt fa-sm text-secondary me-2"></i> Ubicaciones
+        </h2>
+        
+    </div>
 
     <!-- Earnings card -->
     <div class="row">
         <div 
-            class="col-xl-3 col-md-6 col-12 mb-4" 
+            class="col-xl-4 col-md-6 col-12 mb-4"
             *ngFor="let card of cards">
 
             <!-- Mat Card (componente reutilizable) -->
@@ -43,7 +62,95 @@
     </div>
 
 
+    <!-- Ultimos datos registrados TITULO -->
+    <div class="mt-4">
+        <h2 class="h5 text-muted fw-semibold mb-3">
+            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Ultimos datos registrados
+        </h2>
+    </div>
 
+
+
+
+
+
+
+
+
+
+
+    <div class="card border-0 shadow-sm">
+  <!-- Header con icono -->
+  <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0 text-primary">
+        <i class="fas fa-clock-rotate-left me-2"></i>
+        Últimos valores registrados
+      </h5>
+      <span class="badge bg-primary">Hoy</span>
+    </div>
+  </div>
+
+  <!-- Cuerpo -->
+  <div class="card-body">
+    <div class="row">
+      <!-- Columna 1 -->
+      <div class="col-md-6">
+        <div class="d-flex mb-3">
+          <i class="fas fa-calendar-day text-primary mt-1 me-3"></i>
+          <div>
+            <h6 class="mb-0 text-muted">Fecha y hora</h6>
+            <p class="mb-0 fw-bold">15 Jul 2023 - 14:30:45</p>
+          </div>
+        </div>
+
+        <div class="d-flex mb-3">
+          <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
+          <div>
+            <h6 class="mb-0 text-muted">Ubicación</h6>
+            <p class="mb-0 fw-bold">Estación Bahía Norte (Coordenadas: 12.3456, -45.6789)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna 2 -->
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-6 mb-3">
+            <h6 class="text-muted mb-1"><i class="fas fa-temperature-high me-2"></i>Temperatura</h6>
+            <span class="badge bg-info bg-opacity-10 text-info fs-6">28.5 °C</span>
+          </div>
+          <div class="col-6 mb-3">
+            <h6 class="text-muted mb-1"><i class="fas fa-water me-2"></i>Nivel pH</h6>
+            <span class="badge bg-success bg-opacity-10 text-success fs-6">7.4</span>
+          </div>
+          <div class="col-6 mb-3">
+            <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>Nutrientes</h6>
+            <span class="badge bg-warning bg-opacity-10 text-warning fs-6">0.45 mg/L</span>
+          </div>
+          <div class="col-6 mb-3">
+            <h6 class="text-muted mb-1"><i class="fas fa-bacteria me-2"></i>Algas</h6>
+            <span class="badge bg-danger bg-opacity-10 text-danger fs-6">1,200 algas/mL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de tarjeta -->
+  <div class="card-footer bg-light py-2">
+    <small class="text-muted">
+      <i class="fas fa-sync-alt me-1"></i> Actualizado hace 15 minutos
+    </small>
+  </div>
+</div>
+
+
+
+
+
+
+    
     <!-- Card (Charts Line and Circle)-->
      <div class="row">
 
@@ -55,7 +162,6 @@
 
             </div>
         </div>
-
 
 
         <!-- Chart circle -->
