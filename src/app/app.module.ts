@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserListComponent } from './features/users/user-list/user-list.component';
 import { UserAddComponent } from './features/users/user-add/user-add.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
+import { PredictionComponent } from './features/prediction/prediction.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
     UserListComponent,
     UserAddComponent,
     NotFoundComponent,
+    PredictionComponent,
     
   ],
   imports: [
