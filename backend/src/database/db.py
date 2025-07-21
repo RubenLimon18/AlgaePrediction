@@ -9,6 +9,8 @@ class MongoDB:
 db = MongoDB()
 
 
+
+
 # Funcion para obtener la coleccion que necesitemos
 def get_collection(name: str):
     return db.database[name]

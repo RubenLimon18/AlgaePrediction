@@ -2,25 +2,47 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from schemas.auth import (
     UserRegister, UserLogin, MagicLinkRequest, InviteUser, 
-    AcceptInvitation, TokenResponse, UserResponse
+    AcceptInvitation, TokenResponse, UserRegisterResponse, UserResponse
 )
 from services.user_service import user_service
 from utils.security import create_access_token, create_refresh_token, verify_token
 from dependencies.auth import get_current_active_user, require_admin
 from models.user import User
+from database.db import get_collection
+from schemas.auth import UserRegister
+
 from datetime import datetime
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-@router.post("/register", response_model=dict)
+# GET Request Method
+@router.get("/users")
+async def get_all():
+    users = UserRegisterResponse.list_serial((get_collection("users").find()))
+    return users
+
+
+# POST Request Method
+@router.post("/register")
 async def register(user_data: UserRegister):
     """Register a new user (public access)"""
     try:
         user = await user_service.create_user(user_data)
-        return {
-            "message": "User registered successfully. Please check your email to verify your account.",
-            "user_id": user.id
-        }
+        
+        return UserRegisterResponse(
+            id = user.id,
+            email = user.email,
+            password = user.password,
+            first_name = user.first_name,
+            last_name =  user.last_name,
+            institution =  user.institution,
+            role =  user.role,
+            status =  user.status,
+            created_at = user.created_at,
+            updated_at = user.updated_at,
+            last_login = user.last_login
+        )
+    
     except HTTPException as e:
         raise e
     except Exception as e:
@@ -28,6 +50,7 @@ async def register(user_data: UserRegister):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred during registration"
         )
+
 
 @router.post("/login", response_model=TokenResponse)
 async def login(login_data: UserLogin):
@@ -40,11 +63,11 @@ async def login(login_data: UserLogin):
             detail="Incorrect email or password"
         )
     
-    if not user.email_verified:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Please verify your email before logging in"
-        )
+    # if not user.email_verified:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_401_UNAUTHORIZED,
+    #         detail="Please verify your email before logging in"
+    #     )
     
     # Create tokens
     access_token = create_access_token({"sub": user.id})
@@ -55,6 +78,12 @@ async def login(login_data: UserLogin):
         refresh_token=refresh_token,
         expires_in=1800  # 30 minutes
     )
+
+
+
+
+
+
 
 @router.post("/magic-link", response_model=dict)
 async def request_magic_link(magic_request: MagicLinkRequest):
@@ -201,26 +230,26 @@ async def update_user_role(
     
     return {"message": f"User role updated to {new_role}"}
 
-@router.get("/users")
-async def get_all_users(
-    skip: int = 0,
-    limit: int = 100,
-    current_user: User = Depends(require_admin)
-):
-    """Get all users (admin only)"""
-    users = await user_service.get_all_users(skip, limit)
-    return [
-        UserResponse(
-            id=user.id,
-            email=user.email,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            institution=user.institution,
-            role=user.role,
-            status=user.status,
-            email_verified=user.email_verified,
-            created_at=user.created_at,
-            last_login=user.last_login
-        )
-        for user in users
-    ]
+# @router.get("/users")
+# async def get_all_users(
+#     skip: int = 0,
+#     limit: int = 100,
+#     current_user: User = Depends(require_admin)
+# ):
+#     """Get all users (admin only)"""
+#     users = await user_service.get_all_users(skip, limit)
+#     return [
+#         UserResponse(
+#             id=user.id,
+#             email=user.email,
+#             first_name=user.first_name,
+#             last_name=user.last_name,
+#             institution=user.institution,
+#             role=user.role,
+#             status=user.status,
+#             email_verified=user.email_verified,
+#             created_at=user.created_at,
+#             last_login=user.last_login
+#         )
+#         for user in users
+#     ]

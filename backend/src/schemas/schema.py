@@ -1,3 +1,5 @@
+#Los esquemas sirven para validar los datos antes de enviar/recibir de MongoDB
+
 def individual_serial(todo) -> dict :
     return {
         "id": str(todo["_id"]),

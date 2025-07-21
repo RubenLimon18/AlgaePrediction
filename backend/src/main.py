@@ -1,8 +1,10 @@
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from schemas.errors import SimpleErrorResponse
 from config.settings import settings
+from database.startup import create_indexes
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from routes.auth import router as auth_router
 from routes.route import router
@@ -16,6 +18,26 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Handle Errors ValueError
+@app.exception_handler(RequestValidationError)
+async def simplify_validation_errors(request: Request, exc: RequestValidationError):
+    simplified_errors = [
+        {"message": error["msg"], "field": error["loc"][-1]}
+        for error in exc.errors()
+    ]
+    
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={"errors": simplified_errors}
+    )
+
+
+
+
+@app.on_event("startup")
+def on_startup():
+    create_indexes()
+
 
 
 # CORS configuration
@@ -27,11 +49,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
 
+
+
+# ROUTERS
 # Router Login
 app.include_router(auth_router)
 app.include_router(router)
+
+
 
 # Database connection events
 # @app.on_event("startup")

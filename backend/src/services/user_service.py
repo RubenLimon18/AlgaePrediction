@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 from typing import Optional, List
+from bson import ObjectId
 from pymongo.collection import Collection
-from models.user import User, UserRole, UserStatus
+from models.user import BaseUser, User, UserRole, UserStatus
 from schemas.auth import UserRegister, InviteUser, AcceptInvitation
 from utils.security import get_password_hash, verify_password, generate_verification_token, generate_magic_link_token, generate_invitation_token
 from services.email_service import email_service
@@ -15,12 +16,14 @@ class UserService:
         self.users_collection: Collection = None
 
     def get_users_collection(self) -> Collection:
-        if not self.db:
+        if self.db is None:
             self.db = get_database()
             self.users_collection = self.db.users
         return self.users_collection
 
     async def create_user(self, user_data: UserRegister) -> User:
+        
+        # Return the collection users
         collection = self.get_users_collection()
         
         # Check if user already exists
@@ -34,11 +37,14 @@ class UserService:
         verification_token = generate_verification_token()
         user = User(
             email=user_data.email,
+            password = get_password_hash(user_data.password),
             first_name=user_data.first_name,
             last_name=user_data.last_name,
             institution=user_data.institution,
-            password_hash=get_password_hash(user_data.password),
-            verification_token=verification_token
+            role = user_data.role,
+            status = user_data.status
+            #password_hash=get_password_hash(user_data.password),
+            #verification_token=verification_token
         )
 
         # Save to database
@@ -46,7 +52,7 @@ class UserService:
         user.id = str(result.inserted_id)
 
         # Send verification email
-        await email_service.send_verification_email(user.email, verification_token)
+        # await email_service.send_verification_email(user.email, verification_token)
 
         return user
 
@@ -150,12 +156,20 @@ class UserService:
         if not user_data:
             return None
 
-        user = User(**user_data)
-        if not user.password_hash or not verify_password(password, user.password_hash):
-            return None
+        user = User(**{
+                **user_data,
+                "_id": str(user_data["_id"])
+            })
+        
+        if not user or not user.password:
+            return None  # Usuario no existe o no tiene contraseña configurada
 
-        if user.status != UserStatus.ACTIVE:
-            return None
+        # 2. Luego verifica la contraseña
+        if not verify_password(password, user.password):
+            return None  # Contraseña incorrecta
+
+        # if user.status != UserStatus.ACTIVE:
+        #     return None
 
         # Update last login
         collection.update_one(
