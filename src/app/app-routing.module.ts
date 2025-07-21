@@ -8,6 +8,8 @@ import { UserListComponent } from './features/users/user-list/user-list.componen
 import { UserAddComponent } from './features/users/user-add/user-add.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { AuthGuard, AuthGuardAdmin } from './guards/auth.guard';
+import { PredictionComponent } from './features/prediction/prediction.component';
+
 
 const routes: Routes = [
   // Redirect to
@@ -19,8 +21,14 @@ const routes: Routes = [
     children: [
       {path: "algae/dashboard", component: DashboardComponent, canActivate:[AuthGuard]}, //canActivate:[AuthGuard]
       {path: "algae/profile", component: ProfileComponent, canActivate:[AuthGuard]},
+<<<<<<< HEAD
       {path: "algae/users/user-list", component: UserListComponent}, //canActivate:[AuthGuardAdmin]
       {path: "algae/users/user-add", component: UserAddComponent} // canActivate:[AuthGuardAdmin]
+=======
+      {path: 'algae/prediction', component: PredictionComponent},
+      {path: "algae/users/user-list", component: UserListComponent, canActivate:[AuthGuardAdmin]},
+      {path: "algae/users/user-add", component: UserAddComponent, canActivate:[AuthGuardAdmin]},
+>>>>>>> feat: implement prediction view, data interfaces and service
       
     ]
   },

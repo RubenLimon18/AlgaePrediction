@@ -19,6 +19,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserListComponent } from './features/users/user-list/user-list.component';
 import { UserAddComponent } from './features/users/user-add/user-add.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
+<<<<<<< HEAD
+=======
+import { PredictionComponent } from './features/prediction/prediction.component';
+
+>>>>>>> feat: implement prediction view, data interfaces and service
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +34,7 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
     UserListComponent,
     UserAddComponent,
     NotFoundComponent,
+    PredictionComponent,
     
   ],
   imports: [
