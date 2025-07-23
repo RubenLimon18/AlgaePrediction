@@ -14,6 +14,7 @@ export class UserListComponent implements OnInit{
   panelOpenState:boolean = false;
   searchUser: string = '';
   userSelected: string = "";
+  error: string = "";
 
   users: authRegisterResponse[]= [];
   filteredUsers: authRegisterResponse [] = [];
@@ -28,19 +29,14 @@ export class UserListComponent implements OnInit{
 
   ngOnInit(): void {
     this.isLoading = true;
-
-    // Simula la peticion HTTP
-    setTimeout(() => {
-        this.userService.getUsers();
-        this.isLoading = false;
-    }, 10); 
-      
+    this.userService.getUsers();
     
-    // Aqui nos suscribimos
+    // Aqui nos suscribimos para obtener 
     this.userSub = this.userService.getUsersUpdateListener()
       .subscribe((dataUsers) => {
         this.users = dataUsers;
         this.filteredUsers = dataUsers;
+        this.isLoading = false;
 
         // console.log(this.users);
       })
@@ -55,7 +51,6 @@ export class UserListComponent implements OnInit{
   }
 
 
-
   /*
   Las funciones -onUserSelect- y -onDelete- trabajan juntas, la primera selecciona y almacena 
   el id que se quiere eliminar y la segunda elimina el usuario con el id seleccionado.
@@ -65,6 +60,8 @@ export class UserListComponent implements OnInit{
 
     this.userSelected = id;
   }
+
+
 
   // Elimina el usuario
   onDelete(userId: string | undefined){
@@ -78,13 +75,17 @@ export class UserListComponent implements OnInit{
 
     this.isLoading = true;
 
-    // Simula la peticion HTTP de DELETE
-    setTimeout(() => {
-        this.userService.deleteUser(userId);
+    // Peticion HTTP
+    this.userService.deleteUser(userId)
+      .subscribe((response) => {
+        console.log(response);
+        this.userService.getUsers();
+      }, (error)=>{
         this.isLoading = false;
-    }, 10);
-
-    this.userService.getUsers(); // Va dentro de la suscripcion de deleteUser ya que se tenga la api
+        this.error = error.error.detail || "Error al eliminar";
+          const modal: HTMLDialogElement | null = document.getElementById('modalError') as HTMLDialogElement;
+          modal.showModal();
+      })
   }
 
 
