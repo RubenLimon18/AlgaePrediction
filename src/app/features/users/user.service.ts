@@ -1,49 +1,28 @@
 import { Injectable } from '@angular/core';
-import { authData } from '../../auth/auth-data-model';
+import { authData, authRegister, authRegisterResponse } from '../../auth/models/auth-data-model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { profileData } from './profile-data-model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   // Atributos
+  public apiURL = 'http://127.0.0.1:8000/'
 
   // Usuarios de prueba
-  private users: authData[] = [
-    {
-      id: "U001",
-      name: "Alice García",
-      email: "alice@example.com",
-      password: "hashedpassword1",  // En producción debe estar hasheado
-      rol: "user",
-      createdAt: new Date("2024-11-20T10:30:00")
-    },
-    {
-      id: "U002",
-      name: "Bruno Díaz",
-      email: "bruno@example.com",
-      password: "hashedpassword2",
-      rol: "user",
-      createdAt: new Date("2025-01-05T08:45:00")
-    },
-    {
-      id: "U003",
-      name: "Clara Mendoza",
-      email: "clara@example.com",
-      password: "hashedpassword3",
-      rol: "user",
-      createdAt: new Date("2025-07-16T12:00:00")
-    }
-  ];
-  userChanged = new Subject<authData[]>();
+  private users: authRegisterResponse[] = [];
+  
+  userChanged = new Subject<authRegisterResponse[]>();
   profile: profileData;
 
 
   // Metodos
   constructor(
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
 
@@ -51,33 +30,21 @@ export class UserService {
   /*
     El administrador crea un usuario, posteriormente se almacenara en la base de datos.
   */
-  addUser(name: string, email: string, password: string){
-    const userData: authData = {
-      id: "U00" + (this.users.length + 1).toString(),
-      name: name,
-      email: email,
-      password: password,
-      rol: "user",
-      createdAt: new Date()
-    }
-
-
-    // Aqui se hace el post a la API tarda unos ms HTTP
-    // Simula la peticion HTTP
-    // Se puede hacer un FormData
-    setTimeout(() => {
-        this.users.push(userData);
-        this.userChanged.next([...this.users]);
-        this.router.navigate(["/algae/users/user-list"]);
-    }, 1000);
+  addUser(authData: authRegister){
+    return this.http.post(this.apiURL + "auth/register", authData)
 
   }
 
   // GET Users TIENE QUE HACER PETICION HTTP TARDA UN TIEMPO
   getUsers(){
-
     // Se tiene que hacer la peticion HTTP 
-    this.userChanged.next([...this.users]); // Behavior subject
+    this.http.get<authRegisterResponse[]>(this.apiURL + "auth/users")
+      .subscribe((users) => {
+        console.log(users)
+        this.users = users;
+        this.userChanged.next([...this.users]); // Behavior subject
+      })
+    
   }
 
   // GET Users Subject

@@ -18,7 +18,7 @@ export function codeFormatValidator(): ValidatorFn {
 
 // Email validation
 export function emailDomainValidator(): ValidatorFn {
-  const allowedDomains = ['alumnos.udg.mx', 'gmail.com', 'academicos.udg.mx', 'outlook.com'];
+  const allowedDomains = ['alumnos.udg.mx', 'gmail.com', 'academicos.udg.mx', 'outlook.com', 'hotmail.com'];
 
   return (control: AbstractControl): ValidationErrors | null => {
     const email = control.value;

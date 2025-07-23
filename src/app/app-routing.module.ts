@@ -19,8 +19,8 @@ const routes: Routes = [
     children: [
       {path: "algae/dashboard", component: DashboardComponent, canActivate:[AuthGuard]},
       {path: "algae/profile", component: ProfileComponent, canActivate:[AuthGuard]},
-      {path: "algae/users/user-list", component: UserListComponent, canActivate:[AuthGuardAdmin]},
-      {path: "algae/users/user-add", component: UserAddComponent, canActivate:[AuthGuardAdmin]}
+      {path: "algae/users/user-list", component: UserListComponent}, //canActivate:[AuthGuardAdmin]
+      {path: "algae/users/user-add", component: UserAddComponent} // canActivate:[AuthGuardAdmin]
       
     ]
   },

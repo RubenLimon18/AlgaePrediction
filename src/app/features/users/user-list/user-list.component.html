@@ -43,13 +43,13 @@
         
           <!-- NAME -->
           <mat-expansion-panel-header>
-              <mat-panel-title class="user-name">{{ user.name }}</mat-panel-title>
+              <mat-panel-title class="user-name">{{ user.first_name }}</mat-panel-title>
           </mat-expansion-panel-header>
 
           <!-- EMAIL -->
           <div class="user-info">
               <p><span class="label">Email:</span> {{ user.email }}</p>
-              <p><span class="label">Fecha de creación:</span> {{ user.createdAt | date: 'longDate' }}</p>
+              <p><span class="label">Fecha de creación:</span> {{ user.created_at }}</p>
           </div>
 
           <!-- BUTTONS -->

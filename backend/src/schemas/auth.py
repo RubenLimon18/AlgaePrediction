@@ -13,7 +13,7 @@ class UserRegister(BaseModel):
     last_name: str = Field(..., min_length=1, max_length=100)
     institution: str = Field(..., min_length=1, max_length=100)
     role: UserRole = Field(default=UserRole.USER)
-    status: UserStatus = Field(default=UserStatus.PENDING_VERIFICATION)
+    status: UserStatus = Field(default=UserStatus.ACTIVE)
     
 
 

@@ -19,7 +19,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserListComponent } from './features/users/user-list/user-list.component';
 import { UserAddComponent } from './features/users/user-add/user-add.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,10 +38,10 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
-    
+
     // Angular material
-    AngularMaterialModule
-  ],
+    AngularMaterialModule,
+],
   providers: [
     provideAnimationsAsync()
   ],

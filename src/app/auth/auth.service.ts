@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { authData } from './auth-data-model';
+import { authData } from './models/auth-data-model';
 import { profileData } from '../features/users/profile-data-model';
 
 @Injectable({
