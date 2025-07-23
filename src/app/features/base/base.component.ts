@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { authData } from '../../auth/auth-data-model';
+import { authData } from '../../auth/models/auth-data-model';
 import { Subscription } from 'rxjs';
 import { profileData } from '../users/profile-data-model';
 

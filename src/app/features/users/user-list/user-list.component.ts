@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { authData } from '../../../auth/auth-data-model';
+import { authRegisterResponse } from '../../../auth/models/auth-data-model';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
 
@@ -15,8 +15,8 @@ export class UserListComponent implements OnInit{
   searchUser: string = '';
   userSelected: string = "";
 
-  users: authData[]= [];
-  filteredUsers: authData [] = [];
+  users: authRegisterResponse[]= [];
+  filteredUsers: authRegisterResponse [] = [];
 
   private userSub: Subscription;
   
@@ -39,10 +39,10 @@ export class UserListComponent implements OnInit{
     // Aqui nos suscribimos
     this.userSub = this.userService.getUsersUpdateListener()
       .subscribe((dataUsers) => {
-
         this.users = dataUsers;
         this.filteredUsers = dataUsers;
-        console.log(this.users);
+
+        // console.log(this.users);
       })
 
     
@@ -96,7 +96,7 @@ export class UserListComponent implements OnInit{
 
     // Se filtran los usuarios que tienen la inicial buscada.
     this.filteredUsers = this.users.filter((user)=>{
-      return user.name.toLocaleLowerCase().includes(term);
+      return user.first_name.toLocaleLowerCase().includes(term);
     })
   }
 

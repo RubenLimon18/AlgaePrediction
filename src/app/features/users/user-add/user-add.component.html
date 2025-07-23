@@ -12,19 +12,67 @@
                     <!-- Form -->
                     <form [formGroup]="form" (submit)="onAddUser()" *ngIf="!isLoading">
                         
-                        <!-- Name -->
+                        <!-- First_name -->
                         <mat-form-field appearance="outline" class="mb-4">
-                            <mat-label>Name</mat-label>
+                            <mat-label>First name</mat-label>
                             <input matInput
                                 type="text" 
-                                name="name"
-                                formControlName="name"
+                                name="first_name"
+                                formControlName="first_name"
                                 >
                             <mat-error
-                                *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+                                *ngIf="form.get('first_name')?.invalid && form.get('first_name')?.touched">
                                 Please enter a valid name.
                             </mat-error>
 
+                        </mat-form-field>
+                        
+                        
+                        <!-- Last name -->
+                        <mat-form-field appearance="outline" class="mb-4">
+                            <mat-label>Last name</mat-label>
+                            <input matInput
+                                type="text" 
+                                name="last_name"
+                                formControlName="last_name"
+                                >
+                            <mat-error
+                                *ngIf="form.get('last_name')?.invalid && form.get('last_name')?.touched">
+                                Please enter a valid name.
+                            </mat-error>
+
+                        </mat-form-field>
+                        
+                        
+                        <!-- Institution -->
+                        <mat-form-field appearance="outline" class="mb-4">
+                            <mat-label>Institution</mat-label>
+                            <input matInput
+                                type="text" 
+                                name="institution"
+                                formControlName="institution"
+                                >
+                            <mat-error
+                                *ngIf="form.get('institution')?.invalid && form.get('institution')?.touched">
+                                Please enter a valid institution.
+                            </mat-error>
+
+                        </mat-form-field>
+                        
+                        
+                        <!-- Role -->
+                        <mat-form-field appearance="outline" class="mb-4">
+                            <mat-label>Role</mat-label>
+                            <mat-select 
+                                formControlName="role" 
+                                name="role">
+                                <mat-option value="admin">Admin</mat-option>
+                                <mat-option value="researcher">Researcher</mat-option>
+                            </mat-select>
+
+                            <mat-error *ngIf="form.get('role')?.invalid && form.get('role')?.touched">
+                                Please select a role.
+                            </mat-error>
                         </mat-form-field>
 
 
@@ -39,10 +87,16 @@
                                 >
                             
                             <mat-error
-                                *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+                                *ngIf="(form.get('email')?.invalid && form.get('email')?.touched)">
                                 Please enter a valid email.
                             </mat-error>
-                        </mat-form-field>
+
+                             <!-- Error del backend (Prioritario) -->
+                            <mat-error *ngIf="form.get('email')?.hasError('backendError')">
+                                {{ emailError }}
+                            </mat-error>
+                        </mat-form-field>  
+
 
 
                         <!-- Password -->
@@ -82,10 +136,6 @@
                         </div>
                         
                         
-                        
-
-
-
                     </form>
 
                 </mat-card-content>
@@ -99,3 +149,15 @@
         </div>
     </div>
 </div>
+
+<!-- MODAL -->
+<dialog id="modal">
+
+<h2>Error</h2>
+<p>{{ emailError }}</p>
+
+<div class="actions">
+    <button class="cancel-btn" onclick="document.getElementById('modal').close()">Cerrar</button>
+</div>
+
+</dialog>
