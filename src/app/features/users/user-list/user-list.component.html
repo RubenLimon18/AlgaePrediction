@@ -43,12 +43,15 @@
         
           <!-- NAME -->
           <mat-expansion-panel-header>
-              <mat-panel-title class="user-name">{{ user.first_name }}</mat-panel-title>
+              <mat-panel-title class="user-name">{{ user.first_name }} {{ user.last_name }}</mat-panel-title>
           </mat-expansion-panel-header>
 
-          <!-- EMAIL -->
+          <!-- INFO -->
           <div class="user-info">
               <p><span class="label">Email:</span> {{ user.email }}</p>
+              <p><span class="label">Institución:</span> {{ user.institution }}</p>
+              <p><span class="label">Rol:</span> {{ user.role }}</p>
+              <p><span class="label">Status:</span> {{ user.status }}</p>
               <p><span class="label">Fecha de creación:</span> {{ user.created_at }}</p>
           </div>
 
@@ -77,5 +80,18 @@
     <button class="cancel-btn" onclick="document.getElementById('modal').close()">Cancel</button>
     <button class="delete-btn" (click)="onDelete(userSelected)">Delete</button>
   </div>
+
+</dialog>
+
+
+<!-- MODAL Error-->
+<dialog id="modalError">
+
+    <h2>Error</h2>
+    <p>{{ error }}</p>
+
+    <div class="actions">
+        <button class="cancel-btn" onclick="document.getElementById('modalError').close()">Cerrar</button>
+    </div>
 
 </dialog>

@@ -56,6 +56,29 @@ class UserService:
 
         return user
 
+    async def delete_user(self, user_id: str):
+
+        # Return the collection users
+        collection = self.get_users_collection()
+
+        # Verify ID
+        if not ObjectId.is_valid(user_id):
+            raise HTTPException(
+                status_code = status.HTTP_400_BAD_REQUEST,
+                detail = "Invalid user ID format"
+            )
+
+        result = collection.delete_one({"_id": ObjectId(user_id)})
+        print(result)
+
+        if result.deleted_count == 0:
+            raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+        return {"message": "User deleted successfully"}
+
     async def invite_user(self, invite_data: InviteUser, inviter_id: str) -> User:
         collection = self.get_users_collection()
         

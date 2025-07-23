@@ -35,7 +35,7 @@ export class UserService {
 
   }
 
-  // GET Users TIENE QUE HACER PETICION HTTP TARDA UN TIEMPO
+  // GET Users
   getUsers(){
     // Se tiene que hacer la peticion HTTP 
     this.http.get<authRegisterResponse[]>(this.apiURL + "auth/users")
@@ -52,12 +52,11 @@ export class UserService {
     return this.userChanged.asObservable();
   }
 
+
   // DELETE User
   deleteUser(userId: string){
-    this.users = this.users.filter((user) => {
-      return user.id !== userId;
-    })
-    this.userChanged.next(this.users);
+    return this.http.delete<{message: string}>(this.apiURL + "auth/user/delete/" + userId) ;
+
   }
   
 }

@@ -21,7 +21,6 @@ async def get_all():
     users = UserRegisterResponse.list_serial((get_collection("users").find()))
     return users
 
-
 # POST Request Method
 @router.post("/register")
 async def register(user_data: UserRegister):
@@ -50,6 +49,28 @@ async def register(user_data: UserRegister):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred during registration"
         )
+
+# DELETE Request Method
+@router.delete('/user/delete/{userId}')
+async def deleteUser(userId: str):
+    try:
+        response = await user_service.delete_user(userId)
+        return response
+    
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        print("Unexpected error:", str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred during deletion"
+        )
+
+    
+
+
+
+
 
 
 @router.post("/login", response_model=TokenResponse)

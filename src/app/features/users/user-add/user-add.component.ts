@@ -91,8 +91,8 @@ export class UserAddComponent implements OnInit{
         this.emailError = error.error.detail || "Error al registrar";
         this.isLoading = false;
           
-      const modal: HTMLDialogElement | null = document.getElementById('modal') as HTMLDialogElement;
-      modal.showModal();
+        const modal: HTMLDialogElement | null = document.getElementById('modal') as HTMLDialogElement;
+        modal.showModal();
       }
       );
 
