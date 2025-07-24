@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, HTTPException, status, Depends, Response
 from fastapi.responses import JSONResponse
 from schemas.auth import (
     UserRegister, UserLogin, MagicLinkRequest, InviteUser, 
-    AcceptInvitation, TokenResponse, UserRegisterResponse, UserResponse
+    AcceptInvitation, TokenResponse, UserRegisterResponse, UserResponse, MessageResponse
 )
 from services.user_service import user_service
 from utils.security import create_access_token, create_refresh_token, verify_token
@@ -66,15 +66,9 @@ async def deleteUser(userId: str):
             detail="An error occurred during deletion"
         )
 
-    
 
-
-
-
-
-
-@router.post("/login", response_model=TokenResponse)
-async def login(login_data: UserLogin):
+@router.post("/login", response_model=MessageResponse)
+async def login(login_data: UserLogin, response: Response):
     
     """Login with email and password"""
     user = await user_service.authenticate_user(login_data.email, login_data.password)
@@ -94,17 +88,32 @@ async def login(login_data: UserLogin):
     access_token = create_access_token({"sub": user.id})
     refresh_token = create_refresh_token({"sub": user.id})
     
-    return TokenResponse(
-        access_token=access_token,
-        refresh_token=refresh_token,
-        expires_in=1800  # 30 minutes
+    response.set_cookie(
+        key="refresh_token",
+        value=refresh_token,
+        httponly=True,
+        samesite="lax",
+        max_age=1800,
+        path="/",
     )
 
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        samesite="lax",
+        max_age=1800,
+        path="/",
+    )
 
+    return {"message": "Login successful"}
 
-
-
-
+@router.post("/logout", response_model=MessageResponse)
+async def logout(response: Response):
+    """Logout user by clearing cookies"""
+    response.delete_cookie("refresh_token", path="/")
+    response.delete_cookie("access_token", path="/")
+    return {"message": "Logout successful"}
 
 @router.post("/magic-link", response_model=dict)
 async def request_magic_link(magic_request: MagicLinkRequest):
