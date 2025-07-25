@@ -14,8 +14,7 @@ export class PredictionService {
   // constructor(private http: HttpClient) {} // ← descomentar si se usa HttpClient
   constructor() {}
 
-  //simulacion
-  runPrediction(data: Prediction): Observable<{ site: string; specie: string; growth: number }> {
+  runPrediction(data: Prediction): Observable<{ growth: number; date: string }> {
     const simulatedGrowth = (
       data.temperature * 0.4 +
       data.din * 0.3 +
@@ -24,15 +23,16 @@ export class PredictionService {
       Math.random() * 5
     );
 
+    const today = new Date().toISOString(); // formato ISO (ej: 2025-07-21T18:00:00.000Z)
+
     return of({
-      site: data.site,
-      specie: data.specie,
-      growth: Number(simulatedGrowth.toFixed(2))
+      growth: Number(simulatedGrowth.toFixed(2)),
+      date: today
     });
 
     /*
     //API ejemplo:
-    return this.http.post<{ site: string; specie: string; growth: number }>(
+    return this.http.post<{ growth: number; date: string }>(
       'http://localhost:3000/api/predict',
       data
     );
@@ -91,5 +91,39 @@ export class PredictionService {
     return this.http.get<AlgaSpecies[]>('http://localhost:3000/api/species');
   }
   */
+  getMaxBiomassForSpecies(specieName: string): Observable<number> {
+    const maxValues: { [speciesName: string]: number } = {
+      'Acanthophora spicifera': 28,
+      'Hypnea sp1': 32,
+      'Hypnea sp2': 27,
+      'Gracilaria sp1': 35,
+      'Gracilaria sp2': 30,
+      'Gracilaria sp3': 29,
+      'Gracilaria sp4': 33,
+      'Gelidium': 25,
+      'Laurencia sp1': 22,
+      'Laurencia sp2': 20,
+      'Spyridia filamentosa': 24,
+      'Prionitis sp': 31,
+      'Rhodymenia sp': 26,
+      'Ceramium': 23,
+      'Cladophora sp': 18,
+      'Palisada pedrochei': 21,
+      'Ulva foliosa': 34,
+      'Ulva filamentosa': 30,
+      'Filamentosa verde': 19,
+      'Caulerpa sertularioides': 22,
+      'Cladophora sp.': 20,
+      'Halimeda sp': 17,
+      'Sargassum sp1': 36,
+      'Sargassum sp2': 33,
+      'Dyctiota': 29,
+      'Padina spp': 31,
+      'Rosenvingea': 28,
+      'Codium': 26
+    };
 
+    const maxValue = maxValues[specieName] ?? 0;
+    return of(maxValue);
+  }
 }
