@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { authData } from '../../auth/models/auth-data-model';
-import { Subscription } from 'rxjs';
+import { authData, authRegisterResponse } from '../../auth/models/auth-data-model';
+import { of, Subject, Subscription, switchMap, take, takeUntil } from 'rxjs';
 import { profileData } from '../users/profile-data-model';
 
 // Declaracion de la funcion de app.js
@@ -17,13 +17,18 @@ declare function initSideBar(): void; // Declara la función de app.js
 })
 export class BaseComponent implements OnInit, AfterViewInit{
   // Atributos
-  dataUser: authData | null;
+  dataUser: authRegisterResponse | null;
   dataProfile: profileData | null;
-
+  userId: string;
 
   authtStatus: boolean = false;
   isAdmin: boolean = false;
-  private authSub:Subscription;
+  
+
+  private destroy = new Subject<void>();
+  
+  // private authSub:Subscription;
+  // private userIdSub:Subscription;
 
   // Métodos
   constructor(
@@ -34,8 +39,57 @@ export class BaseComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
 
     // Se obtiene la informacion del usuario y perfil almacenada en el navgador, posteriormente será de la base de datos.
-    this.dataUser = this.authService.getDataUser("user");
-    this.dataProfile = this.authService.getDataProfile("profile");
+    this.authService.getIdListener()
+      .pipe(
+        takeUntil(this.destroy),
+        switchMap((id) => { // Con el id, mandamos el sig. observable el user
+          if(!id) return of(null);
+          return this.authService.getDataUser(id);
+        }),
+        switchMap((user)=>{
+          if(!user) return of(null);
+          this.dataUser = user;
+          
+          return this.authService.getAuthStatusListener() // Status se manda para next
+            .pipe(
+              take(1)
+            );
+        })
+      )
+      .subscribe({
+        next: (status) => {
+          if(this.dataUser){
+            this.isAdmin = this.dataUser.role === "admin";
+          }
+          this.authtStatus = status || false;
+        },
+        error: (e) => {
+          console.log("Error: ", e);
+        }
+      })
+
+
+
+
+
+    // this.userIdSub = this.authService.getIdListener()
+    //   .subscribe((id)=>{
+    //     if(id){
+    //       this.authService.getDataUser(id)
+    //         .subscribe((user)=>{
+    //           this.dataUser = user
+
+    //           this.authSub = this.authService.getAuthStatusListener()
+    //           .subscribe((status) =>{
+    //             this.dataUser.role == "admin" ? this.isAdmin = true : this.isAdmin = false;
+    //             status ?  this.authtStatus = status : this.authtStatus = false;
+    //           })
+    //         })
+    //     }
+    //   })
+
+
+    // this.dataProfile = this.authService.getDataProfile("profile");
 
     //Subscription
     /*
@@ -43,11 +97,7 @@ export class BaseComponent implements OnInit, AfterViewInit{
       Dependiendo de si el authStatus es verdadero significa que alguien inicio sesion y se verifica
       si es un -admin- o un -user-
     */
-    this.authSub = this.authService.getAuthStatusListener()
-      .subscribe((status) =>{
-        this.dataUser?.rol == "admin" ? this.isAdmin = true : this.isAdmin = false;
-        status ?  this.authtStatus = status : this.authtStatus = false;
-      })
+    
   } 
 
   // Despues de la renderizacion se inicia el sidebar
@@ -56,7 +106,9 @@ export class BaseComponent implements OnInit, AfterViewInit{
   }
 
   ngOnDestroy(): void {
-    this.authSub.unsubscribe();
+    //this.authSub.unsubscribe();
+    this.destroy.next();
+    this.destroy.complete();
   }
 
 

@@ -139,6 +139,7 @@ class TokenResponse(BaseModel):
 
 class MessageResponse(BaseModel):
     message: str
+    id: Optional[str] = None
 
 class UserResponse(BaseModel):
     id: str

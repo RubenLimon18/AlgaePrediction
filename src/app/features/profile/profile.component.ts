@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { emailDomainValidator, onlyLetters } from '../../shared/validators/validators.component';
 import { profileData } from '../users/profile-data-model';
 import { AuthService } from '../../auth/auth.service';
+import { authRegisterResponse } from '../../auth/models/auth-data-model';
+import { of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 
 
@@ -17,7 +19,10 @@ export class ProfileComponent implements OnInit{
   edit = false;
   isLoading = false;
   formEditProfile: FormGroup;
-  dataProfile: profileData;
+  dataUser: authRegisterResponse | null;
+
+  private destroy = new Subject<void>();
+
 
 
   // Metodos
@@ -31,30 +36,45 @@ export class ProfileComponent implements OnInit{
 
     // Datos profile
     // Se obtienen los datos almacenados en el navegador, posteriormente sera con un id en la base de datos.
-    this.dataProfile = this.authService.getDataProfile("profile");
+    // this.dataProfile = this.authService.getDataProfile("profile");
+
+    // Se obtiene la informacion del usuario y perfil almacenada en el navgador, posteriormente será de la base de datos.
+    this.authService.getIdListener()
+      .pipe(
+        takeUntil(this.destroy),
+        switchMap((id) => { // Con el id, mandamos el sig. observable el user
+          if(!id) return of(null);
+          return this.authService.getDataUser(id);
+        }),
+        tap((user)=>{
+          if (user) this.dataUser = user; 
+        })
+      )
+      .subscribe({
+        next: () => {},
+        error: (e) => {
+          console.log("Error: ", e);
+        }
+      })
+
+
 
 
     // Form
     this.formEditProfile =  new FormGroup({
-      'email': new FormControl(this.dataProfile.email, {
+      'email': new FormControl(this.dataUser?.email, {
               validators: [
                 Validators.email,
                 Validators.required,
                 emailDomainValidator()
               ]
       }),
-      'name': new FormControl(this.dataProfile.name, {
+      'name': new FormControl(this.dataUser?.first_name, {
         validators: [
           Validators.required,
           Validators.pattern(/^[a-zA-Z\s]*$/)
         ]
-      }),
-      'bio' : new FormControl(this.dataProfile.bio, {
-        validators: [
-          Validators.maxLength(100),
-        ]
       })
-      
     })
 
     
@@ -73,12 +93,12 @@ export class ProfileComponent implements OnInit{
     const bio = this.formEditProfile.controls['bio'].value;
 
     // Se establecen los nuevos valores a los que teniamos almacenados en el navegador
-    this.dataProfile.name = name;
-    this.dataProfile.email = email;
-    this.dataProfile.bio = bio;
+    // this.dataProfile.name = name;
+    // this.dataProfile.email = email;
+    // this.dataProfile.bio = bio;
 
     // Actualizar datos y almacenamos en el navegador
-    localStorage.setItem('profile', JSON.stringify(this.dataProfile)); // Lo vuelves a guardar
+    //localStorage.setItem('profile', JSON.stringify(this.dataProfile)); // Lo vuelves a guardar
 
 
     // Simulacion de peticion HTTP al guardar los cambios

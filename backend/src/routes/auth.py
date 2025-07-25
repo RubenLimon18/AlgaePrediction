@@ -21,6 +21,23 @@ async def get_all():
     users = UserRegisterResponse.list_serial((get_collection("users").find()))
     return users
 
+# GET Request Method
+@router.get("/user/{userId}")
+async def get_user(userId: str):
+    try:
+        user = await user_service.get_user_by_id(userId)
+        return user
+    
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        print("Unexpected error:", str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred during deletion"
+        )
+
+
 # POST Request Method
 @router.post("/register")
 async def register(user_data: UserRegister):
@@ -50,6 +67,7 @@ async def register(user_data: UserRegister):
             detail="An error occurred during registration"
         )
 
+
 # DELETE Request Method
 @router.delete('/user/delete/{userId}')
 async def deleteUser(userId: str):
@@ -66,7 +84,7 @@ async def deleteUser(userId: str):
             detail="An error occurred during deletion"
         )
 
-
+# POST Request Method
 @router.post("/login", response_model=MessageResponse)
 async def login(login_data: UserLogin, response: Response):
     
@@ -92,7 +110,8 @@ async def login(login_data: UserLogin, response: Response):
         key="refresh_token",
         value=refresh_token,
         httponly=True,
-        samesite="lax",
+        secure=True,  # Obligatorio con SameSite=None
+        samesite="none",
         max_age=1800,
         path="/",
     )
@@ -101,12 +120,17 @@ async def login(login_data: UserLogin, response: Response):
         key="access_token",
         value=access_token,
         httponly=True,
-        samesite="lax",
+        secure=True,  # Obligatorio con SameSite=None
+        samesite="none",
         max_age=1800,
         path="/",
     )
 
-    return {"message": "Login successful"}
+    return {
+        "message": "Login successful",
+        "id": user.id
+    }
+
 
 @router.post("/logout", response_model=MessageResponse)
 async def logout(response: Response):
