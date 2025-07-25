@@ -63,23 +63,39 @@ h3 {
   transform: scale(0.98);
 }
 
+#biomassChart {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
 
+.responsive-border {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 2rem;  
+}
 
-
-/* Responsive para móviles */
+/* responsive para moviles */
 @media (max-width: 600px) {
   .grid-container {
-    grid-template-columns: 1fr; /* Una columna en móviles */
+    grid-template-columns: 1fr; /* una columna en moviles */
   }
 
   .btn-group-toggle .btn {
     flex: 0 0 100%;       /* 1 por fila */
   }
   .btn-group-toggle {
-  max-height: 220px;
-  overflow-y: auto;
-  box-sizing: border-box;     /* incluye el padding y border en el tamaño */
-  padding: 0.5rem;  
-  overflow-x: hidden; /* evita scroll horizontal */
-}
+    max-height: 220px;
+    overflow-y: auto;
+    box-sizing: border-box;     /* incluye el padding y border en el tamaño */
+    padding: 0.5rem;  
+    overflow-x: hidden; /* evita scroll horizontal */
+  }
+
+  .responsive-border {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
 }
