@@ -260,8 +260,11 @@ class UserService:
 
     async def get_user_by_id(self, user_id: str) -> Optional[User]:
         collection = self.get_users_collection()
-        user_data = collection.find_one({"_id": user_id})
-        return User(**user_data) if user_data else None
+        user_data = collection.find_one({"_id": ObjectId(user_id)})
+        if user_data:
+            user_data["_id"] = str(user_data["_id"])  # Convertir ObjectId a str
+            return User(**user_data)
+        return None
 
     async def get_user_by_email(self, email: str) -> Optional[User]:
         collection = self.get_users_collection()

@@ -62,7 +62,10 @@ export class LoginComponent implements OnInit{
     // this.router.navigate(["/"])
 
     // Función que crea el usuario momentaneo en la memoria del navegador
-    this.authService.createUser("ruben.limonrangel@gmail.com", "Rubencito1.$", "user");
+    const email = this.formLogin.controls["email"].value
+    const password = this.formLogin.controls["password"].value
+
+    this.authService.login(email, password);
 
     // Se tiene que poner isLoading = false, cuando se hace la peticio  HTTP
 

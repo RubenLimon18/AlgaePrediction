@@ -21,7 +21,7 @@
                     <div class="mb-4">
                         <h2 class="fw-bold fs-4">
                         <mat-icon class="me-2" color="primary">person</mat-icon>
-                        {{ dataProfile.name }}
+                        {{ dataUser?.first_name }}
                         </h2>
                     </div>
 
@@ -29,16 +29,10 @@
                     <div class="mb-4">
                         <h2 class="text-muted fs-4">
                         <mat-icon class="me-2" color="accent">email</mat-icon>
-                        {{ dataProfile.email }}
+                        {{ dataUser?.email }}
                         </h2>
                     </div>
 
-                    <!-- Biografía -->
-                    <div class="mb-4">
-                        <p class="fs-5">
-                        {{ dataProfile.bio }}
-                        </p>
-                    </div>
 
                     <!-- Button -->
                     <mat-action-row>
@@ -92,24 +86,6 @@
                                 Please enter a valid email.
                             </mat-error>
 
-                        </mat-form-field>
-
-
-                        <!-- Bio -->
-                        <mat-form-field class="mb-4">
-                            <mat-label>Bio</mat-label>
-                            <textarea matInput 
-                                name="bio" 
-                                placeholder="I'm a software developer" 
-                                rows="6" 
-                                style="resize: none;" 
-                                type="text"
-                                formControlName="bio"></textarea>
-
-                            <mat-error
-                                *ngIf="formEditProfile.get('bio')?.invalid && formEditProfile.get('bio')?.touched"
-                                >Please enter a bio.
-                            </mat-error>
                         </mat-form-field>
 
                         

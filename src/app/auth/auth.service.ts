@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { authData } from './models/auth-data-model';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { authData, authRegisterResponse } from './models/auth-data-model';
 import { profileData } from '../features/users/profile-data-model';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +13,14 @@ import { profileData } from '../features/users/profile-data-model';
 export class AuthService {
   // Atributos 
   private isAuth: boolean;
-  private userId: string;
+  private user: authRegisterResponse;
+  //private userId: string;
   private userRol: string;
+  public apiURL = 'http://127.0.0.1:8000/'
 
-  private authStatusListener = new BehaviorSubject<boolean>(false);
+
+  private authStatusListener = new BehaviorSubject<boolean | null>(null);
+  private userIdListener = new BehaviorSubject<string | null>(null);
   private authStatusSignUp = new Subject<boolean>; // SIGN UP
 
 
@@ -29,7 +35,7 @@ export class AuthService {
     Función que crea un usuario simplemente en la memoria del navegador,
     posteriormente será en la el login y se almacenara en la base de datos.
   */ 
-  createUser(email: string, password: string, key: string){
+  login(email: string, password: string){
 
     /*
     authData: Contiene los datos para el login (email, password, id, rol y la fecha de creacion)
@@ -43,28 +49,49 @@ export class AuthService {
 
   
     */
-    const authData: authData = {
-      id: "LIRR30",
-      name: "Ruben",
-      email: email,
-      password: password,
-      rol: "admin",
-      createdAt: new Date()
-    }
+    // const authData: authData = {
+    //   id: "LIRR30",
+    //   name: "Ruben",
+    //   email: email,
+    //   password: password,
+    //   rol: "admin",
+    //   createdAt: new Date()
+    // }
 
-    const profileData: profileData = {
-      idAuthData: "LIRR30",
-      name: "Ruben",
-      email: email
-    }
+    // const profileData: profileData = {
+    //   idAuthData: "LIRR30",
+    //   name: "Ruben",
+    //   email: email
+    // }
     
     // Se establece el rol
-    this.userRol = authData.rol;
+    // this.userRol = authData.rol;
 
     // Se almacena la información en el navegador
-    localStorage.setItem(key, JSON.stringify(authData));
-    localStorage.setItem("profile", JSON.stringify(profileData));
+    // localStorage.setItem(key, JSON.stringify(authData));
+    // localStorage.setItem("profile", JSON.stringify(profileData));
     
+
+    // Petición HTTP
+    const user = {
+      email: email,
+      password: password
+    }
+
+    this.http.post<{msg: string, id: string}>(this.apiURL + "auth/login", user, { withCredentials: true })
+      .subscribe((response)=>{
+        console.log(response)
+        this.userIdListener.next(response.id);
+        
+        this.authStatusListener.next(true);
+        this.isAuth = true;
+
+        // Router
+        this.router.navigate(["/algae/dashboard"]);
+        
+      })
+
+
 
     // Auth status
     /* 
@@ -72,32 +99,29 @@ export class AuthService {
       para mostrar opciones que solo se permiten cuando se inicio sesion, así como 
       acceder a rutas que solamente se pueden acceder cuando inicia sesion.
     */
-    this.authStatusListener.next(true);
-    this.isAuth = true;
-
+    
 
     // Se imprimen los datos del USUARIO que se almacenaron en la memoria del navegador
-    const datosGuardadosUser = localStorage.getItem(key);
-    if (datosGuardadosUser !== null) {
-      const datos = JSON.parse(datosGuardadosUser);
-      console.log('Datos en localStorage:', datos);
-    } else {
-      console.log('No hay datos guardados');
-    }
+    // const datosGuardadosUser = localStorage.getItem(key);
+    // if (datosGuardadosUser !== null) {
+    //   const datos = JSON.parse(datosGuardadosUser);
+    //   console.log('Datos en localStorage:', datos);
+    // } else {
+    //   console.log('No hay datos guardados');
+    // }
 
 
     // Se imprimen los datos del PROFILE DEL USUARIO que se almacenaron en la memoria del navegador
-    const datosGuardadosProfile = localStorage.getItem("profile");
-    if (datosGuardadosProfile !== null) {
-      const datos = JSON.parse(datosGuardadosProfile);
-      console.log('Datos en localStorage:', datos);
-    } else {
-      console.log('No hay datos guardados');
-    }
+    // const datosGuardadosProfile = localStorage.getItem("profile");
+    // if (datosGuardadosProfile !== null) {
+    //   const datos = JSON.parse(datosGuardadosProfile);
+    //   console.log('Datos en localStorage:', datos);
+    // } else {
+    //   console.log('No hay datos guardados');
+    // }
 
 
-    // Router
-    this.router.navigate(["/algae/dashboard"]);
+    
   }
 
 
@@ -105,8 +129,8 @@ export class AuthService {
   deleteUser(key: string){
     
     this.authStatusListener.next(false); // Se cierra sesion y se emite falso
-    localStorage.removeItem(key); // Se borran los datos USER del navegador
-    localStorage.removeItem("profile"); // Se borran datos del PROFILE del navegador
+    // localStorage.removeItem(key); // Se borran los datos USER del navegador
+    // localStorage.removeItem("profile"); // Se borran datos del PROFILE del navegador
     console.log("Sesion cerrada correctamente."); // Mensaje de cierre de sesion
 
   }
@@ -116,17 +140,11 @@ export class AuthService {
   Se utiliza en componentes como BASE, para mostrar el nombre en el header.
   Corresponde al tipo de dato authData.
   */
-  getDataUser(key: string){
-    const datosGuardados = localStorage.getItem(key);
+  getDataUser(id: string){
 
-    if (datosGuardados !== null) {
-      const datos = JSON.parse(datosGuardados);
-      return datos;
-
-    } else {
-      return null;
-    }
+    return this.http.get<authRegisterResponse>(this.apiURL + "auth/user/" + id)
   }
+
 
 
   /*
@@ -151,6 +169,11 @@ export class AuthService {
   // Se obtinee el estado del usuario, esta autenticado o no
   getAuthStatusListener(){
     return this.authStatusListener.asObservable();
+  }
+
+  // Id
+  getIdListener(){
+    return this.userIdListener.asObservable();
   }
 
 
