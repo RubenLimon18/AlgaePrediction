@@ -12,15 +12,23 @@
   </div>
 
   <!-- cuerpo-->
-  <div class="card shadow p-4" style="width: 100%;">
+  <div class="card border-0 shadow-sm mb-5">
+    <!-- Header-->
+    <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom"></div>
     <!-- formulario-->
     <form [formGroup]="predictionForm" (ngSubmit)="runPrediction()">
 
-      <div class="grid-container">
-          <!-- Primera columna dividida en 2 filas -->
-          <div class="left-column">
-            <div class="sitio-section mb-3">
-              <label class="form-label fw-semibold">Site</label>
+      <div class="grid-container ">
+        
+        <!-- Primera columna seccion sitio y especies -->
+          <div>
+            <div class="sitio-section mb-1"><!-- seccion de sitio -->
+              <div class="d-flex mb-1"><!-- titulo seccion-->
+                <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0 text-dark">Site</h6>
+                </div>
+              </div>
               <div class="btn-group btn-group-toggle d-flex flex-wrap" role="group">
                 <button
                   type="button"
@@ -35,8 +43,13 @@
               <div *ngIf="isInvalid('site')" class="text-danger mt-1 small">Select a valid site.</div>
             </div>
 
-            <div class="especie-section mb-3">
-              <label class="form-label fw-semibold">Algae species</label><!-- style="max-height: 150px; overflow-y: auto;" -->
+            <div class="especie-section mt-1"><!-- seccion de especie -->
+              <div class="d-flex mb-1"><!-- titulo seccion-->
+                <i class="fas fa-seedling mt-1 me-3" style="color: #1cc88a;"></i>
+                <div>
+                  <h6 class="mb-0 text-dark">Algae species</h6>
+                </div>
+              </div>
               <div class="btn-group btn-group-toggle d-flex flex-wrap" role="group">
                 <button
                   type="button"
@@ -52,10 +65,15 @@
             </div>
           </div>
 
-          <!-- Segunda columna con inputs -->
-          <div class="right-column">
-            <div class="mb-3">
-              <label for="temperature" class="form-label fw-semibold">Temperature (°C)</label>
+        <!-- Segunda columna con inputs -->
+          <div>
+            <div class="mt-2 mb-3"><!-- parameter temperature-->
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-temperature-high text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">Temperature (°C)</h6>
+                </div>
+              </div>
               <input
                 type="number"
                 class="form-control"
@@ -67,8 +85,13 @@
               <div class="invalid-feedback">Temperature must be between 0 and 50 °C.</div>
             </div>
 
-            <div class="mb-3">
-              <label for="din" class="form-label fw-semibold">DIN (µmol/L)</label>
+            <div class="mb-3"><!-- parameter din-->
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-water text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">DIN (µmol/L)</h6>
+                </div>
+              </div>
               <input
                 type="number"
                 class="form-control"
@@ -80,8 +103,13 @@
               <div class="invalid-feedback">DIN must be a positive number.</div>
             </div>
 
-            <div class="mb-3">
-              <label for="nt" class="form-label fw-semibold">NT (µmol/L)</label>
+            <div class="mb-3"><!-- parameter nt-->
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-flask text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">NT (µmol/L)</h6>
+                </div>
+              </div>
               <input
                 type="number"
                 class="form-control"
@@ -93,8 +121,13 @@
               <div class="invalid-feedback">NT must be a positive number.</div>
             </div>
 
-            <div class="mb-3">
-              <label for="days" class="form-label fw-semibold">Predicted algae growth after X days.</label>
+            <div class="mb-3"><!-- days-->
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-clock text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">Predicted algae growth after X days.</h6>
+                </div>
+              </div>
               <input
                 type="number"
                 class="form-control"
@@ -106,11 +139,14 @@
               <div class="invalid-feedback">Enter a valid number of days (minimum 1).</div>
             </div>
 
+            <!-- Predict botton-->
             <button type="submit" class="btn btn-primary mt-3 w-100 fw-semibold">Predict</button>
           </div>
+
       </div>
 
-      <div *ngIf="result" class="alert alert-info mt-4 text-center fw-semibold">
+      <!-- Result-->
+      <div *ngIf="result" class="alert alert-info me-2 ms-2 fw-semibold">
           {{ result }}
       </div>
     </form>
@@ -126,16 +162,9 @@
         </h2>
     </div>
 
-  <div class="card border-0 shadow-sm"><!-- seccion card--> 
-    <!-- Header con icono -->
-    <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom">
-      <div class="d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0 text-primary">
-          <i class="fas fa-clock-rotate-left me-2"></i>
-        </h5>
-        <span class="badge bg-primary"></span>
-      </div>
-    </div>
+  <div class="card border-0 shadow-sm mb-5"><!-- seccion card--> 
+    <!-- Header-->
+    <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom"></div>
 
     <!-- Cuerpo -->
     <div class="card-body">
@@ -178,7 +207,7 @@
             {{ predictedData?.growth ?? '0' }} units
           </span>
           <!-- Canvas del gráfico -->
-          <div *ngIf="predictedData" style="width: 100%; height: 180px; padding-top: 1rem;">
+          <div *ngIf="predictedData" style="width: 100%; height: 170px; padding-top: 1rem;">
             <canvas id="biomassChart"></canvas>
           </div>
         </div>
@@ -216,7 +245,7 @@
       </div>
 
     </div>
-
+    
   </div>
 
 </div>
