@@ -28,6 +28,31 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     
     return user
 
+async def get_current_user_from_cookie(request: Request) -> User:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    token = request.cookies.get("access_token")
+    if not token:
+        raise credentials_exception
+
+    token_data = verify_token(token)
+    if token_data is None:
+        raise credentials_exception
+
+    user_id = token_data.get("sub")
+    if user_id is None:
+        raise credentials_exception
+
+    user = await user_service.get_user_by_id(user_id)
+    if user is None:
+        raise credentials_exception
+
+    return user
+
 async def get_current_active_user(current_user: User = Depends(get_current_user)) -> User:
     if current_user.status != "active":
         raise HTTPException(

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { authData, authRegisterResponse } from './models/auth-data-model';
 import { profileData } from '../features/users/profile-data-model';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 
@@ -129,10 +131,13 @@ export class AuthService {
   deleteUser(key: string){
     
     this.authStatusListener.next(false); // Se cierra sesion y se emite falso
+    this.isAuth = false; // Se establece el estado de autenticacion a falso
+    this.userIdListener.next(null); // Se emite el id del usuario a nulo
+    
     // localStorage.removeItem(key); // Se borran los datos USER del navegador
     // localStorage.removeItem("profile"); // Se borran datos del PROFILE del navegador
     console.log("Sesion cerrada correctamente."); // Mensaje de cierre de sesion
-
+    this.http.post(this.apiURL + "auth/logout", {}, { withCredentials: true }).subscribe()
   }
 
   /*
@@ -180,4 +185,30 @@ export class AuthService {
   getUserRol(){
     return this.userRol;
   }
+
+  checkSession(): Observable<boolean | authRegisterResponse>{
+  return this.http.get<authRegisterResponse>(this.apiURL + 'auth/me', { withCredentials: true }).pipe(
+    tap(user => {
+      this.userRol = user.role;
+      this.user = user;
+      this.isAuth = true;
+      this.authStatusListener.next(true);
+      this.userIdListener.next(user.id);
+    }),
+    // Si falla, se asume que el usuario no está autenticado
+    // y se emite false
+    // Puedes usar catchError de RxJS 7 o superior
+    // o agregar rxjs/operators si no lo tienes
+    // aquí una versión segura:
+    // import { of, catchError } from 'rxjs';
+    catchError(() => {
+      this.user = null!;
+      this.userRol = '';
+      this.isAuth = false;
+      this.authStatusListener.next(false);
+      this.userIdListener.next(null);
+      return of(false);
+    })
+  );
+}
 }

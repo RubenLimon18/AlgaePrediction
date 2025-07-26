@@ -149,6 +149,6 @@ class UserResponse(BaseModel):
     institution: str
     role: UserRole
     status: str
-    email_verified: bool
+    # email_verified: bool
     created_at: datetime
     last_login: Optional[datetime]

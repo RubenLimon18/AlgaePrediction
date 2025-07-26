@@ -6,7 +6,7 @@ from schemas.auth import (
 )
 from services.user_service import user_service
 from utils.security import create_access_token, create_refresh_token, verify_token
-from dependencies.auth import get_current_active_user, require_admin
+from dependencies.auth import get_current_active_user, require_admin, get_current_user_from_cookie
 from models.user import User
 from database.db import get_collection
 from schemas.auth import UserRegister
@@ -109,9 +109,9 @@ async def login(login_data: UserLogin, response: Response):
     response.set_cookie(
         key="refresh_token",
         value=refresh_token,
-        httponly=True,
-        secure=True,  # Obligatorio con SameSite=None
-        samesite="none",
+        # httponly=True,
+        # secure=True,  # Obligatorio con SameSite=None
+        samesite="lax",
         max_age=1800,
         path="/",
     )
@@ -119,9 +119,9 @@ async def login(login_data: UserLogin, response: Response):
     response.set_cookie(
         key="access_token",
         value=access_token,
-        httponly=True,
-        secure=True,  # Obligatorio con SameSite=None
-        samesite="none",
+        # httponly=True,
+        # secure=True,  # Obligatorio con SameSite=None
+        samesite="lax",
         max_age=1800,
         path="/",
     )
@@ -243,8 +243,9 @@ async def accept_invitation(accept_data: AcceptInvitation):
         )
 
 @router.get("/me", response_model=UserResponse)
-async def get_current_user_info(current_user: User = Depends(get_current_active_user)):
+async def get_current_user_info(current_user: User = Depends(get_current_user_from_cookie)):
     """Get current user information"""
+    print(f"Current user: {current_user}")
     return UserResponse(
         id=current_user.id,
         email=current_user.email,
@@ -253,7 +254,6 @@ async def get_current_user_info(current_user: User = Depends(get_current_active_
         institution=current_user.institution,
         role=current_user.role,
         status=current_user.status,
-        email_verified=current_user.email_verified,
         created_at=current_user.created_at,
         last_login=current_user.last_login
     )
