@@ -1,6 +1,6 @@
 <!-- Card header -->
 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    <h4 class="m-0 fw-bold text-secondary">Earnings Overview</h4>
+    <h4 class="m-0 fw-bold text-secondary">{{ title }}</h4>
 
 
     <!-- Dropwdown header -->
@@ -25,6 +25,6 @@
 <!-- Card Body -->
 <div class="card-body">
     <div class="chart-area">
-        <canvas id="myChart"></canvas>
+         <canvas [id]="chartId"></canvas>
     </div>
 </div>

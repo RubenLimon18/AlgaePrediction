@@ -12,7 +12,7 @@ export class DashboardComponent {
 
   // Earnings-cards
   cards = [
-    { title: 'Casa del marino', amount: '', icon: 'fa-map-marker-alt', borderColor: 'primary', progress: '0'},
+    { title: 'Casa del marino', amount: '', icon: 'fa-map-marker-alt', borderColor: 'primary', progress: '1'},
     { title: 'Tecolote', amount: '', icon: 'fa-map-marker-alt', borderColor: 'info', progress: '0'},
     { title: 'San Juan de la Costa', amount: '', icon: 'fa-map-marker-alt', borderColor: 'warning', progress: '0'},
   ];

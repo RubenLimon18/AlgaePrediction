@@ -1,1 +1,189 @@
-<p>week-prediction works!</p>
+<!-- TITULO -->
+<div class="col-sm-12 col-md-6">
+  <h3 class="text-primary text-start mb-4 fw-semibold">Weekly Projection</h3>
+</div>
+
+<!-- Seccion Panel prediccion-->
+<div>
+  <div class="mt-4"><!-- titulo-->
+          <h2 class="h5 text-muted fw-semibold mb-3">
+              <i class="fas fa-cogs fa-sm text-secondary me-2"></i> Data Prediction
+          </h2>
+  </div>
+
+  <!-- cuerpo-->
+  <div class="card border-0 shadow-sm mb-5">
+    <!-- Header-->
+    <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom"></div>
+    <!-- formulario-->
+    <form [formGroup]="predictionForm">
+
+      <div class="grid-container ">
+        
+        <!-- Primera columna seccion sitio y especies -->
+          <div>
+            <div class="sitio-section mb-1"><!-- seccion de sitio -->
+              <div class="d-flex mb-1"><!-- titulo seccion-->
+                <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0 text-dark">Site</h6>
+                </div>
+              </div>
+              <div class="btn-group btn-group-toggle d-flex flex-wrap" role="group">
+                <button
+                  type="button"
+                  *ngFor="let site of sites"
+                  class="btn btn-outline-primary m-1"
+                  [class.active]="predictionForm.get('site')?.value === site.name"
+                  (click)="predictionForm.get('site')?.setValue(site.name)"
+                >
+                  {{ site.name }}
+                </button>
+              </div>
+              <div *ngIf="isInvalid('site')" class="text-danger mt-1 small">Select a valid site.</div>
+            </div>
+
+            <div class="especie-section mt-1"><!-- seccion de especie -->
+              <div class="d-flex mb-1"><!-- titulo seccion-->
+                <i class="fas fa-seedling mt-1 me-3" style="color: #1cc88a;"></i>
+                <div>
+                  <h6 class="mb-0 text-dark">Algae species</h6>
+                </div>
+              </div>
+              <div class="btn-group btn-group-toggle d-flex flex-wrap" role="group">
+                <button
+                  type="button"
+                  *ngFor="let algae of species"
+                  class="btn btn-outline-success m-1"
+                  [class.active]="predictionForm.get('specie')?.value === algae.name"
+                  (click)="predictionForm.get('specie')?.setValue(algae.name)"
+                >
+                  {{ algae.name }}
+                </button>
+              </div>
+              <div *ngIf="isInvalid('specie')" class="text-danger mt-1 small">Select a valid species.</div>
+            </div>
+          </div>
+
+        <!-- Segunda columna con inputs -->
+          <div>
+            <!-- parameter temperature-->
+            <!-- <div class="mt-2 mb-3"> 
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-temperature-high text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">Temperature (°C)</h6>
+                </div>
+              </div>
+              <input
+                type="number"
+                class="form-control"
+                id="temperature"
+                formControlName="temperature"
+                [ngClass]="{ 'is-invalid': isInvalid('temperature') }"
+                min="0" max="50"
+              />
+              <div class="invalid-feedback">Temperature must be between 0 and 50 °C.</div>
+            </div> -->
+
+            <!-- parameter din-->
+            <!-- <div class="mb-3">
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-water text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">DIN (µmol/L)</h6>
+                </div>
+              </div>
+              <input
+                type="number"
+                class="form-control"
+                id="din"
+                formControlName="din"
+                [ngClass]="{ 'is-invalid': isInvalid('din') }"
+                min="0"
+              />
+              <div class="invalid-feedback">DIN must be a positive number.</div>
+            </div> -->
+
+            <!-- parameter nt -->
+            <!-- <div class="mb-3">
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-flask text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">NT (µmol/L)</h6>
+                </div>
+              </div>
+              <input
+                type="number"
+                class="form-control"
+                id="nt"
+                formControlName="nt"
+                [ngClass]="{ 'is-invalid': isInvalid('nt') }"
+                min="0"
+              />
+              <div class="invalid-feedback">NT must be a positive number.</div>
+            </div> -->
+
+            <div class="mb-3"><!-- date-->
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-calendar-day text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">Weeks</h6>
+                </div>
+              </div>
+                <label for="weeks" class="form-label">
+                    Weeks to be projected: {{ predictionForm.get('weeks')?.value }}
+                </label>
+                <input
+                    type="range"
+                    class="form-range"
+                    id="weeks"
+                    formControlName="weeks"
+                    min="1"
+                    max="48"
+                    step="1"
+                    [ngClass]="{ 'is-invalid': isInvalid('weeks') }"
+                />
+
+              <!-- <input
+                type="date"
+                class="form-control"
+                id="date"
+                formControlName="date"
+                [ngClass]="{ 'is-invalid': isInvalid('date') }"
+                min="1"
+              /> -->
+              <div class="invalid-feedback">Enter a valid date.</div>
+            </div>
+
+            <!-- Predict botton-->
+            <button type="submit" class="btn btn-primary mt-3 w-100 fw-semibold">Predict</button>
+          </div>
+
+      </div>
+
+      <!-- Result-->
+      <div *ngIf="result" class="alert alert-info me-2 ms-2 fw-semibold">
+          {{ result }}
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Seccion grafica -->
+<div>
+    <!-- Card (Charts Line and Circle)-->
+    <div class="row">
+            <!-- Chart Line -->
+        <div>
+            <div class="card shadow mb-4 ">
+                <!-- todos los valores son elementos modificables del charlines-->
+                <app-chart-line [chartId]="'weekChart'" [data]="data" 
+                [label]="'Biomass'"  [title]="'Projection Period (weeks)'"></app-chart-line>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+ 

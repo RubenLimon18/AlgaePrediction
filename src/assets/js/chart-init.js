@@ -1,8 +1,8 @@
 // src/assets/js/chart-init.js
 
 // Chart Line
-window.initMyChart = function (l, d) {
-    const ctx = document.getElementById('myChart')?.getContext('2d');
+window.initMyChart = function (canvasid, l, d, label = 'Ventas') {
+    const ctx = document.getElementById(canvasid)?.getContext('2d');
     if (!ctx) return;
   
     new Chart(ctx, {
@@ -10,7 +10,7 @@ window.initMyChart = function (l, d) {
       data: {
         labels: l,
         datasets: [{
-          label: 'Ventas',
+          label: label,
           data: d,
           fill: true,
           borderColor: 'rgba(75, 192, 192, 1)',
@@ -24,7 +24,7 @@ window.initMyChart = function (l, d) {
         scales: {
           y: {
             ticks: {
-              callback: value => '$' + value.toLocaleString()
+              callback: value =>  value.toLocaleString()
             }
           }
         }

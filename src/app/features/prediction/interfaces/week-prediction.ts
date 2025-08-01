@@ -1,8 +1,7 @@
- //INTERFAZ PARA DAY-PREDICTION 
-export interface Prediction {
+export interface WeekPrediction {
   site: string;        
   specie: string;       
-  date: Date;
+  weeks: number;
   // Campos de salida que vienen del backend
   growth?: number;  // Opcional porque no se usa al enviar el formulario
   dateActual?: Date;  // Fecha en formato texto ISO 

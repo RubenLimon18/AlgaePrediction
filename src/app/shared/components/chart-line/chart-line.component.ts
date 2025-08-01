@@ -3,7 +3,7 @@ import { earning_month } from '../../../models/chart_line_earnigns';
 
 declare global {
   interface Window {
-    initMyChart: (months: string[], earnings: number[]) => void;
+    initMyChart: (chartId: string, months: string[], earnings: number[], label: string) => void;
   }
 }
 
@@ -14,6 +14,9 @@ declare global {
 })
 export class ChartLineComponent {
   @Input() data: earning_month[] = [];
+  @Input() label: string = 'Ventas';
+  @Input() chartId: string = 'myChart';
+  @Input() title: string = 'Earnings Overview';
 
   
   
@@ -22,9 +25,12 @@ export class ChartLineComponent {
     const m = this.data.map(m=> m.month);
     const e = this.data.map(e => e.earning);
      
-    if (window.initMyChart) {
-      window.initMyChart(m, e);
-    }
+    // Esperar a que el DOM esté listo
+    setTimeout(() => {
+      if (window.initMyChart) {
+        window.initMyChart(this.chartId, m, e, this.label);
+      }
+    }, 0);
   }
 
 
