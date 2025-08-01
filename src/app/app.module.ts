@@ -20,8 +20,15 @@ import { UserListComponent } from './features/users/user-list/user-list.componen
 import { UserAddComponent } from './features/users/user-add/user-add.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import { PredictionComponent } from './features/prediction/prediction.component';
+=======
+import { DayPredictionComponent } from './features/prediction/day-prediction/day-prediction.component';
+import { WeekPredictionComponent } from './features/prediction/week-prediction/week-prediction.component';
+import { MonthPredictionComponent } from './features/prediction/month-prediction/month-prediction.component';
+
+>>>>>>> refactor: move prediction view content to day-prediction component
 
 >>>>>>> feat: implement prediction view, data interfaces and service
 @NgModule({
@@ -34,7 +41,9 @@ import { PredictionComponent } from './features/prediction/prediction.component'
     UserListComponent,
     UserAddComponent,
     NotFoundComponent,
-    PredictionComponent,
+    DayPredictionComponent,
+    WeekPredictionComponent,
+    MonthPredictionComponent,
     
   ],
   imports: [

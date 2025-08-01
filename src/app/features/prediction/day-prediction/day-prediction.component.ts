@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Prediction } from './interfaces/prediction';
-import { Site } from './interfaces/site';
-import { AlgaeSpecies } from './interfaces/algae-species';
-import { PredictionService } from './services/prediction.service';
+import { Prediction } from '../interfaces/prediction';
+import { Site } from '../interfaces/site';
+import { AlgaeSpecies } from '../interfaces/algae-species';
+import { PredictionService } from '../services/prediction.service';
 import Chart from 'chart.js/auto';
 
 @Component({
-  selector: 'app-prediction',
-  templateUrl: './prediction.component.html',
-  styleUrls: ['./prediction.component.css']
+  selector: 'app-day-prediction',
+  templateUrl: './day-prediction.component.html',
+  styleUrls: ['./day-prediction.component.css']
 })
-export class PredictionComponent implements OnInit {
+export class DayPredictionComponent implements OnInit {
   predictionForm: FormGroup;
   result: string | null = null;
   sites: Site[] = [];
@@ -28,10 +28,10 @@ export class PredictionComponent implements OnInit {
     this.predictionForm = this.fb.group({
       specie: ['', Validators.required],
       site: ['', Validators.required],
-      temperature: [null, [Validators.required, Validators.min(0), Validators.max(50)]],
+      /* temperature: [null, [Validators.required, Validators.min(0), Validators.max(50)]],
       din: [null, [Validators.required, Validators.min(0)]],
-      nt: [null, [Validators.required, Validators.min(0)]],
-      days: [null, [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$')]],
+      nt: [null, [Validators.required, Validators.min(0)]], */
+      date: [null, [Validators.required]],
     });
   }
 
@@ -67,13 +67,16 @@ export class PredictionComponent implements OnInit {
       const fullPrediction: Prediction = {
         ...formData,                // datos del formulario
         growth: response.growth,    // del backend
-        date: new Date(response.date)  // convierte string ISO a Date
+        dateActual: new Date(response.dateActual),  // convierte string ISO a Date
+        temperature: response.temperature,
+        din: response.din,
+        nt: response.nt
       };
 
       // guardar el resultado como string visual (opcional)
       this.result = `The predicted growth for the species *${fullPrediction.specie}* 
-        at site *${fullPrediction.site}* after ${fullPrediction.days} days is estimated 
-        to be *${fullPrediction.growth}* biomass units.`;
+        at site *${fullPrediction.site}* on ${fullPrediction.date} 
+        is expected to be *${fullPrediction.growth}* biomass units.`;
       this.predictedData = fullPrediction;//guardar datos de prediccion 
       this.predictionService.getMaxBiomassForSpecies(fullPrediction.specie).subscribe(maxValue => {
        this.maxBiomassValue = maxValue;

@@ -14,21 +14,24 @@ export class PredictionService {
   // constructor(private http: HttpClient) {} // ← descomentar si se usa HttpClient
   constructor() {}
 
-  runPrediction(data: Prediction): Observable<{ growth: number; date: string }> {
-    const simulatedGrowth = (
-      data.temperature * 0.4 +
-      data.din * 0.3 +
-      data.nt * 0.2 +
-      data.days * 0.1 +
-      Math.random() * 5
-    );
+  runPrediction(data: Prediction): Observable<{ growth: number; dateActual: string; 
+    temperature: number; din: number; nt: number }> {
+      const temperature = data.temperature ?? Math.random() * 10 + 20; // 20°C a 30°C
+      const din = data.din ?? Math.random() * 5 + 1; // 1 a 6
+      const nt = data.nt ?? Math.random() * 2 + 0.5; // 0.5 a 2.5
 
-    const today = new Date().toISOString(); // formato ISO (ej: 2025-07-21T18:00:00.000Z)
+      const simulatedGrowth =
+        temperature * 0.5 + din * 0.3 + nt * 0.2 + Math.random() * 5;
 
-    return of({
-      growth: Number(simulatedGrowth.toFixed(2)),
-      date: today
-    });
+      const today = new Date().toISOString();
+
+      return of({
+        growth: Number(simulatedGrowth.toFixed(2)),
+        dateActual: today,
+        temperature: Number(temperature.toFixed(2)),
+        din: Number(din.toFixed(2)),
+        nt: Number(nt.toFixed(2))
+      });
 
     /*
     //API ejemplo:
