@@ -44,3 +44,6 @@ Thumbs.db
 .env
 venv/
 __pycache__/
+
+# xlsx
+*.xlsx
