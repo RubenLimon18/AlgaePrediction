@@ -77,6 +77,8 @@ async def root():
 async def health_check():
     return {"status": "healthy", "timestamp": "2025-07-18T00:00:00Z"}
 
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
