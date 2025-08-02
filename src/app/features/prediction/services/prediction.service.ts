@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Prediction } from '../interfaces/prediction';
+import { WeekPrediction, WeeklyGrowth} from '../interfaces/week-prediction';
 import { Site } from '../interfaces/site';
 import { AlgaeSpecies } from '../interfaces/algae-species';
 import { Observable, of } from 'rxjs';
@@ -129,4 +130,45 @@ export class PredictionService {
     const maxValue = maxValues[specieName] ?? 0;
     return of(maxValue);
   }
+
+  runWeekPrediction(data: WeekPrediction): Observable<WeekPrediction> {
+  const temperature = Math.random() * 10 + 20; // 20°C a 30°C
+  const din = Math.random() * 5 + 1;           // 1 a 6
+  const nt = Math.random() * 2 + 0.5;          // 0.5 a 2.5
+
+  const predictions: WeeklyGrowth[] = [];
+
+  const today = new Date();
+
+  for (let i = 0; i < data.weeks* 7; i++) {
+    const currentDate = new Date(today);
+    currentDate.setDate(today.getDate() + i); // incrementa por semanas
+
+    const growth = 
+      temperature * 0.5 + 
+      din * 0.3 + 
+      nt * 0.2 + 
+      Math.random() * 5;
+
+    predictions.push({
+      date: currentDate,
+      biomass: Number(growth.toFixed(2)),
+    });
+  }
+
+  return of({
+    ...data,
+    predictions
+  });
+
+  /*
+  // Ejemplo de llamado real a backend:
+  return this.http.post<WeekPrediction>(
+    'http://localhost:3000/api/week-predict',
+    data
+  );
+  */
+}
+
+
 }

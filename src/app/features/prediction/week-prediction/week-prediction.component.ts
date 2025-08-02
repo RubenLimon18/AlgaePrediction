@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { WeekPrediction } from '../interfaces/week-prediction';
+import { WeekPrediction} from '../interfaces/week-prediction';
 import { Site } from '../interfaces/site';
 import { AlgaeSpecies } from '../interfaces/algae-species';
 import { PredictionService } from '../services/prediction.service';
-import { earning_month } from '../../../models/chart_line_earnigns';
+import { earning_month} from '../../../models/chart_line_earnigns';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-week-prediction',
@@ -17,10 +19,12 @@ export class WeekPredictionComponent implements OnInit{
   sites: Site[] = [];
   species: AlgaeSpecies[] = [];
   predictedData: WeekPrediction | null = null; //variable para guardar prediccion completa  
-
+  data : earning_month[] = [] //datos de grafica
+  
   constructor(
     private fb: FormBuilder,
-    private predictionService: PredictionService
+    private predictionService: PredictionService,
+    private cdr: ChangeDetectorRef // inyectar ChangeDetectorRef
   ) {
     this.predictionForm = this.fb.group({
       specie: ['', Validators.required],
@@ -31,6 +35,42 @@ export class WeekPredictionComponent implements OnInit{
       weeks: [1, [Validators.required, Validators.min(1), Validators.max(48)]],
     });
   }
+
+  runWeekPrediction() {
+    if (this.predictionForm.invalid) {
+      this.predictionForm.markAllAsTouched();
+      this.result = 'Please complete all fields correctly.';
+      return;
+    }
+
+    const formData: WeekPrediction = this.predictionForm.value;
+
+    this.predictionService.runWeekPrediction(formData).subscribe(
+      response => {
+        const fullWeekPrediction: WeekPrediction = {
+          ...formData,
+          predictions:  response.predictions ? response.predictions.map(item => ({
+            date: new Date(item.date),
+            biomass: item.biomass
+          })):[]
+        };
+
+        this.predictedData = fullWeekPrediction;
+
+        this.result = `Weekly prediction for species *${fullWeekPrediction.specie}* at site *${fullWeekPrediction.site}* was generated.`;
+
+        this.data = fullWeekPrediction.predictions?.map(item => ({
+          month: item.date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }),
+          earning: item.biomass
+        })) ?? [];
+      },
+      error => {
+        this.result = 'An error occurred during weekly prediction.';
+        console.error(error);
+      }
+    );
+  }
+
 
   ngOnInit(): void {
     // Cargar sitios simulados
@@ -49,18 +89,5 @@ export class WeekPredictionComponent implements OnInit{
     const control = this.predictionForm.get(str);
     return control ? control.invalid && control.touched : false;
   }
-
-// Chart-line
-  data : earning_month[] = [
-    { month: '1', earning: 10000 },
-    { month: '2', earning: 15000 },
-    { month: '3', earning: 12000 },
-    { month: '4', earning: 17000 },
-    { month: '5', earning: 20000 },
-    { month: '6', earning: 25000 },
-    { month: '7', earning: 10000 },
-    { month: '8', earning: 26000 }
-  ]
-
 
 }

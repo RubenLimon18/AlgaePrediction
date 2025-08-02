@@ -1,35 +1,42 @@
 // src/assets/js/chart-init.js
 
-// Chart Line
-window.initMyChart = function (canvasid, l, d, label = 'Ventas') {
-    const ctx = document.getElementById(canvasid)?.getContext('2d');
-    if (!ctx) return;
-  
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: l,
-        datasets: [{
-          label: label,
-          data: d,
-          fill: true,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            ticks: {
-              callback: value =>  value.toLocaleString()
-            }
+window.myCharts = window.myCharts || {};
+
+window.initMyChart = function (canvasid, labels, data, label = 'Ventas') {
+  const ctx = document.getElementById(canvasid)?.getContext('2d');
+  if (!ctx) return;
+
+  // Si ya existe un chart para este canvas, destruirlo
+  if (window.myCharts[canvasid]) {
+    window.myCharts[canvasid].destroy();
+  }
+
+  // Crear nuevo chart y guardar la instancia
+  window.myCharts[canvasid] = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: label,
+        data: data,
+        fill: true,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          ticks: {
+            callback: value => value.toLocaleString()
           }
         }
       }
-    });
+    }
+  });
 };
 
 

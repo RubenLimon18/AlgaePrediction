@@ -16,7 +16,7 @@
     <!-- Header-->
     <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom"></div>
     <!-- formulario-->
-    <form [formGroup]="predictionForm">
+    <form [formGroup]="predictionForm" (ngSubmit)="runWeekPrediction()">
 
       <div class="grid-container ">
         
@@ -172,13 +172,18 @@
 
 <!-- Seccion grafica -->
 <div>
+    <div class="mt-4"><!-- titulo-->
+        <h2 class="h5 text-muted fw-semibold mb-3">
+            <i class="fas fa-cogs fa-sm text-secondary me-2"></i> Data Prediction
+        </h2>
+    </div>    
     <!-- Card (Charts Line and Circle)-->
     <div class="row">
             <!-- Chart Line -->
         <div>
             <div class="card shadow mb-4 ">
                 <!-- todos los valores son elementos modificables del charlines-->
-                <app-chart-line [chartId]="'weekChart'" [data]="data" 
+                <app-chart-line *ngIf="data.length > 0" [chartId]="'weekChart'" [data]="data" 
                 [label]="'Biomass'"  [title]="'Projection Period (weeks)'"></app-chart-line>
 
             </div>
