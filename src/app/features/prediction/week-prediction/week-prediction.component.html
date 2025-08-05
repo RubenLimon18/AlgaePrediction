@@ -182,6 +182,15 @@
             <!-- Chart Line -->
         <div>
             <div class="card shadow mb-4 ">
+                <div class="text-end mb-3">
+                    <button class="btn btn-sm btn-outline-primary me-2" [disabled]="viewMode === 'daily'" (click)="changeViewMode('daily')">
+                        Ver por día
+                    </button>
+                    <button class="btn btn-sm btn-outline-success" [disabled]="viewMode === 'weekly'" (click)="changeViewMode('weekly')">
+                        Ver por semana
+                    </button>
+                </div>
+
                 <!-- todos los valores son elementos modificables del charlines-->
                 <app-chart-line *ngIf="data.length > 0" [chartId]="'weekChart'" [data]="data" 
                 [label]="'Biomass'"  [title]="'Projection Period (weeks)'"></app-chart-line>
