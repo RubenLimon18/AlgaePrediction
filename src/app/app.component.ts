@@ -20,9 +20,6 @@ export class AppComponent {
   ){}
 
   ngOnInit() {
-    this.authService.checkSession().pipe(
-    map(isAuth => isAuth ? true : this.router.createUrlTree(['/auth/login'])),
-    catchError(() => of(this.router.createUrlTree(['/auth/login'])))
-  );     
+   this.authService.autoLogin();
   }
 }

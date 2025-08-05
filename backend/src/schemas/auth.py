@@ -140,6 +140,8 @@ class TokenResponse(BaseModel):
 class MessageResponse(BaseModel):
     message: str
     id: Optional[str] = None
+    token: str
+    expiresIn: int
 
 class UserResponse(BaseModel):
     id: str

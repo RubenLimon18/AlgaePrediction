@@ -7,6 +7,7 @@ from database.startup import create_indexes
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from routes.auth import router as auth_router
+from routes.algaes import router as algaes_router
 from routes.route import router
 #from backend.src.database.db import connect_to_mongo, close_mongo_connection
 
@@ -34,6 +35,7 @@ async def simplify_validation_errors(request: Request, exc: RequestValidationErr
 
 
 
+
 @app.on_event("startup")
 def on_startup():
     create_indexes()
@@ -55,6 +57,7 @@ app.add_middleware(
 # ROUTERS
 # Router Login
 app.include_router(auth_router)
+app.include_router(algaes_router)
 app.include_router(router)
 
 

@@ -85,7 +85,7 @@ df_temp_long = df_temp.melt(id_vars=['Site'], var_name="Month", value_name="Temp
 
 # Se unen los meses con las temporadas
 df_temporadas = pd.DataFrame({
-    "Month": ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+    "Month": ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     "Season": ["cold season", "dry season", "dry season", "dry season", "dry season", "rainy season", "rainy season", "rainy season", "rainy season", "cold season", "cold season"]
 })
 

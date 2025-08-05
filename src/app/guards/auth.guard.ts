@@ -54,20 +54,36 @@ export class AuthGuard implements CanActivate{
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    // Ruben
+    return this.authService.getAuthStatusListener().pipe(
+      map(isAuth => {
 
-    return this.authService.checkSession()
-      .pipe(
-        take(1),
-        map((isAuth) => {
+        if (isAuth) {
+          return true;
+        } else {
+          return this.router.createUrlTree(['/auth/login']);
+        }
 
-          if (isAuth) {
-            return true;
-          } else {
-            // redirecciona si no cumple
-            return this.router.createUrlTree(['/auth/login']);
-          }
-        })
+      })
     );
+    
+
+
+
+    // Carlos            
+    // return this.authService.checkSession()
+    //   .pipe(
+    //     take(1),
+    //     map((isAuth) => {
+
+    //       if (isAuth) {
+    //         return true;
+    //       } else {
+    //         // redirecciona si no cumple
+    //         return this.router.createUrlTree(['/auth/login']);
+    //       }
+    //     })
+    // );
 
                 
   }
