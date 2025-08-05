@@ -90,6 +90,7 @@ async def login(login_data: UserLogin, response: Response):
     
     """Login with email and password"""
     user = await user_service.authenticate_user(login_data.email, login_data.password)
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -105,30 +106,13 @@ async def login(login_data: UserLogin, response: Response):
     # Create tokens
     access_token = create_access_token({"sub": user.id})
     refresh_token = create_refresh_token({"sub": user.id})
-    
-    response.set_cookie(
-        key="refresh_token",
-        value=refresh_token,
-        # httponly=True,
-        # secure=True,  # Obligatorio con SameSite=None
-        samesite="lax",
-        max_age=1800,
-        path="/",
-    )
 
-    response.set_cookie(
-        key="access_token",
-        value=access_token,
-        # httponly=True,
-        # secure=True,  # Obligatorio con SameSite=None
-        samesite="lax",
-        max_age=1800,
-        path="/",
-    )
 
     return {
         "message": "Login successful",
-        "id": user.id
+        "id": user.id,
+        "token": access_token,
+        "expiresIn": 1800 # 30 Minutos = 1800,  30 = 30 segundos
     }
 
 

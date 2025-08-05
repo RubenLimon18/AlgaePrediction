@@ -38,6 +38,7 @@ export class BaseComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
 
+    // Se puede obtener el id desde la url
     // Se obtiene la informacion del usuario y perfil almacenada en el navgador, posteriormente será de la base de datos.
     this.authService.getIdListener()
       .pipe(
@@ -51,21 +52,16 @@ export class BaseComponent implements OnInit, AfterViewInit{
           this.dataUser = user;
           
           return this.authService.getAuthStatusListener() // Status se manda para next
-            .pipe(
-              take(1)
-            );
+            
         })
       )
-      .subscribe({
-        next: (status) => {
-          if(this.dataUser){
+      .subscribe((status)=>{
+        if(this.dataUser){
             this.isAdmin = this.dataUser.role === "admin";
           }
           this.authtStatus = status || false;
-        },
-        error: (e) => {
-          console.log("Error: ", e);
-        }
+      }, (error)=>{
+        console.log("Error: ", error);
       })
 
 

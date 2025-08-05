@@ -26,7 +26,7 @@ export class DialogComponent {
   onLogout(){
 
     // Elimina la informacion del login y perfil del usuario
-    this.authService.deleteUser("user");
+    this.authService.logout();
     this.router.navigate(["/auth/login"]);
   }
 

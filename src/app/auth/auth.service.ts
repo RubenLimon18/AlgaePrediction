@@ -15,13 +15,18 @@ import { of } from 'rxjs';
 export class AuthService {
   // Atributos 
   private isAuth: boolean;
+  private token: string | null;
+  private timer: any;
+  private id: string | null;
+
   private user: authRegisterResponse;
   //private userId: string;
   private userRol: string;
   public apiURL = 'http://127.0.0.1:8000/'
+  
 
 
-  private authStatusListener = new BehaviorSubject<boolean | null>(null);
+  private authStatusListener = new BehaviorSubject<boolean>(false);
   private userIdListener = new BehaviorSubject<string | null>(null);
   private authStatusSignUp = new Subject<boolean>; // SIGN UP
 
@@ -31,6 +36,33 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) { }
+
+
+
+  autoLogin(){
+    const authInformation = this.getAuthData();
+
+    if(!authInformation){
+      return;
+    }
+
+    
+    const now = new Date();
+    const expireIn = authInformation.expirationDate.getTime() - now.getTime();
+
+    if(expireIn > 0){
+      this.token = authInformation.token;
+      this.setAuthTimer( expireIn / 1000 )
+      this.authStatusListener.next(true);
+      this.userIdListener.next(authInformation.id);
+      this.isAuth = true;
+      this.id = authInformation.id
+    }
+
+
+    
+
+  }
 
   // Posteriormente sera un Login emite isAuth
   /* 
@@ -51,27 +83,7 @@ export class AuthService {
 
   
     */
-    // const authData: authData = {
-    //   id: "LIRR30",
-    //   name: "Ruben",
-    //   email: email,
-    //   password: password,
-    //   rol: "admin",
-    //   createdAt: new Date()
-    // }
 
-    // const profileData: profileData = {
-    //   idAuthData: "LIRR30",
-    //   name: "Ruben",
-    //   email: email
-    // }
-    
-    // Se establece el rol
-    // this.userRol = authData.rol;
-
-    // Se almacena la información en el navegador
-    // localStorage.setItem(key, JSON.stringify(authData));
-    // localStorage.setItem("profile", JSON.stringify(profileData));
     
 
     // Petición HTTP
@@ -80,17 +92,41 @@ export class AuthService {
       password: password
     }
 
-    this.http.post<{msg: string, id: string}>(this.apiURL + "auth/login", user, { withCredentials: true })
+    this.http.post<{msg: string, id: string, expiresIn: number, token: string}>(this.apiURL + "auth/login", user, { withCredentials: true })
       .subscribe((response)=>{
+        // Respuesta
         console.log(response)
-        this.userIdListener.next(response.id);
-        
-        this.authStatusListener.next(true);
-        this.isAuth = true;
 
+        // Token
+        const token = response.token;
+        this.token = token;
+
+        // Verificar duración del token
+        if(token){
+
+          // Duracion
+          const expiresInDuration = response.expiresIn;
+
+          // Expiratión date
+          const now = new Date();
+          const expirationDate = new Date( now.getTime() + expiresInDuration * 1000 );
+          const id = response.id;
+
+          // Almacenar datos
+          this.saveAuthData(token, expirationDate, id);
+          
+          // Timer
+          this.setAuthTimer(expiresInDuration);
+
+          // Observables
+          this.authStatusListener.next(true);
+          this.isAuth = true;
+          this.userIdListener.next(id);
+
+        }
         // Router
         this.router.navigate(["/algae/dashboard"]);
-        
+
       })
 
 
@@ -101,26 +137,6 @@ export class AuthService {
       para mostrar opciones que solo se permiten cuando se inicio sesion, así como 
       acceder a rutas que solamente se pueden acceder cuando inicia sesion.
     */
-    
-
-    // Se imprimen los datos del USUARIO que se almacenaron en la memoria del navegador
-    // const datosGuardadosUser = localStorage.getItem(key);
-    // if (datosGuardadosUser !== null) {
-    //   const datos = JSON.parse(datosGuardadosUser);
-    //   console.log('Datos en localStorage:', datos);
-    // } else {
-    //   console.log('No hay datos guardados');
-    // }
-
-
-    // Se imprimen los datos del PROFILE DEL USUARIO que se almacenaron en la memoria del navegador
-    // const datosGuardadosProfile = localStorage.getItem("profile");
-    // if (datosGuardadosProfile !== null) {
-    //   const datos = JSON.parse(datosGuardadosProfile);
-    //   console.log('Datos en localStorage:', datos);
-    // } else {
-    //   console.log('No hay datos guardados');
-    // }
 
 
     
@@ -128,16 +144,21 @@ export class AuthService {
 
 
   // Función que elimina el usuario de la memoria, posteriormente será el logout ya vinculado con la base de datos
-  deleteUser(key: string){
+  logout(){
     
     this.authStatusListener.next(false); // Se cierra sesion y se emite falso
     this.isAuth = false; // Se establece el estado de autenticacion a falso
+    this.token = null;
     this.userIdListener.next(null); // Se emite el id del usuario a nulo
+    clearTimeout(this.timer);
+    this.clearAuthData();
     
     // localStorage.removeItem(key); // Se borran los datos USER del navegador
     // localStorage.removeItem("profile"); // Se borran datos del PROFILE del navegador
     console.log("Sesion cerrada correctamente."); // Mensaje de cierre de sesion
-    this.http.post(this.apiURL + "auth/logout", {}, { withCredentials: true }).subscribe()
+
+    // Router
+    this.router.navigate(["/auth/login"]);
   }
 
   /*
@@ -146,28 +167,10 @@ export class AuthService {
   Corresponde al tipo de dato authData.
   */
   getDataUser(id: string){
-
     return this.http.get<authRegisterResponse>(this.apiURL + "auth/user/" + id)
   }
 
-
-
-  /*
-  Se obtiene los datos del PERFIL DEL USUARIO que estan almacenados en el navegador.
-  Se utiliza en componentes como PROFILE, para mostrar el nombre, email y una bio.
-  Corresponde al tipo de dato authData.
-  */
-  getDataProfile(key: string){
-    const datosGuardados = localStorage.getItem(key);
-
-    if (datosGuardados !== null) {
-      const datos = JSON.parse(datosGuardados);
-      return datos;
-
-    } else {
-      return null;
-    }
-  }
+  
 
 
   // Status
@@ -187,28 +190,69 @@ export class AuthService {
   }
 
   checkSession(): Observable<boolean | authRegisterResponse>{
-  return this.http.get<authRegisterResponse>(this.apiURL + 'auth/me', { withCredentials: true }).pipe(
-    tap(user => {
-      this.userRol = user.role;
-      this.user = user;
-      this.isAuth = true;
-      this.authStatusListener.next(true);
-      this.userIdListener.next(user.id);
-    }),
-    // Si falla, se asume que el usuario no está autenticado
-    // y se emite false
-    // Puedes usar catchError de RxJS 7 o superior
-    // o agregar rxjs/operators si no lo tienes
-    // aquí una versión segura:
-    // import { of, catchError } from 'rxjs';
-    catchError(() => {
-      this.user = null!;
-      this.userRol = '';
-      this.isAuth = false;
-      this.authStatusListener.next(false);
-      this.userIdListener.next(null);
-      return of(false);
-    })
+    return this.http.get<authRegisterResponse>(this.apiURL + 'auth/me', { withCredentials: true }).pipe(
+      tap(user => {
+        this.userRol = user.role;
+        this.user = user;
+        this.isAuth = true;
+        this.authStatusListener.next(true);
+        this.userIdListener.next(user.id);
+      }),
+      // Si falla, se asume que el usuario no está autenticado
+      // y se emite false
+      // Puedes usar catchError de RxJS 7 o superior
+      // o agregar rxjs/operators si no lo tienes
+      // aquí una versión segura:
+      // import { of, catchError } from 'rxjs';
+      catchError(() => {
+        this.user = null!;
+        this.userRol = '';
+        this.isAuth = false;
+        this.authStatusListener.next(false);
+        this.userIdListener.next(null);
+        return of(false);
+      })
   );
-}
+  }
+
+
+
+  // Almacenar los datos en Local Storage del navegador para eñl autologin
+  private saveAuthData(token: string, expiresDate: Date, id: string){
+    localStorage.setItem('token', token);
+    localStorage.setItem('id', id);
+    localStorage.setItem('expiration', expiresDate.toISOString());
+  }
+
+  // Limpiar los datos al momento del logout
+  private clearAuthData(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiration");
+    localStorage.removeItem("id");
+  }
+
+  // Obtener los datos del localStorage
+  private getAuthData(){
+    const token = localStorage.getItem("token");
+    const expirationDate = localStorage.getItem("expiration");
+    const id = localStorage.getItem("id");
+
+    if(!token || !expirationDate){
+      return null;
+    }
+
+    return {
+      token: token,
+      expirationDate: new Date(expirationDate),
+      id: id
+    }
+  }
+
+
+  // Establecer el tiempo logout
+  private setAuthTimer(duration: number){
+    this.timer = setTimeout(()=>{
+            this.logout();
+          }, duration * 1000);
+  }
 }

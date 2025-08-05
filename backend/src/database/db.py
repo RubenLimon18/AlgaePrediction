@@ -5,7 +5,6 @@ class MongoDB:
     client = MongoClient(settings.MONGODB_URL) #
     database = client[settings.DATABASE_NAME] # algaetrack
 
-
 db = MongoDB()
 
 
