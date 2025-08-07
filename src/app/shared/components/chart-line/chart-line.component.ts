@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { earning_month } from '../../../models/chart_line_earnigns';
 
 declare global {
   interface Window {
-    initMyChart: (months: string[], earnings: number[]) => void;
+    initMyChart: (chartId: string, months: string[], earnings: number[], label: string) => void;
   }
 }
 
@@ -12,20 +12,26 @@ declare global {
   templateUrl: './chart-line.component.html',
   styleUrl: './chart-line.component.css'
 })
-export class ChartLineComponent {
+export class ChartLineComponent implements OnChanges {
   @Input() data: earning_month[] = [];
+  @Input() label: string = 'Ventas';
+  @Input() chartId: string = 'myChart';
+  @Input() title: string = 'Earnings Overview';
 
-  
-  
-  // Chart line
-  ngOnInit(): void {
-    const m = this.data.map(m=> m.month);
-    const e = this.data.map(e => e.earning);
-     
-    if (window.initMyChart) {
-      window.initMyChart(m, e);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data'] && this.data.length > 0) {
+      this.renderChart();
     }
   }
 
+  renderChart() {
+    const m = this.data.map(m => m.month);
+    const e = this.data.map(e => e.earning);
 
+    setTimeout(() => {
+      if (window.initMyChart) {
+        window.initMyChart(this.chartId, m, e, this.label);
+      }
+    }, 0);
+  }
 }
