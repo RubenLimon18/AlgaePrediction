@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { authData, authRegisterResponse } from '../../auth/models/auth-data-model';
 import { of, Subject, Subscription, switchMap, take, takeUntil } from 'rxjs';
-import { profileData } from '../users/profile-data-model';
+import { profileData } from '../../algae/users/profile-data-model';
 
 // Declaracion de la funcion de app.js
 declare function initSideBar(): void; // Declara la función de app.js

@@ -82,9 +82,9 @@
                  data-bs-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Predictions</h6>
-                <a class="collapse-item" routerLink="/algae/day-prediction">Single-Day Prediction</a>
-                <a class="collapse-item" routerLink="/algae/week-prediction">Weekly Projections</a>
-                <a class="collapse-item" routerLink="/algae/month-prediction">Monthly Projections</a>
+                <a class="collapse-item" routerLink="/algae/day-prediction"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Single-Day Prediction</a>
+                <a class="collapse-item" routerLink="/algae/week-prediction"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Weekly Projections</a>
+                <a class="collapse-item" routerLink="/algae/month-prediction"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Monthly Projections</a>
               </div>
             </div>
           </li>
