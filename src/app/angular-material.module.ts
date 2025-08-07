@@ -13,7 +13,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
     imports:[
@@ -28,7 +29,9 @@ import { MatSelectModule } from '@angular/material/select';
         MatProgressSpinnerModule,
         MatPaginatorModule,
         MatDialogModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTableModule,
+        MatSortModule
     ],
     exports:[
         MatInputModule,
@@ -42,7 +45,9 @@ import { MatSelectModule } from '@angular/material/select';
         MatProgressSpinnerModule,
         MatPaginatorModule,
         MatDialogModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTableModule,
+        MatSortModule
     ]
 })
 export class AngularMaterialModule{
