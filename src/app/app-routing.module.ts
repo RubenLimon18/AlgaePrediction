@@ -11,6 +11,7 @@ import { AuthGuard, AuthGuardAdmin } from './guards/auth.guard';
 import { DayPredictionComponent } from './features/prediction/day-prediction/day-prediction.component';
 import { WeekPredictionComponent } from './features/prediction/week-prediction/week-prediction.component';
 import { MonthPredictionComponent } from './features/prediction/month-prediction/month-prediction.component';
+import { HistoricalDataComponent } from './features/historical-data/historical-data.component';
 
 const routes: Routes = [
   // Redirect to
@@ -26,7 +27,7 @@ const routes: Routes = [
       {path: "algae/users/user-list", component: UserListComponent}, //canActivate:[AuthGuardAdmin]
       {path: "algae/users/user-add", component: UserAddComponent}, // canActivate:[AuthGuardAdmin]
 
-      //{path: 'algae/prediction', component: PredictionComponent},
+      {path: 'algae/historical-data', component: HistoricalDataComponent},
 
       {path: "algae/day-prediction", component: DayPredictionComponent},
       {path: "algae/week-prediction", component: WeekPredictionComponent},

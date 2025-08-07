@@ -21,9 +21,12 @@ class AlgaeResponse(BaseModel):
     # GET Method
     @staticmethod
     def individual_serial(data) -> dict:
+        full_date = str(data['Date'])
+        date_only = full_date.split(" ")[0]
+
         return {
             "site": str(data["Site"]),
-            "date": str(data["Date"]),
+            "date": date_only,
             "month": str(data["Month"]),
             "year": str(data["Year"]),
             "season": str(data["Season"]),
