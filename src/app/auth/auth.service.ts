@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { authData, authRegisterResponse } from './models/auth-data-model';
-import { profileData } from '../features/users/profile-data-model';
+import { profileData } from '../algae/users/profile-data-model';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
