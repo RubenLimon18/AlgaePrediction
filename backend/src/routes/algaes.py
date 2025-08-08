@@ -79,8 +79,38 @@ async def get_all_filter(
 # Solo para nosotros
 @router.get("/all")
 async def get_all():
-    algaes = AlgaeResponse.list_serial()
+    collection = get_collection("dataset")
+    algaes = AlgaeResponse.list_serial(collection.find())
     return algaes
 
 
 
+# Obtiene el último dato agregado por fecha
+@router.get("/last")
+async def get_last():
+    collection = get_collection("dataset")
+    last_record = collection.find().sort("Date", -1).limit(1)
+
+    algae = AlgaeResponse.list_serial(last_record)
+    return algae[0]
+
+
+
+# Obtiene las 50 últimas algas chart-line
+@router.get("/chart-line")
+async def get_chart_line():  
+
+    cursor = get_collection("dataset").find().sort("Date", -1).limit(50)
+
+    algaes = AlgaeResponse.list_serial(cursor)
+    
+    algaes = [
+        {
+            "alga": algae["alga"],
+            "biomass": algae["biomass"],
+            "date": algae["month"] + " " + algae["year"]
+        }
+        for algae in algaes
+    ]
+
+    return algaes

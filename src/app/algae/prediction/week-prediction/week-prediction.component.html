@@ -191,8 +191,8 @@
                     </button>
                 </div>
 
-                <!-- todos los valores son elementos modificables del charlines-->
-                <app-chart-line *ngIf="data.length > 0" [chartId]="'weekChart'" [data]="data" 
+                <!-- todos los valores son elementos modificables del charlines [data]="data" -->
+                <app-chart-line *ngIf="data.length > 0" [chartId]="'weekChart'" 
                 [label]="'Biomass'"  [title]="'Projection Period (weeks)'"></app-chart-line>
 
             </div>

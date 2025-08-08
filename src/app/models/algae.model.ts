@@ -12,3 +12,11 @@ export interface AlgaeModel {
   nt_min: number;
   temp: number;
 }
+
+export interface AlgaeModelChartLine {
+  // month: string;
+  // year: string;
+  alga: string;
+  biomass: number;
+  date: string;
+}

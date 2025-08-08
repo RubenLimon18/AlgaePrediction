@@ -2,7 +2,7 @@
 
 window.myCharts = window.myCharts || {};
 
-window.initMyChart = function (canvasid, labels, data, label = 'Ventas') {
+window.initMyChart = function (canvasid, labels, data, algaes = [], label = 'Ventas') {
   const ctx = document.getElementById(canvasid)?.getContext('2d');
   if (!ctx) return;
 
@@ -34,7 +34,27 @@ window.initMyChart = function (canvasid, labels, data, label = 'Ventas') {
             callback: value => value.toLocaleString()
           }
         }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            // Personalizar el título (aparece arriba en la tooltip)
+            title: function(context) {
+              return `Fecha: ${context[0].label}`;
+            },
+            // Personalizar la etiqueta (cuerpo de la tooltip)
+            label: function(context) {
+              const dataIndex = context.dataIndex;
+              const algaeName = algaes[dataIndex] || 'Nombre no disponible';
+              return [
+                `Alga: ${algaeName}`,
+                `Biomasa: ${context.parsed.y.toLocaleString()}`
+              ];
+            }
+          }
+        }
       }
+
     }
   });
 };
