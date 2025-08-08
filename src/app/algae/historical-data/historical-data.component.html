@@ -1,0 +1,143 @@
+<!-- PAGINATION AND FILTER-->
+<div class="toolbar">
+
+    <div class="left-buttons">
+        <form (ngSubmit)="onFilter()">
+            <label for="option-select" class="me-3" style="color: black;">Selecciona un sitio:</label>
+            <select id="option-select"  class="me-3" [formControl]="option">
+                <option value="" disabled>-- Elige una opción --</option>
+                <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
+            </select>
+
+            <button type="button" (click)="onFilter()" mat-raised-button color="primary" class="me-3 mb-3">Filter</button>
+        </form>
+
+
+        
+        
+
+    </div>
+  
+  <mat-paginator 
+    [length]="totalAlgaes" 
+    [pageSize]="algaePerPage" 
+    (page)="onChangedPage($event)" 
+    [pageSizeOptions]="pageSizeOptions"  
+    *ngIf="data.length > 0">
+  </mat-paginator>
+</div>
+
+<div class="table-wrapper custom-elevation">
+    
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+       class="mat-elevation-z8 ">
+       
+
+        <!-- Site Column -->
+        <ng-container matColumnDef="site">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by site">
+            Site
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{algae.site}} </td>
+        </ng-container>
+
+    
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date">
+            Date
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.date }} </td>
+        </ng-container>
+
+        <!-- Month Column -->
+        <ng-container matColumnDef="month">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by month">
+            Month
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.month }} </td>
+        </ng-container>
+
+        <!-- Year Column -->
+        <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by year">
+            Year
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.year }} </td>
+        </ng-container>
+
+        <!-- Season Column -->
+        <ng-container matColumnDef="season">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by season">
+            Season
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.season }} </td>
+        </ng-container>
+
+        <!-- Alga Column -->
+        <ng-container matColumnDef="alga">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by alga">
+            Alga
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.alga }} </td>
+        </ng-container>
+
+        <!-- Biomass Column -->
+        <ng-container matColumnDef="biomass">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by biomass">
+            Biomass
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.biomass }} </td>
+        </ng-container>
+
+        <!-- DIN Max Column -->
+        <ng-container matColumnDef="din_max">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by DIN max">
+            DIN Max
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.din_max }} </td>
+        </ng-container>
+
+        <!-- DIN Min Column -->
+        <ng-container matColumnDef="din_min">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by DIN min">
+            DIN Min
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.din_min }} </td>
+        </ng-container>
+
+        <!-- NT Max Column -->
+        <ng-container matColumnDef="nt_max">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by NT max">
+            NT Max
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.nt_max }} </td>
+        </ng-container>
+
+        <!-- NT Min Column -->
+        <ng-container matColumnDef="nt_min">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by NT min">
+            NT Min
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.nt_min }} </td>
+        </ng-container>
+
+        <!-- Temperature Column -->
+        <ng-container matColumnDef="temp">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by temperature">
+            Temperature
+        </th>
+        <td mat-cell *matCellDef="let algae"> {{ algae.temp }} </td>
+        </ng-container>
+
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    </table>
+    
+</div>
+
+

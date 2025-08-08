@@ -19,8 +19,8 @@
 
 
          <!-- Nav Item - Dashboard -->
-          <li class="nav-item active">
-            <a href="" class="nav-link">
+          <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a href="" class="nav-link" [routerLink]="['/algae/dashboard']">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
@@ -44,13 +44,14 @@
 
             <a href="" class="nav-link collapsed d-flex align-items-center vertical-toggle" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cloud"></i>
-                <span>Environmental data</span>
+                <span>Algae growth data</span>
                 <i class="fas fa-fw fa-chevron-right ms-auto"></i>  <!-- Flecha hacia la derecha -->
             </a>
 
             <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Parameters</h6>
+                    <a class="collapse-item" routerLink="/algae/historical-data" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Historical Data</a>
                     <a class="collapse-item" routerLink="/buttons">Water temperature</a>
                     <a class="collapse-item" routerLink="/cards">Salinity and pH</a>
                     <a class="collapse-item" routerLink="/cards">Solar radiation</a>
@@ -81,9 +82,9 @@
                  data-bs-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Predictions</h6>
-                <a class="collapse-item" routerLink="/algae/day-prediction">Single-Day Prediction</a>
-                <a class="collapse-item" routerLink="/algae/week-prediction">Weekly Projections</a>
-                <a class="collapse-item" routerLink="/algae/month-prediction">Monthly Projections</a>
+                <a class="collapse-item" routerLink="/algae/day-prediction"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Single-Day Prediction</a>
+                <a class="collapse-item" routerLink="/algae/week-prediction"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Weekly Projections</a>
+                <a class="collapse-item" routerLink="/algae/month-prediction"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Monthly Projections</a>
               </div>
             </div>
           </li>
