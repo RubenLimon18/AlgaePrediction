@@ -118,7 +118,7 @@ export class WeekPredictionComponent implements OnInit, AfterViewChecked{
   ngAfterViewChecked() {
     if (!this.chartRendered && this.data.length > 0 && window.initMyChart) {
       setTimeout(() => {
-        window.initMyChart('yourChartId', this.data.map(d => d.month), this.data.map(d => d.earning), 'Biomasa');
+        window.initMyChart('yourChartId', this.data.map(d => d.month), this.data.map(d => d.earning), [],'Biomasa');
         this.chartRendered = true;
       });
     }

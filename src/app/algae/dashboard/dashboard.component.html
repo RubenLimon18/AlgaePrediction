@@ -65,7 +65,7 @@
     <!-- Ultimos datos registrados TITULO -->
     <div class="mt-4">
         <h2 class="h5 text-muted fw-semibold mb-3">
-            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Ultimos datos registrados
+            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Ultimo dato registrado
         </h2>
     </div>
 
@@ -84,10 +84,10 @@
   <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom">
     <div class="d-flex justify-content-between align-items-center">
       <h5 class="card-title mb-0 text-primary">
-        <i class="fas fa-clock-rotate-left me-2"></i>
-        Últimos valores registrados
+        <i class="fas fa-clock-rotate-left me-2" ></i>
+        Último valor registrado
       </h5>
-      <span class="badge bg-primary">Hoy</span>
+      <span class="badge bg-primary">Algae</span>
     </div>
   </div>
 
@@ -99,8 +99,8 @@
         <div class="d-flex mb-3">
           <i class="fas fa-calendar-day text-primary mt-1 me-3"></i>
           <div>
-            <h6 class="mb-0 text-muted">Fecha y hora</h6>
-            <p class="mb-0 fw-bold">15 Jul 2023 - 14:30:45</p>
+            <h6 class="mb-0 text-muted">Fecha</h6>
+            <p class="mb-0 fw-bold h6">{{ lastAlgae?.date }}</p>
           </div>
         </div>
 
@@ -108,7 +108,7 @@
           <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
           <div>
             <h6 class="mb-0 text-muted">Ubicación</h6>
-            <p class="mb-0 fw-bold">Estación Bahía Norte (Coordenadas: 12.3456, -45.6789)</p>
+            <p class="mb-0 fw-bold h6">{{ lastAlgae?.site }}</p>
           </div>
         </div>
       </div>
@@ -118,19 +118,27 @@
         <div class="row">
           <div class="col-6 mb-3">
             <h6 class="text-muted mb-1"><i class="fas fa-temperature-high me-2"></i>Temperatura</h6>
-            <span class="badge bg-info bg-opacity-10 text-info fs-6">28.5 °C</span>
+            <span class="badge bg-info bg-opacity-10 text-info fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.temp }} °C</span>
           </div>
           <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-water me-2"></i>Nivel pH</h6>
-            <span class="badge bg-success bg-opacity-10 text-success fs-6">7.4</span>
+            <h6 class="text-muted mb-1"><i class="fas fa-water me-2"></i>DIN MAX</h6>
+            <span class="badge bg-success bg-opacity-10 text-success fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.din_max }} mg/L</span>
           </div>
           <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>Nutrientes</h6>
-            <span class="badge bg-warning bg-opacity-10 text-warning fs-6">0.45 mg/L</span>
+            <h6 class="text-muted mb-1"><i class="fas fa-water me-2"></i>DIN MIN</h6>
+            <span class="badge bg-success bg-opacity-10 text-success fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.din_min }} mg/L</span>
           </div>
           <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-bacteria me-2"></i>Algas</h6>
-            <span class="badge bg-danger bg-opacity-10 text-danger fs-6">1,200 algas/mL</span>
+            <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>NT MAX</h6>
+            <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.nt_max }} mg/L</span>
+          </div>
+          <div class="col-6 mb-3">
+            <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>NT MIN</h6>
+            <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.nt_min }} mg/L</span>
+          </div>
+          <div class="col-6 mb-3">
+            <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>Biomass</h6>
+            <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.biomass }} mg/L</span>
           </div>
         </div>
       </div>
@@ -138,7 +146,7 @@
   </div>
 
   <!-- Pie de tarjeta -->
-  <div class="card-footer bg-light py-2">
+  <div class="card-footer bg-light py-2 ">
     <small class="text-muted">
       <i class="fas fa-sync-alt me-1"></i> Actualizado hace 15 minutos
     </small>
@@ -152,13 +160,13 @@
 
     
     <!-- Card (Charts Line and Circle)-->
-     <div class="row">
+     <div class="row mt-4">
 
         <!-- Chart Line -->
         <div class="col-12 col-xl-8 col-lg-7">
             <div class="card shadow mb-4 ">
 
-                <app-chart-line [chartId]="'myChart'" [data]="data" ></app-chart-line>
+                <app-chart-line [chartId]="'myChart'" [data]="data" label="Biomass" title="Crecimiento de algas en los ultimos 50 datos registrados"></app-chart-line>
 
             </div>
         </div>
