@@ -208,7 +208,7 @@
                             'btn-outline-primary': viewMode !== 'daily'
                             }" 
                             (click)="changeViewMode('daily')">
-                            Vista diaria
+                            Daily View
                         </button>
                         <button 
                             *ngIf="predictedData !== null && predictedData.weeks > 1"
@@ -218,14 +218,14 @@
                             'btn-outline-success': viewMode !== 'weekly'
                             }" 
                             (click)="changeViewMode('weekly')">
-                            Vista semanal
+                            Weekly View
                         </button>
                     </div>
                     </div>
 
                 <!-- todos los valores son elementos modificables del charlines [data]="data" -->
                 <app-chart-line *ngIf="data.length > 0" [chartId]="'weekChart'" 
-                [label]="'Biomass'"  [title]="'Projection Period (weeks)'"></app-chart-line>
+                [data]="data" label="'Biomass'"  title="'Projection Period (weeks)'"></app-chart-line>
 
             </div>
         </div>

@@ -153,6 +153,8 @@ export class PredictionService {
     predictions.push({
       date: currentDate,
       biomass: Number(growth.toFixed(2)),
+      algae: data.specie,
+
     });
   }
 

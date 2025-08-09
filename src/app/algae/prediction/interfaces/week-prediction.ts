@@ -9,4 +9,5 @@ export interface WeekPrediction {
 export interface WeeklyGrowth {
   date: Date;     // o Date, si ya viene convertido
   biomass: number;
+  algae: string;
 }
