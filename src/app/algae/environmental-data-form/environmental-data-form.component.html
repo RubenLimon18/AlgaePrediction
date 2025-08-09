@@ -1,0 +1,204 @@
+<div class="container-fluid px-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Environmental Data Submission</h6>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="environmentalForm" (ngSubmit)="onSubmit()">
+            
+            <!-- Location Selection -->
+            <div class="form-group mb-3">
+              <label for="location" class="form-label">Study Location *</label>
+              <mat-select formControlName="location" class="form-control">
+                <mat-option *ngFor="let location of locations" [value]="location">
+                  {{ location }}
+                </mat-option>
+              </mat-select>
+              <div class="text-danger small" *ngIf="getFieldError('location')">
+                {{ getFieldError('location') }}
+              </div>
+            </div>
+
+            <!-- Date and Time -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="date" class="form-label">Date *</label>
+                  <input 
+                    type="date" 
+                    id="date"
+                    class="form-control" 
+                    formControlName="date">
+                  <div class="text-danger small" *ngIf="getFieldError('date')">
+                    {{ getFieldError('date') }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="time" class="form-label">Time *</label>
+                  <input 
+                    type="time" 
+                    id="time"
+                    class="form-control" 
+                    formControlName="time">
+                  <div class="text-danger small" *ngIf="getFieldError('time')">
+                    {{ getFieldError('time') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Water Parameters -->
+            <h5 class="text-primary mb-3">Water Parameters</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="waterTemperature" class="form-label">Water Temperature (°C) *</label>
+                  <input 
+                    type="number" 
+                    id="waterTemperature"
+                    class="form-control" 
+                    formControlName="waterTemperature"
+                    step="0.1"
+                    min="15"
+                    max="35">
+                  <small class="form-text text-muted">Range: 15-35°C</small>
+                  <div class="text-danger small" *ngIf="getFieldError('waterTemperature')">
+                    {{ getFieldError('waterTemperature') }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="salinity" class="form-label">Salinity (PSU) *</label>
+                  <input 
+                    type="number" 
+                    id="salinity"
+                    class="form-control" 
+                    formControlName="salinity"
+                    step="0.1"
+                    min="30"
+                    max="40">
+                  <small class="form-text text-muted">Range: 30-40 PSU</small>
+                  <div class="text-danger small" *ngIf="getFieldError('salinity')">
+                    {{ getFieldError('salinity') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Environmental Parameters -->
+            <h5 class="text-primary mb-3">Environmental Parameters</h5>
+            <div class="form-group mb-3">
+              <label for="solarRadiation" class="form-label">Solar Radiation (W/m²) *</label>
+              <input 
+                type="number" 
+                id="solarRadiation"
+                class="form-control" 
+                formControlName="solarRadiation"
+                step="1"
+                min="0"
+                max="1500">
+              <small class="form-text text-muted">Range: 0-1500 W/m²</small>
+              <div class="text-danger small" *ngIf="getFieldError('solarRadiation')">
+                {{ getFieldError('solarRadiation') }}
+              </div>
+            </div>
+
+            <!-- Wind Parameters -->
+            <h5 class="text-primary mb-3">Wind Parameters</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="windSpeed" class="form-label">Wind Speed (m/s) *</label>
+                  <input 
+                    type="number" 
+                    id="windSpeed"
+                    class="form-control" 
+                    formControlName="windSpeed"
+                    step="0.1"
+                    min="0"
+                    max="30">
+                  <small class="form-text text-muted">Range: 0-30 m/s</small>
+                  <div class="text-danger small" *ngIf="getFieldError('windSpeed')">
+                    {{ getFieldError('windSpeed') }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="windDirection" class="form-label">Wind Direction (°) *</label>
+                  <input 
+                    type="number" 
+                    id="windDirection"
+                    class="form-control" 
+                    formControlName="windDirection"
+                    step="1"
+                    min="0"
+                    max="360">
+                  <small class="form-text text-muted">Range: 0-360° (0=North, 90=East, 180=South, 270=West)</small>
+                  <div class="text-danger small" *ngIf="getFieldError('windDirection')">
+                    {{ getFieldError('windDirection') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Current Parameters -->
+            <h5 class="text-primary mb-3">Current Parameters</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="currentSpeed" class="form-label">Current Speed (m/s) *</label>
+                  <input 
+                    type="number" 
+                    id="currentSpeed"
+                    class="form-control" 
+                    formControlName="currentSpeed"
+                    step="0.01"
+                    min="0"
+                    max="2">
+                  <small class="form-text text-muted">Range: 0-2 m/s</small>
+                  <div class="text-danger small" *ngIf="getFieldError('currentSpeed')">
+                    {{ getFieldError('currentSpeed') }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="currentDirection" class="form-label">Current Direction (°) *</label>
+                  <input 
+                    type="number" 
+                    id="currentDirection"
+                    class="form-control" 
+                    formControlName="currentDirection"
+                    step="1"
+                    min="0"
+                    max="360">
+                  <small class="form-text text-muted">Range: 0-360° (0=North, 90=East, 180=South, 270=West)</small>
+                  <div class="text-danger small" *ngIf="getFieldError('currentDirection')">
+                    {{ getFieldError('currentDirection') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mt-4">
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                [disabled]="environmentalForm.invalid">
+                <i class="fas fa-save me-2"></i>
+                Submit Environmental Data
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -12,6 +12,7 @@ import { WeekPredictionComponent } from "./prediction/week-prediction/week-predi
 import { MonthPredictionComponent } from "./prediction/month-prediction/month-prediction.component";
 import { TemperatureComponent } from "./parameters/temperature/temperature.component";
 
+import { EnvironmentalDataFormComponent } from "./environmental-data-form/environmental-data-form.component";
 import { AuthGuard } from "../guards/auth.guard";
 
 
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'users/user-list', component: UserListComponent }, // Admin guard
       { path: 'users/user-add', component: UserAddComponent },
       { path: 'historical-data', component: HistoricalDataComponent },
+      { path: 'environmental-data-form', component: EnvironmentalDataFormComponent },
       { path: 'day-prediction', component: DayPredictionComponent },
       { path: 'week-prediction', component: WeekPredictionComponent },
       { path: 'month-prediction', component: MonthPredictionComponent },

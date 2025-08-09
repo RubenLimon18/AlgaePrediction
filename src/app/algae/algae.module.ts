@@ -21,6 +21,7 @@ import { TemperatureComponent } from './parameters/temperature/temperature.compo
 import { ProfileComponent } from "./profile/profile.component";
 import { UserAddComponent } from "./users/user-add/user-add.component";
 import { UserListComponent } from "./users/user-list/user-list.component";
+import { EnvironmentalDataFormComponent } from "./environmental-data-form/environmental-data-form.component";
 import { AlgaeRoutingModule } from "./algae-routing.module";
 import { SharedModule } from "../shared/shared.module";
 
@@ -37,6 +38,7 @@ import { SharedModule } from "../shared/shared.module";
     WeekPredictionComponent,
     MonthPredictionComponent,
     TemperatureComponent,
+    EnvironmentalDataFormComponent,
   ],
   imports: [
     CommonModule,
