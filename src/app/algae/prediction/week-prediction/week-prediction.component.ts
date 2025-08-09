@@ -6,7 +6,6 @@ import { Site } from '../interfaces/site';
 import { AlgaeSpecies } from '../interfaces/algae-species';
 import { PredictionService } from '../services/prediction.service';
 import { AlgaeModelChartLine } from '../../../models/algae.model';
-import { earning_month} from '../../../models/chart_line_earnigns';
 
 
 @Component({

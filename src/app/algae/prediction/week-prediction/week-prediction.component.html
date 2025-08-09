@@ -175,7 +175,7 @@
     
     <div class="mt-4"><!-- titulo-->
         <h2 class="h5 text-muted fw-semibold mb-3">
-            <i class="fas fa-cogs fa-sm text-secondary me-2"></i> Data Prediction
+            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Prediction Results
         </h2>
     </div>    
     <!-- Card (Charts Line)-->
@@ -225,7 +225,7 @@
 
                 <!-- todos los valores son elementos modificables del charlines [data]="data" -->
                 <app-chart-line *ngIf="data.length > 0" [chartId]="'weekChart'" 
-                [data]="data" label="'Biomass'"  title="'Projection Period (weeks)'"></app-chart-line>
+                [data]="data" label="Biomass"  title="Projection Period (weeks)"></app-chart-line>
 
             </div>
         </div>
