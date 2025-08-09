@@ -1,0 +1,76 @@
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+.card-header {
+  background: linear-gradient(45deg, #4e73df, #36b9cc);
+  color: white;
+  border-radius: 10px 10px 0 0;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #5a5c69;
+  margin-bottom: 0.5rem;
+}
+
+.form-control:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+.text-primary {
+  color: #ffff !important;
+  border-bottom: 2px solid #e3e6f0;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem !important;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #4e73df, #36b9cc);
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(78, 115, 223, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-text {
+  font-size: 0.8rem;
+}
+
+.text-danger {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+mat-select {
+  width: 100%;
+}
+
+.container-fluid {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+}
