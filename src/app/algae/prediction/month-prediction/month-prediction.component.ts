@@ -155,7 +155,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
       currentBlockStart = new Date(currentBlockEnd);
       currentBlockStart.setDate(currentBlockStart.getDate() + 1);
       currentBlockEnd = new Date(currentBlockStart);
-      currentBlockEnd.setDate(currentBlockEnd.getDate() + 28);
+      currentBlockEnd.setDate(currentBlockEnd.getDate() + 6);
 
       blockValues = [item.biomass];
     }
