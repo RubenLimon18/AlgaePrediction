@@ -112,7 +112,7 @@ async def login(login_data: UserLogin, response: Response):
         "message": "Login successful",
         "id": user.id,
         "token": access_token,
-        "expiresIn": 1800 # 30 Minutos = 1800,  30 = 30 segundos
+        "expiresIn": 3600 # 30 Minutos = 1800,  30 = 30 segundos, 3600 =  1H
     }
 
 

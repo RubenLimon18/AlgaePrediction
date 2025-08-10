@@ -15,7 +15,7 @@ export class UserAddComponent implements OnInit{
   form: FormGroup;
   hidePassword = true;
   isLoading: boolean = false;
-  emailError: string = ''
+  errors: string[];
   
   // Métodos
   constructor(
@@ -31,12 +31,12 @@ export class UserAddComponent implements OnInit{
     this.form = new FormGroup({
       'first_name': new FormControl(null,{validators: [
         Validators.required,
-        //onlyLetters()
+        onlyLetters()
       ]}),
 
       'last_name': new FormControl(null,{validators: [
         Validators.required,
-        //onlyLetters()
+        onlyLetters()
       ]}),
       
       'institution': new FormControl(null,{validators: [
@@ -87,8 +87,18 @@ export class UserAddComponent implements OnInit{
         console.log(response)
         this.router.navigate(['algae/users/user-list'])
       }, (error)=>{
+
         console.log(error);
-        this.emailError = error.error.detail || "Error al registrar";
+        const errors = Array.isArray(error.error.detail) ? error.error.detail : [error.error.detail];
+        //this.errors = errors;
+
+        this.errors = errors.map((e: string) =>{
+          return e
+            .replace('first_name', "First name")
+            .replace('last_name', "Last name")
+            .replace('institution', "Institution")
+        })
+
         this.isLoading = false;
           
         const modal: HTMLDialogElement | null = document.getElementById('modal') as HTMLDialogElement;
