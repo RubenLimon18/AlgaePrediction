@@ -5,7 +5,8 @@
 
 
             <mat-card>
-                <mat-card-content>
+                <mat-card-title class="card-title">Add User</mat-card-title>
+                <mat-card-content class="mt-4">
                     <!-- Spinner -->
                     <mat-spinner *ngIf="isLoading"></mat-spinner>
                     
@@ -93,7 +94,7 @@
 
                              <!-- Error del backend (Prioritario) -->
                             <mat-error *ngIf="form.get('email')?.hasError('backendError')">
-                                {{ emailError }}
+                                {{ errors }}
                             </mat-error>
                         </mat-form-field>  
 
@@ -154,7 +155,13 @@
 <dialog id="modal">
 
     <h2>Error</h2>
-    <p>{{ emailError }}</p>
+    <div *ngIf="errors?.length" class="alert alert-danger mt-3 p-3 rounded" role="alert">
+        <ul class="mb-0">
+            <li *ngFor="let err of errors">
+                 {{ err }}
+            </li>
+        </ul>
+    </div>
 
     <div class="actions">
         <button class="cancel-btn" onclick="document.getElementById('modal').close()">Cerrar</button>
