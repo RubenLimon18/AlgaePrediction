@@ -172,28 +172,60 @@
 
 <!-- Seccion grafica -->
 <div>
+    
     <div class="mt-4"><!-- titulo-->
         <h2 class="h5 text-muted fw-semibold mb-3">
-            <i class="fas fa-cogs fa-sm text-secondary me-2"></i> Data Prediction
+            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Prediction Results
         </h2>
     </div>    
-    <!-- Card (Charts Line and Circle)-->
+    <!-- Card (Charts Line)-->
     <div class="row">
-            <!-- Chart Line -->
+            <!-- Cuerpo -->
         <div>
+            <!-- Header-->
+            <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom"></div>
             <div class="card shadow mb-4 ">
-                <div class="text-end mb-3">
-                    <button class="btn btn-sm btn-outline-primary me-2" [disabled]="viewMode === 'daily'" (click)="changeViewMode('daily')">
-                        Ver por día
-                    </button>
-                    <button class="btn btn-sm btn-outline-success" [disabled]="viewMode === 'weekly'" (click)="changeViewMode('weekly')">
-                        Ver por semana
-                    </button>
-                </div>
+                <div class="d-flex justify-content-between align-items-center m-3 flex-wrap">
+                    <!-- Sección izquierda: íconos y nombres -->
+                    <div class="d-flex align-items-center flex-wrap m">
+                        <!-- Sitio -->
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        <h6 class="mb-0 text-muted me-2">Site </h6>
+                        <span class="fw-bold me-4">{{ predictedData?.site ?? 'Not select' }}</span>
+
+                        <!-- Alga -->
+                        <i class="fas fa-seedling text-success me-2"></i>
+                        <h6 class="mb-0 text-muted me-2">Algae </h6>
+                        <span class="fw-bold me-4">{{ predictedData?.specie ?? 'Not select' }}</span>
+                    </div>
+
+                    <!-- Sección derecha: botones -->
+                    <div class="d-flex gap-2" *ngIf="predictedData">
+                         <button 
+                            class="btn me-2 btn-sm" 
+                            [ngClass]="{
+                            'btn-primary': viewMode === 'daily',
+                            'btn-outline-primary': viewMode !== 'daily'
+                            }" 
+                            (click)="changeViewMode('daily')">
+                            Daily View
+                        </button>
+                        <button 
+                            *ngIf="predictedData !== null && predictedData.weeks > 1"
+                            class="btn btn-sm" 
+                            [ngClass]="{
+                            'btn-success': viewMode === 'weekly',
+                            'btn-outline-success': viewMode !== 'weekly'
+                            }" 
+                            (click)="changeViewMode('weekly')">
+                            Weekly View
+                        </button>
+                    </div>
+                    </div>
 
                 <!-- todos los valores son elementos modificables del charlines [data]="data" -->
                 <app-chart-line *ngIf="data.length > 0" [chartId]="'weekChart'" 
-                [label]="'Biomass'"  [title]="'Projection Period (weeks)'"></app-chart-line>
+                [data]="data" label="Biomass"  chartTitle="Projection Period (weeks)"></app-chart-line>
 
             </div>
         </div>

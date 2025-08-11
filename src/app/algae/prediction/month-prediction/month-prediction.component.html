@@ -1,1 +1,186 @@
-<p>month-prediction works!</p>
+<!-- TITULO -->
+<div class="col-sm-12 col-md-6">
+  <h3 class="text-primary text-start mb-4 fw-semibold">Monthly Projection</h3>
+</div>
+
+<!-- Seccion Panel prediccion-->
+<div>
+  <div class="mt-4"><!-- titulo-->
+          <h2 class="h5 text-muted fw-semibold mb-3">
+              <i class="fas fa-cogs fa-sm text-secondary me-2"></i> Data Prediction
+          </h2>
+  </div>
+
+  <!-- cuerpo-->
+  <div class="card border-0 shadow-sm mb-5">
+    <!-- Header-->
+    <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom"></div>
+    <!-- formulario-->
+    <form [formGroup]="predictionForm" (ngSubmit)="runMonthPrediction()">
+
+      <div class="grid-container ">
+        
+        <!-- Primera columna seccion sitio y especies -->
+          <div>
+            <div class="sitio-section mb-1"><!-- seccion de sitio -->
+              <div class="d-flex mb-1"><!-- titulo seccion-->
+                <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0 text-dark">Site</h6>
+                </div>
+              </div>
+              <div class="btn-group btn-group-toggle d-flex flex-wrap" role="group">
+                <button
+                  type="button"
+                  *ngFor="let site of sites"
+                  class="btn btn-outline-primary m-1"
+                  [class.active]="predictionForm.get('site')?.value === site.name"
+                  (click)="predictionForm.get('site')?.setValue(site.name)"
+                >
+                  {{ site.name }}
+                </button>
+              </div>
+              <div *ngIf="isInvalid('site')" class="text-danger mt-1 small">Select a valid site.</div>
+            </div>
+
+            <div class="especie-section mt-1"><!-- seccion de especie -->
+              <div class="d-flex mb-1"><!-- titulo seccion-->
+                <i class="fas fa-seedling mt-1 me-3" style="color: #1cc88a;"></i>
+                <div>
+                  <h6 class="mb-0 text-dark">Algae species</h6>
+                </div>
+              </div>
+              <div class="btn-group btn-group-toggle d-flex flex-wrap" role="group">
+                <button
+                  type="button"
+                  *ngFor="let algae of species"
+                  class="btn btn-outline-success m-1"
+                  [class.active]="predictionForm.get('specie')?.value === algae.name"
+                  (click)="predictionForm.get('specie')?.setValue(algae.name)"
+                >
+                  {{ algae.name }}
+                </button>
+              </div>
+              <div *ngIf="isInvalid('specie')" class="text-danger mt-1 small">Select a valid species.</div>
+            </div>
+          </div>
+
+        <!-- Segunda columna con inputs -->
+          <div>
+            <div class="mb-3"><!-- date-->
+              <div class="d-flex mb-2 ms-2">
+                <i class="fas fa-calendar-day text-secondary mt-1 me-3"></i>
+                <div>
+                  <h6 class="mb-0">Months</h6>
+                </div>
+              </div>
+                <label for="weeks" class="form-label">
+                    Months to be projected: {{ predictionForm.get('weeks')?.value }}
+                </label>
+                <input
+                    type="range"
+                    class="form-range"
+                    id="weeks"
+                    formControlName="weeks"
+                    min="1"
+                    max="48"
+                    step="1"
+                    [ngClass]="{ 'is-invalid': isInvalid('months') }"
+                />
+
+              <!-- <input
+                type="date"
+                class="form-control"
+                id="date"
+                formControlName="date"
+                [ngClass]="{ 'is-invalid': isInvalid('date') }"
+                min="1"
+              /> -->
+              <div class="invalid-feedback">Enter a valid date.</div>
+            </div>
+
+            <!-- Predict botton-->
+            <button type="submit" class="btn btn-primary mt-3 w-100 fw-semibold">Predict</button>
+          </div>
+
+      </div>
+
+      <!-- Result-->
+      <div *ngIf="result" class="alert alert-info me-2 ms-2 fw-semibold">
+          {{ result }}
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Seccion grafica -->
+<div>
+    
+    <div class="mt-4"><!-- titulo-->
+        <h2 class="h5 text-muted fw-semibold mb-3">
+            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Prediction Results
+        </h2>
+    </div>    
+    <!-- Card (Charts Line)-->
+    <div class="row">
+            <!-- Cuerpo -->
+        <div>
+            <!-- Header-->
+            <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom"></div>
+            <div class="card shadow mb-4 ">
+                <div class="d-flex justify-content-between align-items-center m-3 flex-wrap">
+                    <!-- Sección izquierda: íconos y nombres -->
+                    <div class="d-flex align-items-center flex-wrap m">
+                        <!-- Sitio -->
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        <h6 class="mb-0 text-muted me-2">Site </h6>
+                        <span class="fw-bold me-4">{{ predictedData?.site ?? 'Not select' }}</span>
+
+                        <!-- Alga -->
+                        <i class="fas fa-seedling text-success me-2"></i>
+                        <h6 class="mb-0 text-muted me-2">Algae </h6>
+                        <span class="fw-bold me-4">{{ predictedData?.specie ?? 'Not select' }}</span>
+                    </div>
+
+                    <!-- Sección derecha: botones -->
+                    <div class="d-flex gap-2" *ngIf="predictedData">
+                         <button 
+                            class="btn me-2 btn-sm" 
+                            [ngClass]="{
+                            'btn-primary': viewMode === 'daily',
+                            'btn-outline-primary': viewMode !== 'daily'
+                            }" 
+                            (click)="changeViewMode('daily')">
+                            Daily View
+                        </button>
+                        <button 
+                            class="btn btn-sm" 
+                            [ngClass]="{
+                            'btn-success': viewMode === 'weekly',
+                            'btn-outline-success': viewMode !== 'weekly'
+                            }" 
+                            (click)="changeViewMode('weekly')">
+                            Weekly View
+                        </button>
+                        <button 
+                            *ngIf="predictedData !== null && predictedData.weeks > 1"
+                            class="btn btn-sm" 
+                            [ngClass]="{
+                            'btn-primary': viewMode === 'monthly',
+                            'btn-outline-primary': viewMode !== 'monthly'
+                            }" 
+                            (click)="changeViewMode('monthly')">
+                            Monthly View
+                        </button>
+                    </div>
+                    </div>
+
+                <!-- todos los valores son elementos modificables del charlines [data]="data" -->
+                <app-chart-line *ngIf="data.length > 0" [chartId]="'monthChart'" 
+                [data]="data" label="Biomass"  chartTitle="Projection Period (months)"></app-chart-line>
+
+            </div>
+        </div>
+    </div>
+
+</div>

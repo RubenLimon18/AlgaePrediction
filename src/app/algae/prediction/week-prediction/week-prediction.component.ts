@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { WeekPrediction} from '../interfaces/week-prediction';
+
+import { WeekPrediction, WeeklyGrowth} from '../interfaces/week-prediction';
 import { Site } from '../interfaces/site';
 import { AlgaeSpecies } from '../interfaces/algae-species';
 import { PredictionService } from '../services/prediction.service';
-import { earning_month} from '../../../models/chart_line_earnigns';
-import { ChangeDetectorRef } from '@angular/core';
-import { AfterViewChecked } from '@angular/core';
+import { AlgaeModelChartLine } from '../../../models/algae.model';
 
 
 @Component({
@@ -15,20 +14,20 @@ import { AfterViewChecked } from '@angular/core';
   styleUrl: './week-prediction.component.css'
 })
 export class WeekPredictionComponent implements OnInit, AfterViewChecked{
-  predictionForm: FormGroup;
-  result: string | null = null;
-  sites: Site[] = [];
-  species: AlgaeSpecies[] = [];
+  predictionForm: FormGroup; // inputs usuario
+  result: string | null = null;//prediccion en texto
+  sites: Site[] = []; // sitio (botones)
+  species: AlgaeSpecies[] = [];//especie de algas (botones)
   predictedData: WeekPrediction | null = null; //variable para guardar prediccion completa  
-  data : earning_month[] = [ { month: '0', earning: 0 }] //datos de grafica
+  data: AlgaeModelChartLine[] = []; //datos de grafica
   viewMode: 'daily' | 'weekly' = 'daily'; // modo de visualizacion actual
+  weeksSelected: number = 1;// guardar semanas a proyectar
   chartRendered = false;
 
   
   constructor(
     private fb: FormBuilder,
-    private predictionService: PredictionService,
-    private cdr: ChangeDetectorRef // inyectar ChangeDetectorRef
+    private predictionService: PredictionService
   ) {
     this.predictionForm = this.fb.group({
       specie: ['', Validators.required],
@@ -55,7 +54,8 @@ export class WeekPredictionComponent implements OnInit, AfterViewChecked{
           ...formData,
           predictions:  response.predictions ? response.predictions.map(item => ({
             date: new Date(item.date),
-            biomass: item.biomass
+            biomass: item.biomass,
+            algae: item.algae,
           })):[]
         };
 
@@ -64,8 +64,9 @@ export class WeekPredictionComponent implements OnInit, AfterViewChecked{
         this.result = `Weekly prediction for species *${fullWeekPrediction.specie}* at site *${fullWeekPrediction.site}* was generated.`;
 
         this.data = fullWeekPrediction.predictions?.map(item => ({
-          month: item.date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }),
-          earning: item.biomass
+          date: item.date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }),
+          biomass: item.biomass,
+          alga: item.algae
         })) ?? [];
       },
       error => {
@@ -75,50 +76,87 @@ export class WeekPredictionComponent implements OnInit, AfterViewChecked{
     );
   }
 
-  private groupByWeek(data: earning_month[]): earning_month[] {
-    const grouped: { [week: string]: number[] } = {};
+  groupByWeek(data: WeeklyGrowth[]): AlgaeModelChartLine[] {
+  if (data.length === 0) return [];
 
-    for (const item of data) {
-      const date = new Date(item.month);
-      const year = date.getFullYear();
-      const week = this.getWeekNumber(date);
-      const key = `Week ${week} - ${year}`;
+  const grouped: AlgaeModelChartLine[] = [];
+  const fixedAlga = data[0].algae; // alga única en todo el dataset
 
-      if (!grouped[key]) grouped[key] = [];
-      grouped[key].push(item.earning);
+  //Obtener rangos de dias
+  const startDate = new Date(data[0].date);
+  let currentBlockStart = new Date(startDate);
+  let currentBlockEnd = new Date(currentBlockStart);
+  currentBlockEnd.setDate(currentBlockEnd.getDate() + 6); // rango de 7 días
+
+  let blockValues: number[] = [];//biomass
+
+
+  for (const item of data) {
+    const itemDate = new Date(item.date);
+
+    if (itemDate >= currentBlockStart && itemDate <= currentBlockEnd) {
+      blockValues.push(item.biomass);
+    } else {
+      grouped.push({
+        date: `${currentBlockStart.toLocaleDateString('es-MX', { day: 'numeric'})
+      }-${currentBlockEnd.toLocaleDateString('es-MX', {day: 'numeric', month: 'short', year: '2-digit'})}`,
+        biomass: this.calculateAverage(blockValues),
+        alga: fixedAlga
+      });
+
+      currentBlockStart = new Date(currentBlockEnd);
+      currentBlockStart.setDate(currentBlockStart.getDate() + 1);
+      currentBlockEnd = new Date(currentBlockStart);
+      currentBlockEnd.setDate(currentBlockEnd.getDate() + 6);
+
+      blockValues = [item.biomass];
     }
-
-    return Object.keys(grouped).map(week => ({
-      month: week,
-      earning: +(grouped[week].reduce((a, b) => a + b, 0) / grouped[week].length).toFixed(2),
-    }));
   }
 
-  // Devuelve el número de semana del año
-  private getWeekNumber(date: Date): number {
-    const firstJan = new Date(date.getFullYear(), 0, 1);
-    const days = Math.floor((+date - +firstJan) / (24 * 60 * 60 * 1000));
-    return Math.ceil((date.getDay() + 1 + days) / 7);
-    }
+  if (blockValues.length > 0) {
+    grouped.push({
+    date: `${currentBlockStart.toLocaleDateString('es-MX', { day: 'numeric'})
+    }-${currentBlockEnd.toLocaleDateString('es-MX', {day: 'numeric', month: 'short', year: '2-digit'})}`,      
+    biomass: this.calculateAverage(blockValues),
+    alga: fixedAlga
+    });
+  }
+
+  return grouped;
+}
+
+
+  calculateAverage(values: number[]): number {
+    if (values.length === 0) return 0;
+    const sum = values.reduce((acc, val) => acc + val, 0);
+    return sum / values.length;
+  }
+
+
 
   changeViewMode(mode: 'daily' | 'weekly') {
-    this.viewMode = mode;
-    this.chartRendered = false; // Forzar redibujo
+  this.viewMode = mode;
+  this.chartRendered = false;
 
-    if (this.predictedData?.predictions) {
-      const baseData = this.predictedData.predictions.map(item => ({
-        month: item.date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }),
-        earning: item.biomass,
+  if (this.predictedData?.predictions) {
+    if (mode === 'daily') {
+      this.data = this.predictedData.predictions.map(item => ({
+        date: item.date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }),
+        biomass: item.biomass,
+        alga: item.algae,
+
       }));
-
-      this.data = mode === 'daily' ? baseData : this.groupByWeek(baseData);
+    } else {
+      this.data = this.groupByWeek(this.predictedData.predictions);
     }
   }
+}
+
 
   ngAfterViewChecked() {
     if (!this.chartRendered && this.data.length > 0 && window.initMyChart) {
       setTimeout(() => {
-        window.initMyChart('yourChartId', this.data.map(d => d.month), this.data.map(d => d.earning), [],'Biomasa');
+        window.initMyChart('weekChart', this.data.map(d => d.date), this.data.map(d => d.biomass), this.data.map(d => d.alga),'Biomass');
         this.chartRendered = true;
       });
     }
