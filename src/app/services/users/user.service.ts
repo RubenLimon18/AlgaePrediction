@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { authData, authRegister, authRegisterResponse } from '../../auth/models/auth-data-model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { profileData } from './profile-data-model';
+import { profileData } from '../../algae/users/profile-data-model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

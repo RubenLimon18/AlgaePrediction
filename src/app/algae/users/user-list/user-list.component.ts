@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { authRegisterResponse } from '../../../auth/models/auth-data-model';
-import { UserService } from '../user.service';
+import { UserService } from '../../../services/users/user.service';
 import { Subscription } from 'rxjs';
 
 @Component({

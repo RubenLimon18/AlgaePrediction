@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 // Validators
 import { emailDomainValidator, passwordValidation } from '../../shared/validators/validators.component';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { earning_month } from '../../models/chart_line_earnigns';
-import { DataService } from '../historical-data/data-service.service';
+import { DataService } from '../../services/algae/data-service.service';
 import { AlgaeModel, AlgaeModelChartLine } from '../../models/algae.model';
 import { firstValueFrom, Subscription } from 'rxjs';
 
