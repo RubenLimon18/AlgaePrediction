@@ -2,7 +2,7 @@ import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { authData, authRegisterResponse } from '../../auth/models/auth-data-model';
 import { of, Subject, Subscription, switchMap, take, takeUntil } from 'rxjs';
 import { profileData } from '../../algae/users/profile-data-model';
@@ -20,15 +20,12 @@ export class BaseComponent implements OnInit, AfterViewInit{
   dataUser: authRegisterResponse | null;
   dataProfile: profileData | null;
   userId: string;
-
   authtStatus: boolean = false;
   isAdmin: boolean = false;
   
-
   private destroy = new Subject<void>();
   
-  // private authSub:Subscription;
-  // private userIdSub:Subscription;
+
 
   // Métodos
   constructor(
@@ -68,31 +65,7 @@ export class BaseComponent implements OnInit, AfterViewInit{
 
 
 
-    // this.userIdSub = this.authService.getIdListener()
-    //   .subscribe((id)=>{
-    //     if(id){
-    //       this.authService.getDataUser(id)
-    //         .subscribe((user)=>{
-    //           this.dataUser = user
-
-    //           this.authSub = this.authService.getAuthStatusListener()
-    //           .subscribe((status) =>{
-    //             this.dataUser.role == "admin" ? this.isAdmin = true : this.isAdmin = false;
-    //             status ?  this.authtStatus = status : this.authtStatus = false;
-    //           })
-    //         })
-    //     }
-    //   })
-
-
-    // this.dataProfile = this.authService.getDataProfile("profile");
-
-    //Subscription
-    /*
-      Nos suscribimos al observable para ver si se inicio sesion y el estado se almacena en authStatus.
-      Dependiendo de si el authStatus es verdadero significa que alguien inicio sesion y se verifica
-      si es un -admin- o un -user-
-    */
+    
     
   } 
 
@@ -114,13 +87,13 @@ export class BaseComponent implements OnInit, AfterViewInit{
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
-        title: 'Listo para irte?',
-        message: 'Selecciona "Logout" para cerrar la sesion actual.'
+        title: 'Ready to leave?',
+        message: 'Choose "Logout" to close the current session.'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`El usuario hizo clic en: ${result ? 'Logout' : 'Cancelar'}`);
+      console.log(`El usuario hizo clic en: ${result ? 'Logout' : 'Cancel'}`);
     });
   }
 

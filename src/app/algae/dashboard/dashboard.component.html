@@ -38,7 +38,7 @@
 
     <div>
         <h2 class="h5 text-muted fw-semibold mb-3">
-            <i class="fas fa-map-marker-alt fa-sm text-secondary me-2"></i> Ubicaciones
+            <i class="fas fa-map-marker-alt fa-sm text-secondary me-2"></i> Locations
         </h2>
         
     </div>
@@ -66,7 +66,7 @@
     <!-- Ultimos datos registrados TITULO -->
     <div class="mt-4">
         <h2 class="h5 text-muted fw-semibold mb-3">
-            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Ultimo dato registrado
+            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Latest data recorded
         </h2>
     </div>
 
@@ -100,7 +100,7 @@
         <div class="d-flex mb-3">
           <i class="fas fa-calendar-day text-primary mt-1 me-3"></i>
           <div>
-            <h6 class="mb-0 text-muted">Fecha</h6>
+            <h6 class="mb-0 text-muted">Date</h6>
             <p class="mb-0 fw-bold h6">{{ lastAlgae?.date }}</p>
           </div>
         </div>
@@ -108,7 +108,7 @@
         <div class="d-flex mb-3">
           <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
           <div>
-            <h6 class="mb-0 text-muted">Ubicación</h6>
+            <h6 class="mb-0 text-muted">Location</h6>
             <p class="mb-0 fw-bold h6">{{ lastAlgae?.site }}</p>
           </div>
         </div>
@@ -118,7 +118,7 @@
       <div class="col-md-6">
         <div class="row">
           <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-temperature-high me-2"></i>Temperatura</h6>
+            <h6 class="text-muted mb-1"><i class="fas fa-temperature-high me-2"></i>Temperature</h6>
             <span class="badge bg-info bg-opacity-10 text-info fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.temp }} °C</span>
           </div>
           <div class="col-6 mb-3">
@@ -149,7 +149,7 @@
   <!-- Pie de tarjeta -->
   <div class="card-footer bg-light py-2 ">
     <small class="text-muted">
-      <i class="fas fa-sync-alt me-1"></i> Actualizado ahora
+      <i class="fas fa-sync-alt me-1"></i> Updated now
     </small>
   </div>
 </div>
@@ -167,7 +167,7 @@
         <div class="col-12 col-xl-8 col-lg-7">
             <div class="card shadow mb-4 ">
 
-                <app-chart-line [chartId]="'myChart'" [data]="data" label="Biomass" chartTitle="Ultimos 50 datos registrados"></app-chart-line>
+                <app-chart-line [chartId]="'myChart'" [data]="data" label="Biomass" chartTitle="Last 50 recorded data"></app-chart-line>
 
             </div>
         </div>

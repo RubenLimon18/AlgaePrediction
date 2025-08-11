@@ -3,9 +3,9 @@
 
     <div class="left-buttons">
         <form (ngSubmit)="onFilter()">
-            <label for="option-select" class="me-3" style="color: black;">Selecciona un sitio:</label>
+            <label for="option-select" class="me-3" style="color: black;">Select a site:</label>
             <select id="option-select"  class="me-3" [formControl]="option">
-                <option value="" disabled>-- Elige una opción --</option>
+                <option value="" disabled>-- Choose an option --</option>
                 <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
             </select>
 

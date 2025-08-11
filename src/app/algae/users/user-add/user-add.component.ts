@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { emailDomainValidator, onlyLetters, passwordValidation } from '../../../shared/validators/validators.component';
-import { UserService } from '../user.service';
+import { UserService } from '../../../services/users/user.service';
 import { authRegister } from '../../../auth/models/auth-data-model';
 import { Router } from '@angular/router';
 
