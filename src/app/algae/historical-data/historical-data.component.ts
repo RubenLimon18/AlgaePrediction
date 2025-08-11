@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { AlgaeModel } from '../../models/algae.model';
-import { DataService } from './data-service.service';
+import { DataService } from '../../services/algae/data-service.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';

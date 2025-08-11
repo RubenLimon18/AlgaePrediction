@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { emailDomainValidator, onlyLetters } from '../../shared/validators/validators.component';
 import { profileData } from '../users/profile-data-model';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { authRegisterResponse } from '../../auth/models/auth-data-model';
 import { of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
