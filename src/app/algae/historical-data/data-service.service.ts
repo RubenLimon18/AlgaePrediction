@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlgaeModel, AlgaeModelChartLine } from '../../models/algae.model';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 
@@ -13,8 +13,10 @@ export class DataService {
   private algaes: AlgaeModel[];
 
   algaesChanged = new Subject<{algaes: AlgaeModel[], algaesCount: number}>();
+  allAlgaes = new Subject<AlgaeModel[]>();
   lastAlgae = new Subject<AlgaeModel>();
   algaeChartLine = new Subject<AlgaeModelChartLine[]>();
+
 
   // Metodos
   constructor(
@@ -57,7 +59,6 @@ export class DataService {
     return this.algaesChanged.asObservable();
   }
 
-  
   // GET LastAlgae
   getLastAlgae(){
     this.http.get<AlgaeModel>(this.apiURL + "last")
@@ -65,6 +66,21 @@ export class DataService {
         this.lastAlgae.next(algae);
       })
   }
+
+  // GET All Alges
+  getAll(){
+    this.http.get<AlgaeModel[]>(this.apiURL + "all")
+      .subscribe((algaes)=>{
+        this.allAlgaes.next(algaes);
+      })
+  }
+
+  // GET All algaes Subject
+  getAllUpdateListener(){
+    return this.allAlgaes.asObservable();
+  }
+
+
 
   // GET LastAlgae Subject
   getLastAlgaeUpdateListener(){

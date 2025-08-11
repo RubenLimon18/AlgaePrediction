@@ -28,7 +28,8 @@
             <!-- Generate Report -->
                 <button 
                     mat-raised-button
-                    class="light-blue-btn small-btn">
+                    class="light-blue-btn small-btn"
+                    (click)="generateReport()">
                     <i class="fas fa-download fa-sm text-white-50 me-2"></i>
                     Generate Report</button>
         </div>
@@ -138,7 +139,7 @@
           </div>
           <div class="col-6 mb-3">
             <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>Biomass</h6>
-            <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.biomass }} mg/L</span>
+            <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.biomass }}</span>
           </div>
         </div>
       </div>
@@ -148,7 +149,7 @@
   <!-- Pie de tarjeta -->
   <div class="card-footer bg-light py-2 ">
     <small class="text-muted">
-      <i class="fas fa-sync-alt me-1"></i> Actualizado hace 15 minutos
+      <i class="fas fa-sync-alt me-1"></i> Actualizado ahora
     </small>
   </div>
 </div>
@@ -166,7 +167,7 @@
         <div class="col-12 col-xl-8 col-lg-7">
             <div class="card shadow mb-4 ">
 
-                <app-chart-line [chartId]="'myChart'" [data]="data" label="Biomass" chartTitle="Crecimiento de algas en los ultimos 50 datos registrados"></app-chart-line>
+                <app-chart-line [chartId]="'myChart'" [data]="data" label="Biomass" chartTitle="Ultimos 50 datos registrados"></app-chart-line>
 
             </div>
         </div>
