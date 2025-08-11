@@ -1,4 +1,5 @@
 export interface AlgaeModel {
+  temperature: any;
   site: string;
   date: string;
   month: string;
