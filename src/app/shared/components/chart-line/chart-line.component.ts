@@ -17,7 +17,7 @@ export class ChartLineComponent implements OnChanges {
   @Input() data: AlgaeModelChartLine[] = [];
   @Input() label: string = 'Ventas';
   @Input() chartId: string = 'myChart';
-  @Input() title: string = 'Earnings Overview';
+  @Input() chartTitle: string = 'Earnings Overview';
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data'] && this.data.length > 0) {
