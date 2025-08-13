@@ -1,18 +1,19 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AlgaeModelChartLine } from '../../../models/algae.model';
 
+
 declare global {
   interface Window {
-    initMyChart: (chartId: string, date: string[], biomass: number[], algaes: string[], label: string) => void;
+    initMyChartbar: (chartId: string, date: string[], temperature: number[], sites: string[], label: string) => void;
   }
 }
 
 @Component({
-  selector: 'app-chart-line',
-  templateUrl: './chart-line.component.html',
-  styleUrl: './chart-line.component.css'
+  selector: 'app-chart-bar',
+  templateUrl: './chart-bar.component.html',
+  styleUrl: './chart-bar.component.css'
 })
-export class ChartLineComponent implements OnChanges {
+export class ChartBarComponent {
   @Input() data: AlgaeModelChartLine[] = [];
   @Input() label: string = 'Ventas';
   @Input() chartId: string = 'myChart';
@@ -30,8 +31,8 @@ export class ChartLineComponent implements OnChanges {
     const algaes = this.data.map(a => a.alga);
 
     setTimeout(() => {
-      if (window.initMyChart) {
-        window.initMyChart(this.chartId, date, biomass, algaes ,this.label);
+      if (window.initMyChartbar) {
+        window.initMyChartbar(this.chartId, date, biomass, algaes ,this.label);
       }
     }, 0);
   }

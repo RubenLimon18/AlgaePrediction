@@ -59,7 +59,62 @@ window.initMyChart = function (canvasid, labels, data, algaes = [], label = 'Ven
   });
 };
 
+window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'Ventas') {
+  const ctx = document.getElementById(canvasid)?.getContext('2d');
+  if (!ctx) return;
 
+  // Si ya existe un chart para este canvas, destruirlo
+  if (window.myCharts[canvasid]) {
+    window.myCharts[canvasid].destroy();
+  }
+
+  // Crear nuevo chart y guardar la instancia
+  window.myCharts[canvasid] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: label,
+        data: data,
+        fill: true,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          ticks: {
+            callback: value => value.toLocaleString()
+          }
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            // Personalizar el título (aparece arriba en la tooltip)
+            title: function(context) {
+              return `Fecha: ${context[0].label}`;
+            },
+            // Personalizar la etiqueta (cuerpo de la tooltip)
+            label: function(context) {
+              const dataIndex = context.dataIndex;
+              const siteName = sites[dataIndex] || 'Nombre no disponible';
+              return [
+                `Site: ${siteName}`,
+                `Temperature: ${context.parsed.y.toLocaleString()}`
+              ];
+            }
+          }
+        }
+      }
+
+    }
+  });
+};
 // Chart Circle
 window.initCircleChart = function () {
   const ctx = document.getElementById("myChartCircle")?.getContext('2d');
