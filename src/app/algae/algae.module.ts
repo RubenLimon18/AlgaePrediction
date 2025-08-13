@@ -8,14 +8,22 @@ import { FormsModule } from '@angular/forms';
 import { AngularMaterialModule } from "../angular-material.module";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { HistoricalDataComponent } from "./historical-data/historical-data.component";
+
+//PREDICTION COMPONENTS
 import { DayPredictionComponent } from "./prediction/day-prediction/day-prediction.component";
 import { MonthPredictionComponent } from "./prediction/month-prediction/month-prediction.component";
 import { WeekPredictionComponent } from "./prediction/week-prediction/week-prediction.component";
+
+//PARAMETERS COMPONENTS
+import { TemperatureComponent } from './parameters/temperature/temperature.component';
+
+
 import { ProfileComponent } from "./profile/profile.component";
 import { UserAddComponent } from "./users/user-add/user-add.component";
 import { UserListComponent } from "./users/user-list/user-list.component";
 import { AlgaeRoutingModule } from "./algae-routing.module";
 import { SharedModule } from "../shared/shared.module";
+
 
 
 @NgModule({
@@ -28,6 +36,7 @@ import { SharedModule } from "../shared/shared.module";
     DayPredictionComponent,
     WeekPredictionComponent,
     MonthPredictionComponent,
+    TemperatureComponent,
   ],
   imports: [
     CommonModule,

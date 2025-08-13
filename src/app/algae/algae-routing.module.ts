@@ -10,6 +10,7 @@ import { HistoricalDataComponent } from "./historical-data/historical-data.compo
 import { DayPredictionComponent } from "./prediction/day-prediction/day-prediction.component";
 import { WeekPredictionComponent } from "./prediction/week-prediction/week-prediction.component";
 import { MonthPredictionComponent } from "./prediction/month-prediction/month-prediction.component";
+import { TemperatureComponent } from "./parameters/temperature/temperature.component";
 
 import { AuthGuard } from "../guards/auth.guard";
 
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'day-prediction', component: DayPredictionComponent },
       { path: 'week-prediction', component: WeekPredictionComponent },
       { path: 'month-prediction', component: MonthPredictionComponent },
+      { path: 'temperature', component: TemperatureComponent},
     ]
   }
 ];
