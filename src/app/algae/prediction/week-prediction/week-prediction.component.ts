@@ -46,6 +46,8 @@ export class WeekPredictionComponent implements OnInit, AfterViewChecked{
       return;
     }
 
+    this.viewMode = 'daily'; //reset button view
+
     const formData: WeekPrediction = this.predictionForm.value;
 
     this.predictionService.runWeekPrediction(formData).subscribe(
