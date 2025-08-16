@@ -181,7 +181,7 @@ export class PredictionService {
 
   const today = new Date();
 
-  for (let i = 0; i < data.weeks* 29; i++) {
+  for (let i = 0; i < data.weeks* 31; i++) {
     const currentDate = new Date(today);
     currentDate.setDate(today.getDate() + i); // incrementa por semanas
 

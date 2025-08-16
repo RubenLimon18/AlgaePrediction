@@ -59,7 +59,9 @@ window.initMyChart = function (canvasid, labels, data, algaes = [], label = 'Ven
   });
 };
 
-window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'Ventas') {
+
+//grafica para temperatura - graph for temperature
+window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'Temperature') {
   const ctx = document.getElementById(canvasid)?.getContext('2d');
   if (!ctx) return;
 
@@ -76,10 +78,9 @@ window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'V
       datasets: [{
         label: label,
         data: data,
-        fill: true,
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        tension: 0.3
+        backgroundColor: 'rgba(75, 192, 192, 0.5)', // relleno de la barra
+        borderColor: 'rgba(75, 192, 192, 1)',       // color del borde
+        borderWidth: 2                               // grosor del borde
       }]
     },
     options: {
@@ -88,7 +89,7 @@ window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'V
       scales: {
         y: {
           ticks: {
-            callback: value => value.toLocaleString()
+            callback: value => value.toLocaleString() + '°C'
           }
         }
       },
@@ -105,7 +106,7 @@ window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'V
               const siteName = sites[dataIndex] || 'Nombre no disponible';
               return [
                 `Site: ${siteName}`,
-                `Temperature: ${context.parsed.y.toLocaleString()}`
+                `Temperature: ${context.parsed.y.toLocaleString()} °C`
               ];
             }
           }
@@ -115,6 +116,8 @@ window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'V
     }
   });
 };
+
+
 // Chart Circle
 window.initCircleChart = function () {
   const ctx = document.getElementById("myChartCircle")?.getContext('2d');
