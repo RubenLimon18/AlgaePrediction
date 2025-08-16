@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit{
     //Subscription Algaes chart line
     this.dataService.getAlgaesChartLineUpdateListener()
       .subscribe((algaes)=>{
-        console.log(algaes)
+        //console.log(algaes)
         this.data = algaes;
       })
 

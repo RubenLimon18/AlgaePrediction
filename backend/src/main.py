@@ -21,15 +21,18 @@ app = FastAPI(
 
 # Handle Errors ValueError
 @app.exception_handler(RequestValidationError)
-async def simplify_validation_errors(request: Request, exc: RequestValidationError):
-    simplified_errors = [
-        {"message": error["msg"], "field": error["loc"][-1]}
-        for error in exc.errors()
-    ]
+async def validation_exception_handler(request, exc):
+    format_errors = []
+
+    for error in exc.errors():
+        loc = error.get("loc", [])
+        field = loc[-1] if loc else "field"
+        msg = error.get("msg", "Invalid input")
+        format_errors.append(f"{field}: {msg}")
     
     return JSONResponse(
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-        content={"errors": simplified_errors}
+        content={"detail": format_errors}  # <-- aquí uniformamos la estructura
     )
 
 

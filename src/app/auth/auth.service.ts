@@ -28,8 +28,9 @@ export class AuthService {
 
   private authStatusListener = new BehaviorSubject<boolean>(false);
   private userIdListener = new BehaviorSubject<string | null>(null);
-  private authStatusSignUp = new Subject<boolean>; // SIGN UP
 
+  private isLoadingListener = new Subject<boolean>();
+  private errorListener = new Subject<string>();
 
   // Metodos
   constructor(
@@ -70,22 +71,10 @@ export class AuthService {
     posteriormente será en la el login y se almacenara en la base de datos.
   */ 
   login(email: string, password: string){
-
-    /*
-    authData: Contiene los datos para el login (email, password, id, rol y la fecha de creacion)
-    profileData: Contiene los datos del perfil del usuario que ingresa, name, email. Con el fin de
-      mostrar los datos en el apartado de profile
-      
-    LOS DOS SE CREAN AL MISMO TIEMPO. INVESTIGAR COMO SE HACE EN PETICIONES HTTP
-
-    NOTA: Estos datos se estan almacenando en la memoria del Navegador, posteriormente será en la base de datos.
-      Esto se hace para simular el login POR EL MOMENTO. 
-
-  
-    */
-
     
-
+    // isLoading
+        this.isLoadingListener.next(true)
+  
     // Petición HTTP
     const user = {
       email: email,
@@ -127,6 +116,19 @@ export class AuthService {
         // Router
         this.router.navigate(["/algae/dashboard"]);
 
+      }, (error)=>{
+        this.authStatusListener.next(false);
+        this.isLoadingListener.next(false);
+
+        if (error.status === 401) {
+          this.errorListener.next("Email o contraseña incorrectos.");
+        } else if (error.status === 0) {
+          this.errorListener.next("No se pudo conectar al servidor.");
+        } else {
+          this.errorListener.next("Ocurrió un error inesperado.");
+        }
+
+        console.log(error)
       })
 
 
@@ -184,10 +186,22 @@ export class AuthService {
     return this.userIdListener.asObservable();
   }
 
-
+  // Role User
   getUserRol(){
     return this.userRol;
   }
+
+
+  // Error Listener string 
+  getLoginErrorListener() {
+    return this.errorListener.asObservable();
+  }
+
+  // Is loading Listener
+  getIsLoadingListener() {
+    return this.isLoadingListener.asObservable();
+  }
+
 
   checkSession(): Observable<boolean | authRegisterResponse>{
     return this.http.get<authRegisterResponse>(this.apiURL + 'auth/me', { withCredentials: true }).pipe(

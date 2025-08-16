@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 // Validators
 import { emailDomainValidator, passwordValidation } from '../../shared/validators/validators.component';
 import { AuthService } from '../auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,13 @@ export class LoginComponent implements OnInit{
 
   // Atributos
   hidePassword = true;
-  isLoading: boolean = false;
   formLogin: FormGroup;
 
+  isLoading: boolean = false;
+  isLoadingListener: Subscription;
+
+  error: string;
+  errorListener: Subscription;
 
   //Metodos
   constructor(
@@ -26,7 +31,23 @@ export class LoginComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
+    
+    // IsLoading listener
+    this.isLoadingListener = this.authService.getIsLoadingListener()
+      .subscribe((value)=>{
+        this.isLoading = value;
+      })
 
+    // Error listener
+    this.errorListener = this.authService.getLoginErrorListener()
+        .subscribe((e)=>{
+          this.error = e;
+          this.formLogin.reset();
+          //console.log(this.error);
+        })
+
+
+    
     //Form
     this.formLogin = new FormGroup({
       'email': new FormControl(null, {
@@ -52,14 +73,10 @@ export class LoginComponent implements OnInit{
 
   // Funcion submit del formulario
   onLogin(){
-    // IMPORTANTE ESTE IF PARA VALIDAR TODO EL FORMULARIO
-    // if(!this.formLogin.valid){
-    //   return;
-    // }
 
-    // console.log(this.formLogin.value);
-    this.isLoading = true;
-    // this.router.navigate(["/"])
+    if(!this.formLogin.valid){
+      return;
+    }
 
     // Función que crea el usuario momentaneo en la memoria del navegador
     const email = this.formLogin.controls["email"].value
@@ -77,4 +94,9 @@ export class LoginComponent implements OnInit{
     
   } 
 
+
+  ngDestroy(){ 
+    this.isLoadingListener.unsubscribe();
+    this.errorListener.unsubscribe();
+  }
 }

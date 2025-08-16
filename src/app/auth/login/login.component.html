@@ -59,12 +59,17 @@
                 </mat-error>
             </mat-form-field>
 
+            <!-- Error Message -->
+            <div *ngIf="error" class="alert alert-danger mt-3 mb-3 p-3 rounded" role="alert">
+               {{ error }}
+            </div>
 
 
             <!-- Forgot password -->
             <a class="page-link" routerLink="/auth/login/forgot-password">Forgot Password</a>
 
             <span>P&#64;ssw0rd!23</span>
+
 
             <!-- Button -->
             <button 
