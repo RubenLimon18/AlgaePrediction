@@ -20,3 +20,12 @@ export interface AlgaeModelChartLine {
   biomass: number;
   date: string;
 }
+
+export interface parameterModel{
+  // month: string;
+  // year: string;
+  site: string;
+  valor: number;
+  month: string;
+  season: string;
+}

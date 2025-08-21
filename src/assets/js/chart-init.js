@@ -59,9 +59,23 @@ window.initMyChart = function (canvasid, labels, data, algaes = [], label = 'Ven
   });
 };
 
+//colores para las temporadas
+const backgroundcolorMap = new Map([
+   ['Rainy', 'rgba(28, 200, 138, 0.3)'],
+  ['Dry', 'rgba(246, 194, 62, 0.3)'],
+  ['Cold', 'rgba(78, 115, 223, 0.3)'],
+]);
+
+const bordercolorMap = new Map([
+  ['Rainy', '#1cc88a'],
+  ['Dry', '#f6c23e'],
+  ['Cold', '#4e73df'],
+]);
 
 //grafica para temperatura - graph for temperature
-window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'Temperature') {
+window.initMyChartbar = function (
+  canvasid, labels, data, sites = [], labell = 'Temperature', filterSeason
+) {
   const ctx = document.getElementById(canvasid)?.getContext('2d');
   if (!ctx) return;
 
@@ -70,17 +84,38 @@ window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'T
     window.myCharts[canvasid].destroy();
   }
 
+  // Crear arrays de colores dinámicos según filtro
+  const backgroundColors = data.map(d => {
+    if (!filterSeason) return 'rgba(75, 192, 192, 0.2)'; // Todos iguales si no hay filtro
+    return d.season === filterSeason ? backgroundcolorMap.get(filterSeason): 'rgba(75, 192, 192, 0.2)';
+  });
+
+  const borderColors = data.map(d => {
+    if (!filterSeason) return 'rgba(75, 192, 192, 1)';
+    return d.season === filterSeason ? bordercolorMap.get(filterSeason) : 'rgba(75, 192, 192, 1)';
+  });
+   
+  //color fijo para la leyenda
+  const legendColor = filterSeason
+    ? backgroundcolorMap.get(filterSeason)
+    : 'rgba(75, 192, 192, 0.2)';
+
+  //color fijo para la leyenda
+  const legendBorderColor = filterSeason
+    ? bordercolorMap.get(filterSeason)
+    : 'rgba(75, 192, 192, 1)';
+
   // Crear nuevo chart y guardar la instancia
   window.myCharts[canvasid] = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
       datasets: [{
-        label: label,
-        data: data,
-        backgroundColor: 'rgba(75, 192, 192, 0.5)', // relleno de la barra
-        borderColor: 'rgba(75, 192, 192, 1)',       // color del borde
-        borderWidth: 2                               // grosor del borde
+        label: labell,
+        data: data.map(d => d.valor), // Valores numéricos
+        borderColor: borderColors,
+        backgroundColor: backgroundColors,
+        borderWidth: 2,
       }]
     },
     options: {
@@ -94,28 +129,40 @@ window.initMyChartbar = function (canvasid, labels, data, sites = [], label = 'T
         }
       },
       plugins: {
+         legend: {
+          labels: {
+            generateLabels: (chart) => {
+              const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+              labels.forEach(label => {
+                label.fillStyle = legendColor; // 🔑 fuerza el color fijo en la leyenda
+                label.strokeStyle = legendBorderColor;   // 🎨 color del borde (ejemplo: negro)
+              });
+              return labels;
+            }
+          }
+        },
         tooltip: {
           callbacks: {
-            // Personalizar el título (aparece arriba en la tooltip)
             title: function(context) {
-              return `Fecha: ${context[0].label}`;
+              return `${context[0].label}`;
             },
-            // Personalizar la etiqueta (cuerpo de la tooltip)
             label: function(context) {
               const dataIndex = context.dataIndex;
               const siteName = sites[dataIndex] || 'Nombre no disponible';
               return [
                 `Site: ${siteName}`,
-                `Temperature: ${context.parsed.y.toLocaleString()} °C`
+                `Temperature: ${context.parsed.y.toLocaleString()} °C`,
+                `Season: ${data[dataIndex].season}`
               ];
             }
           }
         }
       }
-
     }
   });
 };
+
+
 
 
 // Chart Circle
