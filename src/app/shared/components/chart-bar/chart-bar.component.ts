@@ -1,23 +1,29 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AlgaeModelChartLine } from '../../../models/algae.model';
-
+import { parameterModel } from '../../../models/algae.model';
 
 declare global {
   interface Window {
-    initMyChartbar: (chartId: string, date: string[], temperature: number[], sites: string[], label: string) => void;
+    initMyChartbar: (
+      chartId: string,
+      labels: string[],
+      data: parameterModel[],
+      sites?: string[],
+      label?: string,
+      filterSeason?: string | null
+    ) => void;
   }
 }
 
 @Component({
   selector: 'app-chart-bar',
   templateUrl: './chart-bar.component.html',
-  styleUrl: './chart-bar.component.css'
+  styleUrls: ['./chart-bar.component.css']
 })
-export class ChartBarComponent {
-  @Input() data: AlgaeModelChartLine[] = [];
-  @Input() label: string = 'Ventas';
+export class ChartBarComponent implements OnChanges {
+  @Input() data: parameterModel[] = [];
+  @Input() label: string;
   @Input() chartId: string = 'myChart';
-  @Input() chartTitle: string = 'Earnings Overview';
+  @Input() chartTitle: string = 'Monthly Temperature';
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data'] && this.data.length > 0) {
@@ -25,15 +31,19 @@ export class ChartBarComponent {
     }
   }
 
-  renderChart() {
-    const date = this.data.map(m => m.date);
-    const biomass = this.data.map(b => b.biomass);
-    const algaes = this.data.map(a => a.alga);
+  renderChart(filterSeason: string | null = null) {
+    const labels = this.data.map(d => d.month); 
+    const sites = this.data.map(d => d.site);
 
     setTimeout(() => {
       if (window.initMyChartbar) {
-        window.initMyChartbar(this.chartId, date, biomass, algaes ,this.label);
+        window.initMyChartbar(this.chartId, labels, this.data, sites, this.label, filterSeason);
       }
     }, 0);
+  }
+
+  // Método público para filtrar desde el componente padre
+  filterBySeason(season: string | null) {
+    this.renderChart(season);
   }
 }
