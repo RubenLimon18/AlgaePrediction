@@ -17,7 +17,7 @@ async def get_all_page(
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=1000)
 ):  
-    collection = get_collection("dataset")
+    collection = get_collection("datasetAverage")
     skip = (page - 1) * page_size
     total = collection.count_documents({})
 
