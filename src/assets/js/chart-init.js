@@ -61,7 +61,7 @@ window.initMyChart = function (canvasid, labels, data, algaes = [], label = 'Ven
 
 //colores para las temporadas
 const backgroundcolorMap = new Map([
-   ['Rainy', 'rgba(28, 200, 138, 0.3)'],
+  ['Rainy', 'rgba(28, 200, 138, 0.3)'],
   ['Dry', 'rgba(246, 194, 62, 0.3)'],
   ['Cold', 'rgba(78, 115, 223, 0.3)'],
 ]);
