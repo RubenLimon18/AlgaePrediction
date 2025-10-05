@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { earning_month } from '../../../models/chart_line_earnigns';
 import { AlgaeModelChartLine } from '../../../models/algae.model';
 
 declare global {

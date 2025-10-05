@@ -44,6 +44,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
       this.result = 'Please complete all fields correctly.';
       return;
     }
+    this.viewMode = "daily";// reset button view
 
     const formData: WeekPrediction = this.predictionForm.value;
 
@@ -134,7 +135,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
   const startDate = new Date(data[0].date);
   let currentBlockStart = new Date(startDate);
   let currentBlockEnd = new Date(currentBlockStart);
-  currentBlockEnd.setDate(currentBlockEnd.getDate() + 28); // rango de 7 días
+  currentBlockEnd.setDate(currentBlockEnd.getDate() + 30); // rango de 7 días
 
   let blockValues: number[] = [];//biomass
 
@@ -155,7 +156,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
       currentBlockStart = new Date(currentBlockEnd);
       currentBlockStart.setDate(currentBlockStart.getDate() + 1);
       currentBlockEnd = new Date(currentBlockStart);
-      currentBlockEnd.setDate(currentBlockEnd.getDate() + 6);
+      currentBlockEnd.setDate(currentBlockEnd.getDate() + 30);
 
       blockValues = [item.biomass];
     }
@@ -197,7 +198,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
     } else if (mode === 'weekly'){
       this.data = this.groupByWeek(this.predictedData.predictions);
     }
-    else{
+    else if (mode === 'monthly'){
       this.data = this.groupByMonth(this.predictedData.predictions);
     }
   }

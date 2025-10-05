@@ -9,6 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.auth import router as auth_router
 from routes.algaes import router as algaes_router
 from routes.route import router
+from routes.parameters import router as parameters_router
+
 #from backend.src.database.db import connect_to_mongo, close_mongo_connection
 
 
@@ -62,6 +64,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(algaes_router)
 app.include_router(router)
+app.include_router(parameters_router)
 
 
 
