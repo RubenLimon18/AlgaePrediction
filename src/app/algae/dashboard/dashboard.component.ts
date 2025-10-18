@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { earning_month } from '../../models/chart_line_earnigns';
 import { DataService } from '../../services/algae/data-service.service';
-import { AlgaeModel, AlgaeModelChartLine } from '../../models/algae.model';
+import { AlgaeCountPerSite, AlgaeModel, AlgaeModelChartLine } from '../../models/algae.model';
 import { firstValueFrom, Subscription } from 'rxjs';
 
 
@@ -20,14 +20,22 @@ import autoTable from 'jspdf-autotable';
 export class DashboardComponent implements OnInit{
   // Atributos
   private lastAlgaeSub: Subscription;
-  private algaesChartLine: Subscription;
+  private algaesChartLineSub: Subscription;
+  private allAlgaesSub: Subscription;
+  private countAlgaesPerSiteSub: Subscription;
+
 
   lastAlgae: AlgaeModel | null;
   data: AlgaeModelChartLine[] = [];
   dataset: AlgaeModel[];
   fileName: string;
+  countAlgaesPerSite: AlgaeCountPerSite;
 
-  allAlgaesSub: Subscription;
+  textUpdate : string = "Update now"
+  minutes: number = 0;
+
+  
+
   
   // Earnings-cards
   cards = [
@@ -45,6 +53,7 @@ export class DashboardComponent implements OnInit{
   ngOnInit(): void {
    this.dataService.getLastAlgae();
    this.dataService.getAlgaesChartLine();
+   this.dataService.getCountAlgaesPerSite();
 
    const now = new Date();
 
@@ -55,21 +64,21 @@ export class DashboardComponent implements OnInit{
 
    this.fileName = `Historical_Data_Algaes_${formattedDate}`;
 
-   //Subscription Last Algae
+   // Subscription Last Algae
    this.lastAlgaeSub = this.dataService.getLastAlgaeUpdateListener()
     .subscribe((algae)=>{
       //console.log(algae);
       this.lastAlgae = algae
     })
 
-    //Subscription Algaes chart line
+    // Subscription Algaes Chart Line
     this.dataService.getAlgaesChartLineUpdateListener()
       .subscribe((algaes)=>{
         //console.log(algaes)
         this.data = algaes;
       })
 
-    // Sucription All Algaes Report
+    // Subscription All Algaes Report
     this.allAlgaesSub = this.dataService.getAllUpdateListener()
       .subscribe((algaes)=>{
         this.dataset = algaes;
@@ -78,13 +87,28 @@ export class DashboardComponent implements OnInit{
         this.downloadExcelReport();
       })
 
+    // Subscription Count Algaes Per Site ( Chart Circle )
+    this.countAlgaesPerSiteSub = this.dataService.getCountAlgaesPerSiteUpdateListener()
+      .subscribe(( count ) => {
+        this.countAlgaesPerSite = count;
+        // console.log("Count: ", this.countAlgaesPerSite);
+      })
+
+    // Text Update
+    setInterval(()=>{
+      this.minutes += 1
+      this.textUpdate = "Updated " + this.minutes + " minute(s) ago"
+    },60000)
+
+
   }
 
 
   ngDestroy(){
     this.lastAlgaeSub.unsubscribe();
-    this.algaesChartLine.unsubscribe();
+    this.algaesChartLineSub.unsubscribe();
     this.allAlgaesSub.unsubscribe();
+    this.countAlgaesPerSiteSub.unsubscribe();
   }
 
 
@@ -178,7 +202,6 @@ export class DashboardComponent implements OnInit{
 
     doc.save(this.fileName + ".pdf");
   }
-
 
   // Report XLXS
   downloadExcelReport() {

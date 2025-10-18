@@ -1,189 +1,177 @@
 <div >
 
-    <!-- Button Dashboard (Generar Reporte) -->
-    <div class="row mb-4">
-        
-        <div class="col-sm-12 col-md-6">
-    
-            <!-- maybe class h3 -->
-            <h1 class="display-3 fw-bold position-relative pb-3 mb-4" style="
-                background: linear-gradient(90deg, #0d6efd 0%, #0dcaf0 100%);
-                -webkit-background-clip: text;
-                background-clip: text;
-                color: transparent;
-                ">
-                Dashboard
-                <div class="position-absolute bottom-0 start-0 w-100" style="
-                    height: 2px;
-                    background: linear-gradient(90deg, transparent, #0dcaf0, transparent);
-                ">
-                </div>
-            </h1>
+  <!-- Button Dashboard (Generar Reporte) -->
+  <div class="row mb-4">
+      
+      <div class="col-sm-12 col-md-6">
+  
+          <!-- maybe class h3 -->
+          <h1 class="display-3 fw-bold position-relative pb-3 mb-4" style="
+              background: linear-gradient(90deg, #0d6efd 0%, #0dcaf0 100%);
+              -webkit-background-clip: text;
+              background-clip: text;
+              color: transparent;
+              ">
+              Dashboard
+              <div class="position-absolute bottom-0 start-0 w-100" style="
+                  height: 2px;
+                  background: linear-gradient(90deg, transparent, #0dcaf0, transparent);
+              ">
+              </div>
+          </h1>
 
-        </div>
+      </div>
 
 
 
-        <div class="col-md-6 text-md-end mt-3 mt-md-0">
-            <!-- Generate Report -->
-                <button 
-                    mat-raised-button
-                    class="light-blue-btn small-btn"
-                    (click)="generateReport()">
-                    <i class="fas fa-download fa-sm text-white-50 me-2"></i>
-                    Generate Report</button>
-        </div>
+      <div class="col-md-6 text-md-end mt-3 mt-md-0">
+          <!-- Generate Report -->
+              <button 
+                  mat-raised-button
+                  class="light-blue-btn small-btn"
+                  (click)="generateReport()">
+                  <i class="fas fa-download fa-sm text-white-50 me-2"></i>
+                  Generate Report</button>
+      </div>
 
-    </div>
+  </div>
 
-    <div>
-        <h2 class="h5 text-muted fw-semibold mb-3">
-            <i class="fas fa-map-marker-alt fa-sm text-secondary me-2"></i> Locations
-        </h2>
-        
-    </div>
 
-    <!-- Earnings card -->
-    <div class="row">
-        <div 
-            class="col-xl-4 col-md-6 col-12 mb-4"
-            *ngFor="let card of cards">
+  <!-- Locations Cards -->
+  <div>
+      <h2 class="h5 text-muted fw-semibold mb-3">
+          <i class="fas fa-map-marker-alt fa-sm text-secondary me-2"></i> Locations
+      </h2>
+  </div>
+
+
+  <!-- Earnings card Last Algae-->
+  <div class="row">
+      <div 
+          class="col-xl-4 col-md-6 col-12 mb-4"
+          *ngFor="let card of cards">
 
             <!-- Mat Card (componente reutilizable) -->
             <app-earnings-card
-            [title]="card.title"
-            [amount]="card.amount"
-            [progress]="card.progress"
-            [icon]="card.icon"
-            [borderColor]="card.borderColor">
+              [title]="card.title"
+              [amount]="card.amount"
+              [progress]="card.progress"
+              [icon]="card.icon"
+              [borderColor]="card.borderColor">
             </app-earnings-card>
-            
-        </div>
-
-    </div>
-
-
-    <!-- Ultimos datos registrados TITULO -->
-    <div class="mt-4">
-        <h2 class="h5 text-muted fw-semibold mb-3">
-            <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Latest data recorded
-        </h2>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-    <div class="card border-0 shadow-sm">
-  <!-- Header con icono -->
-  <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom">
-    <div class="d-flex justify-content-between align-items-center">
-      <h5 class="card-title mb-0 text-primary">
-        <i class="fas fa-clock-rotate-left me-2" ></i>
-        Último valor registrado
-      </h5>
-      <span class="badge bg-primary">Algae</span>
-    </div>
-  </div>
-
-  <!-- Cuerpo -->
-  <div class="card-body">
-    <div class="row">
-      <!-- Columna 1 -->
-      <div class="col-md-6">
-        <div class="d-flex mb-3">
-          <i class="fas fa-calendar-day text-primary mt-1 me-3"></i>
-          <div>
-            <h6 class="mb-0 text-muted">Date</h6>
-            <p class="mb-0 fw-bold h6">{{ lastAlgae?.date }}</p>
-          </div>
-        </div>
-
-        <div class="d-flex mb-3">
-          <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
-          <div>
-            <h6 class="mb-0 text-muted">Location</h6>
-            <p class="mb-0 fw-bold h6">{{ lastAlgae?.site }}</p>
-          </div>
-        </div>
+          
       </div>
 
-      <!-- Columna 2 -->
-      <div class="col-md-6">
-        <div class="row">
-          <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-temperature-high me-2"></i>Temperature</h6>
-            <span class="badge bg-info bg-opacity-10 text-info fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.temp }} °C</span>
+  </div>
+
+
+  <!-- Title: Last Algae -->
+  <div class="mt-4">
+      <h2 class="h5 text-muted fw-semibold mb-3">
+          <i class="fas fa-chart-line fa-sm text-secondary me-2"></i> Last Algae
+      </h2>
+  </div>
+
+  <!-- Card: Last Algae -->
+  <div class="card border-0 shadow-sm">
+    <!-- Header con icono -->
+    <div class="card-header bg-primary bg-opacity-10 py-3 border-bottom">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0 text-primary">
+          <i class="fas fa-clock-rotate-left me-2"></i>
+          Último valor registrado
+        </h5>
+        <span class="badge bg-primary">Last Algae</span>
+      </div>
+    </div>
+
+    <!-- Cuerpo -->
+    <div class="card-body">
+      <div class="row">
+        <!-- Columna 1 -->
+        <div class="col-md-6">
+          <div class="d-flex mb-3">
+            <i class="fas fa-calendar-day text-primary mt-1 me-3"></i>
+            <div>
+              <h6 class="mb-0 text-muted">Date</h6>
+              <p class="mb-0 fw-bold h6">{{ lastAlgae?.date }}</p>
+            </div>
           </div>
-          <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-water me-2"></i>DIN MAX</h6>
-            <span class="badge bg-success bg-opacity-10 text-success fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.din_max }} mg/L</span>
+
+          <div class="d-flex mb-3">
+            <i class="fas fa-map-marker-alt text-primary mt-1 me-3"></i>
+            <div>
+              <h6 class="mb-0 text-muted">Location</h6>
+              <p class="mb-0 fw-bold h6">{{ lastAlgae?.site }}</p>
+            </div>
           </div>
-          <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-water me-2"></i>DIN MIN</h6>
-            <span class="badge bg-success bg-opacity-10 text-success fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.din_min }} mg/L</span>
-          </div>
-          <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>NT MAX</h6>
-            <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.nt_max }} mg/L</span>
-          </div>
-          <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>NT MIN</h6>
-            <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.nt_min }} mg/L</span>
-          </div>
-          <div class="col-6 mb-3">
-            <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>Biomass</h6>
-            <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.biomass }}</span>
+        </div>
+
+        <!-- Columna 2 -->
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-6 mb-3">
+              <h6 class="text-muted mb-1"><i class="fas fa-temperature-high me-2"></i>Temperature</h6>
+              <span class="badge bg-info bg-opacity-10 text-info fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.temp }} °C</span>
+            </div>
+            <div class="col-6 mb-3">
+              <h6 class="text-muted mb-1"><i class="fas fa-water me-2"></i>DIN MAX</h6>
+              <span class="badge bg-success bg-opacity-10 text-success fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.din_max }} mg/L</span>
+            </div>
+            <div class="col-6 mb-3">
+              <h6 class="text-muted mb-1"><i class="fas fa-water me-2"></i>DIN MIN</h6>
+              <span class="badge bg-success bg-opacity-10 text-success fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.din_min }} mg/L</span>
+            </div>
+            <div class="col-6 mb-3">
+              <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>NT MAX</h6>
+              <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.nt_max }} mg/L</span>
+            </div>
+            <div class="col-6 mb-3">
+              <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>NT MIN</h6>
+              <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.nt_min }} mg/L</span>
+            </div>
+            <div class="col-6 mb-3">
+              <h6 class="text-muted mb-1"><i class="fas fa-flask me-2"></i>Biomass</h6>
+              <span class="badge bg-warning bg-opacity-10 text-warning fs-6" style="color: rgb(255, 255, 255) !important;">{{ lastAlgae?.biomass }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Pie de tarjeta -->
+    <div class="card-footer bg-light py-2 ">
+      <small class="text-muted">
+        <i class="fas fa-sync-alt me-1"></i> {{ textUpdate }}
+      </small>
+    </div>
   </div>
 
-  <!-- Pie de tarjeta -->
-  <div class="card-footer bg-light py-2 ">
-    <small class="text-muted">
-      <i class="fas fa-sync-alt me-1"></i> Updated now
-    </small>
+
+
+  <!-- Card (Charts Line and Circle)-->
+  <div class="row mt-4">
+
+    <!-- Chart Line -->
+    <div class="col-12 col-xl-8 col-lg-7">
+        <div class="card shadow mb-4 ">
+
+            <app-chart-line [chartId]="'myChart'" [data]="data" label="Biomass" chartTitle="Last 50 recorded data"></app-chart-line>
+
+        </div>
+    </div>
+
+
+    <!-- Chart circle -->
+    <div class="col-12 col-xl-4 col-lg-5">
+        <div class="card shadow mb-4 ">
+
+            <app-chart-circle [chartId]="'myCircleChart'"  [data]="countAlgaesPerSite" chartTitle="Count of Algaes by Site"></app-chart-circle>
+
+        </div>
+    </div>
+
+
   </div>
-</div>
-
-
-
-
-
-
-    
-    <!-- Card (Charts Line and Circle)-->
-     <div class="row mt-4">
-
-        <!-- Chart Line -->
-        <div class="col-12 col-xl-8 col-lg-7">
-            <div class="card shadow mb-4 ">
-
-                <app-chart-line [chartId]="'myChart'" [data]="data" label="Biomass" chartTitle="Last 50 recorded data"></app-chart-line>
-
-            </div>
-        </div>
-
-
-        <!-- Chart circle -->
-        <div class="col-12 col-xl-4 col-lg-5">
-            <div class="card shadow mb-4 ">
-
-                <app-chart-circle></app-chart-circle>
-
-    
-            </div>
-        </div>
-
-
-     </div>
 
 </div>

@@ -166,12 +166,14 @@ window.initMyChartbar = function (
 
 
 // Chart Circle
-window.initCircleChart = function () {
-  const ctx = document.getElementById("myChartCircle")?.getContext('2d');
+window.initCircleChart = function (canvasid, da) {
+  const ctx = document.getElementById(canvasid)?.getContext('2d');
+  // console.log(ctx);
+
   if (!ctx) return;
 
-  const labels = ["Directo", "Referencias", "Redes Sociales"];
-  const data = [55, 30, 15];
+  const labels = Object.keys(da);
+  const data = Object.values(da);
 
   new Chart(ctx, {
     type: 'doughnut',
@@ -179,8 +181,8 @@ window.initCircleChart = function () {
       labels: labels,
       datasets: [{
         data: data,
-        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+        backgroundColor: ['#0d6efd', '#ffc107', '#0dcaf0'],
+        hoverBackgroundColor: ['#2e59d9', '#9fa916ff', '#0d9dbaff'],
         hoverBorderColor: "rgba(234, 236, 244, 1)",
       }]
     },
@@ -198,7 +200,7 @@ window.initCircleChart = function () {
           displayColors: false,
           caretPadding: 10,
 
-          // 👇 Aquí defines cómo mostrar el texto del tooltip
+          // Aquí defines cómo mostrar el texto del tooltip
           callbacks: {
               label: function(context) {
               const label = context.label || '';

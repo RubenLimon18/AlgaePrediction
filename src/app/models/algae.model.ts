@@ -30,3 +30,10 @@ export interface parameterModel{
   month: string;
   season: string;
 }
+
+
+export interface AlgaeCountPerSite{
+  count: {
+    string : number,
+  }
+}

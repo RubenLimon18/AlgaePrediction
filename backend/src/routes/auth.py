@@ -40,7 +40,7 @@ async def get_user(userId: str):
 
 # POST Request Method
 @router.post("/register")
-async def register(user_data: UserRegister):
+async def register(user_data: UserRegister): # UserRegister -> Schema ( Lo que va a recibir )
     """Register a new user (public access)"""
     try:
         user = await user_service.create_user(user_data)
@@ -91,6 +91,7 @@ async def login(login_data: UserLogin, response: Response):
     """Login with email and password"""
     user = await user_service.authenticate_user(login_data.email, login_data.password)
 
+    # Cuando retorna None o no encuentra al usuario
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

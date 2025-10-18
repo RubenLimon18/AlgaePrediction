@@ -32,7 +32,6 @@ export class UserService {
   */
   addUser(authData: authRegister){
     return this.http.post(this.apiURL + "auth/register", authData)
-
   }
 
   // GET Users
