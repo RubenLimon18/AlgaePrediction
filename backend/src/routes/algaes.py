@@ -114,3 +114,23 @@ async def get_chart_line():
     ]
 
     return algaes
+
+
+# Obtiene un diccionario con los nombres de los sitios y la cantidad de algas que tiene registradas.
+@router.get("/get-count")
+async def get_count_algaes():
+    
+    countPerSite = {
+        "Casa del Marino" : 0, 
+        "San Juan de la Costa": 0,
+        "Tecolote": 0 
+    }
+
+    cursor = get_collection("dataset")
+
+    for i in countPerSite.keys():
+        count = cursor.count_documents({"Site": i})
+        countPerSite[i] = count
+
+
+    return countPerSite

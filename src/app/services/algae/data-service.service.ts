@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AlgaeModel, AlgaeModelChartLine } from '../../models/algae.model';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { AlgaeCountPerSite, AlgaeModel, AlgaeModelChartLine } from '../../models/algae.model';
+import { Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 
@@ -16,7 +16,7 @@ export class DataService {
   allAlgaes = new Subject<AlgaeModel[]>();
   lastAlgae = new Subject<AlgaeModel>();
   algaeChartLine = new Subject<AlgaeModelChartLine[]>();
-
+  countChartCircle = new Subject<AlgaeCountPerSite>();
 
   // Metodos
   constructor(
@@ -81,7 +81,6 @@ export class DataService {
   }
 
 
-
   // GET LastAlgae Subject
   getLastAlgaeUpdateListener(){
     return this.lastAlgae.asObservable();
@@ -95,11 +94,22 @@ export class DataService {
         this.algaeChartLine.next(algaes);
       })
   }
-
   // GET Algaes chart-line Subject
   getAlgaesChartLineUpdateListener(){
     return this.algaeChartLine.asObservable();
   }
 
+
+  // GET Count Algaes per site (Chart-Circle)
+  getCountAlgaesPerSite(){
+    this.http.get<AlgaeCountPerSite>(this.apiURL + "get-count")
+      .subscribe(( count )=>{
+        this.countChartCircle.next(count);
+      })
+  }
+  // GET Count Algaes per site (Chart-Circle) SUBJECT
+  getCountAlgaesPerSiteUpdateListener(){
+    return this.countChartCircle.asObservable();
+  }
 
 }

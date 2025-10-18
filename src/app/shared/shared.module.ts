@@ -12,6 +12,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChartLineComponent } from './components/chart-line/chart-line.component';
 import { ChartCircleComponent } from './components/chart-circle/chart-circle.component';
 import { ChartBarComponent } from './components/chart-bar/chart-bar.component';
+import { AlgaeRoutingModule } from "../algae/algae-routing.module";
 
 
 @NgModule({
@@ -19,8 +20,9 @@ import { ChartBarComponent } from './components/chart-bar/chart-bar.component';
   imports: [
     CommonModule,
     MatCardModule,
-    MatProgressBarModule
-  ],
+    MatProgressBarModule,
+    AlgaeRoutingModule
+],
   exports: [
     ButtonComponent,
     EarningsCardComponent,
