@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlgaeCountPerSite, AlgaeModel, AlgaeModelChartLine } from '../../models/algae.model';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 
@@ -68,12 +68,11 @@ export class DataService {
   }
 
   // GET All Alges
-  getAll(){
+  getAll(): Promise<AlgaeModel[]> {
+  return firstValueFrom(
     this.http.get<AlgaeModel[]>(this.apiURL + "all")
-      .subscribe((algaes)=>{
-        this.allAlgaes.next(algaes);
-      })
-  }
+  );
+}
 
   // GET All algaes Subject
   getAllUpdateListener(){

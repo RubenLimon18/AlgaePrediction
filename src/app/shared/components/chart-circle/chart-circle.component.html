@@ -9,13 +9,14 @@
             data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-ellipsis-v fa-sm fa-fw text-secondary"></i>
         </a>
-        <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in"
+         <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in"
             aria-labelledby="dropdownMenuLink">
-            <li><h6 class="dropdown-header">Dropdown Header:</h6></li>
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><h6 class="dropdown-header">Choose an option:</h6></li>
+            <li><a class="dropdown-item" href="">Refresh</a></li>
+            <li><a class="dropdown-item" href="#" (click)="exportChartAsImage(); $event.preventDefault()">Export as image</a></li>
+            <li><a class="dropdown-item" href="#" (click)="exportDataCSV(); $event.preventDefault()" >Download data (CSV)</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#" (click)="openCanvasInNewTab(); $event.preventDefault()">View details</a></li>
         </ul>
     </div>
 
