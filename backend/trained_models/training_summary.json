@@ -1,0 +1,551 @@
+{
+  "Acanthophora spicifera": {
+    "status": "success",
+    "n_samples": 328,
+    "metrics": {
+      "train": {
+        "r2": 0.07766957700359267,
+        "rmse": 52.570778314114186,
+        "mae": 28.937876433942595,
+        "mse": 2763.6867325517387
+      },
+      "test": {
+        "r2": 0.1113527032807603,
+        "rmse": 51.151864248127275,
+        "mae": 27.545021466826128,
+        "mse": 2616.513216058841
+      },
+      "n_train_samples": 262,
+      "n_test_samples": 66,
+      "n_features": 35
+    },
+    "model_file": "model_Acanthophora_spicifera.pkl",
+    "preprocessor_file": "preprocessor_Acanthophora_spicifera.pkl"
+  },
+  "Caulerpa sertularioides": {
+    "status": "success",
+    "n_samples": 148,
+    "metrics": {
+      "train": {
+        "r2": 0.28745274042370517,
+        "rmse": 10.513762450189613,
+        "mae": 7.1482560371293165,
+        "mse": 110.53920085901711
+      },
+      "test": {
+        "r2": -4.134705176114202,
+        "rmse": 12.765249399519334,
+        "mae": 8.43887882679193,
+        "mse": 162.95159223192871
+      },
+      "n_train_samples": 118,
+      "n_test_samples": 30,
+      "n_features": 35
+    },
+    "model_file": "model_Caulerpa_sertularioides.pkl",
+    "preprocessor_file": "preprocessor_Caulerpa_sertularioides.pkl"
+  },
+  "Ceramium": {
+    "status": "success",
+    "n_samples": 37,
+    "metrics": {
+      "train": {
+        "r2": 0.5264857370360781,
+        "rmse": 7.646588200517894,
+        "mae": 5.375512341389397,
+        "mse": 58.470311108299484
+      },
+      "test": {
+        "r2": 0.1281809829505295,
+        "rmse": 8.95181866157987,
+        "mae": 7.094134462400308,
+        "mse": 80.13505734980961
+      },
+      "n_train_samples": 29,
+      "n_test_samples": 8,
+      "n_features": 35
+    },
+    "model_file": "model_Ceramium.pkl",
+    "preprocessor_file": "preprocessor_Ceramium.pkl"
+  },
+  "Cladophora sp,": {
+    "status": "skipped",
+    "reason": "Insuficientes muestras: 5 < 30",
+    "n_samples": 5
+  },
+  "Cladophora sp.": {
+    "status": "skipped",
+    "reason": "Insuficientes muestras: 12 < 30",
+    "n_samples": 12
+  },
+  "Codium": {
+    "status": "success",
+    "n_samples": 32,
+    "metrics": {
+      "train": {
+        "r2": 0.13624678123710776,
+        "rmse": 50.558144191356924,
+        "mae": 22.314090092424056,
+        "mse": 2556.1259440740378
+      },
+      "test": {
+        "r2": -0.5524985101781508,
+        "rmse": 175.75204029959522,
+        "mae": 110.76734286989111,
+        "mse": 30888.779669470543
+      },
+      "n_train_samples": 25,
+      "n_test_samples": 7,
+      "n_features": 27
+    },
+    "model_file": "model_Codium.pkl",
+    "preprocessor_file": "preprocessor_Codium.pkl"
+  },
+  "Dyctiota": {
+    "status": "success",
+    "n_samples": 169,
+    "metrics": {
+      "train": {
+        "r2": 0.2136139668764192,
+        "rmse": 21.58492106184644,
+        "mae": 13.910335071067777,
+        "mse": 465.908817246142
+      },
+      "test": {
+        "r2": -0.019560854905635416,
+        "rmse": 27.224838030222983,
+        "mae": 17.25699491881182,
+        "mse": 741.1918057718757
+      },
+      "n_train_samples": 135,
+      "n_test_samples": 34,
+      "n_features": 35
+    },
+    "model_file": "model_Dyctiota.pkl",
+    "preprocessor_file": "preprocessor_Dyctiota.pkl"
+  },
+  "Gelidium": {
+    "status": "success",
+    "n_samples": 215,
+    "metrics": {
+      "train": {
+        "r2": 0.41238429206664196,
+        "rmse": 7.429702728574469,
+        "mae": 3.727595487800317,
+        "mse": 55.20048263498691
+      },
+      "test": {
+        "r2": -0.13624981710300643,
+        "rmse": 10.898920910639664,
+        "mae": 4.709481536258101,
+        "mse": 118.78647701637853
+      },
+      "n_train_samples": 172,
+      "n_test_samples": 43,
+      "n_features": 35
+    },
+    "model_file": "model_Gelidium.pkl",
+    "preprocessor_file": "preprocessor_Gelidium.pkl"
+  },
+  "Gracilaria sp1": {
+    "status": "success",
+    "n_samples": 501,
+    "metrics": {
+      "train": {
+        "r2": 0.14564413993511027,
+        "rmse": 35.025104358019156,
+        "mae": 18.587781929761057,
+        "mse": 1226.7579352901323
+      },
+      "test": {
+        "r2": 0.18097055590780242,
+        "rmse": 34.82793247508078,
+        "mae": 17.191080790082747,
+        "mse": 1212.9848804887865
+      },
+      "n_train_samples": 400,
+      "n_test_samples": 101,
+      "n_features": 35
+    },
+    "model_file": "model_Gracilaria_sp1.pkl",
+    "preprocessor_file": "preprocessor_Gracilaria_sp1.pkl"
+  },
+  "Gracilaria sp2": {
+    "status": "success",
+    "n_samples": 98,
+    "metrics": {
+      "train": {
+        "r2": 0.15026922368631723,
+        "rmse": 28.522799357191964,
+        "mae": 18.70581209174045,
+        "mse": 813.5500831706303
+      },
+      "test": {
+        "r2": 0.02805777952797317,
+        "rmse": 35.21442690442161,
+        "mae": 21.79467454220752,
+        "mse": 1240.0558622068525
+      },
+      "n_train_samples": 78,
+      "n_test_samples": 20,
+      "n_features": 35
+    },
+    "model_file": "model_Gracilaria_sp2.pkl",
+    "preprocessor_file": "preprocessor_Gracilaria_sp2.pkl"
+  },
+  "Gracilaria sp3": {
+    "status": "success",
+    "n_samples": 773,
+    "metrics": {
+      "train": {
+        "r2": 0.467803654512457,
+        "rmse": 4.998305993525107,
+        "mae": 1.8501904835357983,
+        "mse": 24.983062804909004
+      },
+      "test": {
+        "r2": 0.5622982679115478,
+        "rmse": 4.466266475049979,
+        "mae": 1.87209971037242,
+        "mse": 19.947536226155364
+      },
+      "n_train_samples": 618,
+      "n_test_samples": 155,
+      "n_features": 35
+    },
+    "model_file": "model_Gracilaria_sp3.pkl",
+    "preprocessor_file": "preprocessor_Gracilaria_sp3.pkl"
+  },
+  "Gracilaria sp4": {
+    "status": "success",
+    "n_samples": 89,
+    "metrics": {
+      "train": {
+        "r2": 0.16649531534093032,
+        "rmse": 7.793178752290434,
+        "mae": 3.663313302996025,
+        "mse": 60.733635065151084
+      },
+      "test": {
+        "r2": -1.9370738416447155,
+        "rmse": 3.146873258776924,
+        "mae": 2.079754959583644,
+        "mse": 9.902811306805297
+      },
+      "n_train_samples": 71,
+      "n_test_samples": 18,
+      "n_features": 35
+    },
+    "model_file": "model_Gracilaria_sp4.pkl",
+    "preprocessor_file": "preprocessor_Gracilaria_sp4.pkl"
+  },
+  "Halimeda sp": {
+    "status": "success",
+    "n_samples": 76,
+    "metrics": {
+      "train": {
+        "r2": 0.1636362977080762,
+        "rmse": 26.563278069221145,
+        "mae": 17.808031878594313,
+        "mse": 705.6077417827651
+      },
+      "test": {
+        "r2": 0.10765452491132255,
+        "rmse": 42.89544733667174,
+        "mae": 31.65872814871016,
+        "mse": 1840.0194022131784
+      },
+      "n_train_samples": 60,
+      "n_test_samples": 16,
+      "n_features": 35
+    },
+    "model_file": "model_Halimeda_sp.pkl",
+    "preprocessor_file": "preprocessor_Halimeda_sp.pkl"
+  },
+  "Hypnea sp1": {
+    "status": "success",
+    "n_samples": 255,
+    "metrics": {
+      "train": {
+        "r2": 0.20519955404704815,
+        "rmse": 12.115123851420272,
+        "mae": 7.428539701721404,
+        "mse": 146.77622593525237
+      },
+      "test": {
+        "r2": 0.07236623055438829,
+        "rmse": 19.303716951343983,
+        "mae": 10.46379656356598,
+        "mse": 372.633488137605
+      },
+      "n_train_samples": 204,
+      "n_test_samples": 51,
+      "n_features": 35
+    },
+    "model_file": "model_Hypnea_sp1.pkl",
+    "preprocessor_file": "preprocessor_Hypnea_sp1.pkl"
+  },
+  "Hypnea sp2": {
+    "status": "success",
+    "n_samples": 119,
+    "metrics": {
+      "train": {
+        "r2": 0.29410455926063983,
+        "rmse": 9.795381831955664,
+        "mae": 2.8122644694275905,
+        "mse": 95.94950523380712
+      },
+      "test": {
+        "r2": 0.425102289044227,
+        "rmse": 7.388883561059048,
+        "mae": 3.5130895695086757,
+        "mse": 54.59560027888864
+      },
+      "n_train_samples": 95,
+      "n_test_samples": 24,
+      "n_features": 35
+    },
+    "model_file": "model_Hypnea_sp2.pkl",
+    "preprocessor_file": "preprocessor_Hypnea_sp2.pkl"
+  },
+  "Laurencia sp1": {
+    "status": "success",
+    "n_samples": 93,
+    "metrics": {
+      "train": {
+        "r2": 0.6149336798651714,
+        "rmse": 9.722195834929364,
+        "mae": 6.52447302989028,
+        "mse": 94.52109185271789
+      },
+      "test": {
+        "r2": -0.13541837890658326,
+        "rmse": 7.8793321349251535,
+        "mae": 5.97070359460123,
+        "mse": 62.08387489246418
+      },
+      "n_train_samples": 74,
+      "n_test_samples": 19,
+      "n_features": 35
+    },
+    "model_file": "model_Laurencia_sp1.pkl",
+    "preprocessor_file": "preprocessor_Laurencia_sp1.pkl"
+  },
+  "Laurencia sp2": {
+    "status": "success",
+    "n_samples": 59,
+    "metrics": {
+      "train": {
+        "r2": 0.23295582833310047,
+        "rmse": 4.2552289554363565,
+        "mae": 2.771760966661254,
+        "mse": 18.106973463183987
+      },
+      "test": {
+        "r2": 0.36949005225451037,
+        "rmse": 3.931427013706106,
+        "mae": 2.3162274826779927,
+        "mse": 15.456118364098108
+      },
+      "n_train_samples": 47,
+      "n_test_samples": 12,
+      "n_features": 27
+    },
+    "model_file": "model_Laurencia_sp2.pkl",
+    "preprocessor_file": "preprocessor_Laurencia_sp2.pkl"
+  },
+  "Padina spp.": {
+    "status": "success",
+    "n_samples": 142,
+    "metrics": {
+      "train": {
+        "r2": 0.2553215142289996,
+        "rmse": 101.56660531253927,
+        "mae": 61.02675393402139,
+        "mse": 10315.77531471313
+      },
+      "test": {
+        "r2": -0.11601489640096307,
+        "rmse": 81.63874086391834,
+        "mae": 58.38507991646032,
+        "mse": 6664.884009846011
+      },
+      "n_train_samples": 113,
+      "n_test_samples": 29,
+      "n_features": 35
+    },
+    "model_file": "model_Padina_spp..pkl",
+    "preprocessor_file": "preprocessor_Padina_spp..pkl"
+  },
+  "Palisada pedrochei": {
+    "status": "success",
+    "n_samples": 63,
+    "metrics": {
+      "train": {
+        "r2": 0.26711144166710854,
+        "rmse": 23.5654259894065,
+        "mae": 16.38281453705963,
+        "mse": 555.3293020621953
+      },
+      "test": {
+        "r2": 0.3102227379189928,
+        "rmse": 19.025263706246786,
+        "mae": 14.964971478089616,
+        "mse": 361.96065909223114
+      },
+      "n_train_samples": 50,
+      "n_test_samples": 13,
+      "n_features": 35
+    },
+    "model_file": "model_Palisada_pedrochei.pkl",
+    "preprocessor_file": "preprocessor_Palisada_pedrochei.pkl"
+  },
+  "Prionitis sp": {
+    "status": "success",
+    "n_samples": 82,
+    "metrics": {
+      "train": {
+        "r2": 0.4089381956411091,
+        "rmse": 6.115073892050303,
+        "mae": 2.294063428652906,
+        "mse": 37.39412870523524
+      },
+      "test": {
+        "r2": 0.4534389474322559,
+        "rmse": 4.42053045608961,
+        "mae": 3.0659492939106894,
+        "mse": 19.541089513215816
+      },
+      "n_train_samples": 65,
+      "n_test_samples": 17,
+      "n_features": 35
+    },
+    "model_file": "model_Prionitis_sp.pkl",
+    "preprocessor_file": "preprocessor_Prionitis_sp.pkl"
+  },
+  "Rhodymenia sp": {
+    "status": "success",
+    "n_samples": 64,
+    "metrics": {
+      "train": {
+        "r2": 0.10685332964531835,
+        "rmse": 1.1680590939071127,
+        "mae": 0.5811306291655157,
+        "mse": 1.3643620468591051
+      },
+      "test": {
+        "r2": -0.6116577478238499,
+        "rmse": 0.6399176338065276,
+        "mae": 0.4501606680564898,
+        "mse": 0.40949457805654504
+      },
+      "n_train_samples": 51,
+      "n_test_samples": 13,
+      "n_features": 27
+    },
+    "model_file": "model_Rhodymenia_sp.pkl",
+    "preprocessor_file": "preprocessor_Rhodymenia_sp.pkl"
+  },
+  "Rosenvingea": {
+    "status": "skipped",
+    "reason": "Insuficientes muestras: 5 < 30",
+    "n_samples": 5
+  },
+  "Sargassum sp1": {
+    "status": "success",
+    "n_samples": 173,
+    "metrics": {
+      "train": {
+        "r2": 0.23578957393087963,
+        "rmse": 84.04354006270204,
+        "mae": 42.06908732666234,
+        "mse": 7063.316626271001
+      },
+      "test": {
+        "r2": 0.15286168988910986,
+        "rmse": 72.35546750371113,
+        "mae": 42.70663514822282,
+        "mse": 5235.313677680596
+      },
+      "n_train_samples": 138,
+      "n_test_samples": 35,
+      "n_features": 35
+    },
+    "model_file": "model_Sargassum_sp1.pkl",
+    "preprocessor_file": "preprocessor_Sargassum_sp1.pkl"
+  },
+  "Sargassum sp2": {
+    "status": "skipped",
+    "reason": "Insuficientes muestras: 22 < 30",
+    "n_samples": 22
+  },
+  "Spyridia filamentosa": {
+    "status": "success",
+    "n_samples": 600,
+    "metrics": {
+      "train": {
+        "r2": 0.1602508968811669,
+        "rmse": 33.439688788926055,
+        "mae": 21.098892017441038,
+        "mse": 1118.2127863002268
+      },
+      "test": {
+        "r2": 0.1845436316020257,
+        "rmse": 47.94675007486679,
+        "mae": 27.85054668563731,
+        "mse": 2298.8908427417387
+      },
+      "n_train_samples": 480,
+      "n_test_samples": 120,
+      "n_features": 35
+    },
+    "model_file": "model_Spyridia_filamentosa.pkl",
+    "preprocessor_file": "preprocessor_Spyridia_filamentosa.pkl"
+  },
+  "Ulva filamentosa": {
+    "status": "success",
+    "n_samples": 617,
+    "metrics": {
+      "train": {
+        "r2": 0.16548880630881058,
+        "rmse": 107.79866626985239,
+        "mae": 56.78400630196486,
+        "mse": 11620.552449559013
+      },
+      "test": {
+        "r2": 0.20324419645787462,
+        "rmse": 82.02668847491397,
+        "mae": 51.04443105147188,
+        "mse": 6728.377622160585
+      },
+      "n_train_samples": 493,
+      "n_test_samples": 124,
+      "n_features": 35
+    },
+    "model_file": "model_Ulva_filamentosa.pkl",
+    "preprocessor_file": "preprocessor_Ulva_filamentosa.pkl"
+  },
+  "Ulva foliosa": {
+    "status": "success",
+    "n_samples": 938,
+    "metrics": {
+      "train": {
+        "r2": 0.21443864156558445,
+        "rmse": 68.7520243319957,
+        "mae": 41.179367032724905,
+        "mse": 4726.840849747329
+      },
+      "test": {
+        "r2": 0.17017285505688495,
+        "rmse": 80.45002486038535,
+        "mae": 47.62074387443059,
+        "mse": 6472.206500036622
+      },
+      "n_train_samples": 750,
+      "n_test_samples": 188,
+      "n_features": 35
+    },
+    "model_file": "model_Ulva_foliosa.pkl",
+    "preprocessor_file": "preprocessor_Ulva_foliosa.pkl"
+  }
+}
