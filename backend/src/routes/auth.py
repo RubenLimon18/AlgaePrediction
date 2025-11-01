@@ -7,7 +7,7 @@ from schemas.auth import (
 from services.user_service import user_service
 from utils.security import create_access_token, create_refresh_token, verify_token
 from dependencies.auth import get_current_active_user, require_admin, get_current_user_from_cookie
-from models.user import User
+from models.user import UpdateUser, User
 from database.db import get_collection
 from schemas.auth import UserRegister
 
@@ -242,6 +242,26 @@ async def get_current_user_info(current_user: User = Depends(get_current_user_fr
         created_at=current_user.created_at,
         last_login=current_user.last_login
     )
+
+
+@router.put("/user/{user_id}/updateProfile")
+async def update_user_profile(
+    user_id: str,
+    user: UpdateUser
+):  
+    success = await user_service.update_user_profile(user_id, user)
+
+    if not success:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = "User not found"
+        )
+    return {"message": f"User updated"}
+        
+    
+    
+    
+        
 
 @router.put("/user/{user_id}/role")
 async def update_user_role(

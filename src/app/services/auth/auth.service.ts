@@ -174,7 +174,6 @@ export class AuthService {
 
   
 
-
   // Status
   // Se obtinee el estado del usuario, esta autenticado o no
   getAuthStatusListener(){

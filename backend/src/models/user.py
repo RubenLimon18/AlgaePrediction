@@ -34,8 +34,6 @@ class BaseUser(BaseModel):
     role: UserRole 
     status: UserStatus
 
-
-
 class User(BaseUser):
     id: Optional[str] = Field(None, alias="_id")
     # password_hash: Optional[str] = None
@@ -56,3 +54,10 @@ class User(BaseUser):
         json_encoders = {
             datetime: lambda v: v.isoformat(),
         }
+
+
+# Estructura para cambiar los datos del usuario
+class UpdateUser(BaseModel):
+    email: str
+    first_name: str
+    last_name: str

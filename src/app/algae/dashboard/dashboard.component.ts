@@ -78,15 +78,6 @@ export class DashboardComponent implements OnInit{
         this.data = algaes;
       })
 
-    // Subscription All Algaes Report
-    this.allAlgaesSub = this.dataService.getAllUpdateListener()
-      .subscribe((algaes)=>{
-        this.dataset = algaes;
-        this.downloadHTMLReport();
-        this.downloadPDFReport();
-        this.downloadExcelReport();
-      })
-
     // Subscription Count Algaes Per Site ( Chart Circle )
     this.countAlgaesPerSiteSub = this.dataService.getCountAlgaesPerSiteUpdateListener()
       .subscribe(( count ) => {
@@ -113,13 +104,17 @@ export class DashboardComponent implements OnInit{
 
 
 
-  async generateReport(){
-    try{
-      await this.dataService.getAll();
-    }catch (error){
-      console.log("Error al generar reporte: ", error);
+  async generateReport() {
+    try {
+      const algaes = await this.dataService.getAll();  
+      this.dataset = algaes;
+
+      this.downloadHTMLReport();
+      this.downloadPDFReport();
+      this.downloadExcelReport();
+    } catch (error) {
+      console.error("Error al generar reporte:", error);
     }
-    
   }
 
 

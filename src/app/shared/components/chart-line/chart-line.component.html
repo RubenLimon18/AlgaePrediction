@@ -14,9 +14,9 @@
             <li><h6 class="dropdown-header">Choose an option:</h6></li>
             <li><a class="dropdown-item" href="">Refresh</a></li>
             <li><a class="dropdown-item" href="#" (click)="exportChartAsImage(); $event.preventDefault()">Export as image</a></li>
-            <li><a class="dropdown-item" href="#" (click)="exportDataCSV(); $event.preventDefault()" >Download data</a></li>
+            <li><a class="dropdown-item" href="#" (click)="exportDataCSV(); $event.preventDefault()" >Download data (CSV)</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">View details</a></li>
+            <li><a class="dropdown-item" href="#" (click)="openCanvasInNewTab(); $event.preventDefault()">View details</a></li>
         </ul>
     </div>
 
