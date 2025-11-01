@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import Optional, List
 from bson import ObjectId
 from pymongo.collection import Collection
-from models.user import BaseUser, User, UserRole, UserStatus
+from models.user import BaseUser, UpdateUser, User, UserRole, UserStatus
 from schemas.auth import UserRegister, InviteUser, AcceptInvitation
 from utils.security import get_password_hash, verify_password, generate_verification_token, generate_magic_link_token, generate_invitation_token
 from services.email_service import email_service
@@ -274,8 +274,23 @@ class UserService:
     async def update_user_role(self, user_id: str, new_role: UserRole) -> bool:
         collection = self.get_users_collection()
         result = collection.update_one(
-            {"_id": user_id},
+            {"_id": ObjectId(user_id)},
             {"$set": {"role": new_role, "updated_at": datetime.utcnow()}}
+        )
+        return result.modified_count > 0
+    
+    async def update_user_profile(self, user_id: str, newInfo: UpdateUser) -> bool:
+        collection = self.get_users_collection()
+        
+        result = collection.update_one(
+            {"_id": ObjectId(user_id)},
+            {
+                "$set": {
+                    "email": newInfo.email,
+                    "first_name": newInfo.first_name,
+                    "last_name": newInfo.last_name
+                }
+            }
         )
         return result.modified_count > 0
 

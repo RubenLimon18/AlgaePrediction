@@ -34,6 +34,10 @@ export class ProfileComponent implements OnInit{
 
   ngOnInit(): void {
 
+    // Inicia a cargar los datos
+    this.isLoading = true;
+
+
     // Datos profile
     // Se obtienen los datos almacenados en el navegador, posteriormente sera con un id en la base de datos.
     // this.dataProfile = this.authService.getDataProfile("profile");
@@ -47,7 +51,30 @@ export class ProfileComponent implements OnInit{
           return this.authService.getDataUser(id);
         }),
         tap((user)=>{
-          if (user) this.dataUser = user; 
+          if (user){
+            this.dataUser = user; 
+
+
+            // Form
+            this.formEditProfile =  new FormGroup({
+              'email': new FormControl(this.dataUser.email, {
+                      validators: [
+                        Validators.email,
+                        Validators.required,
+                        emailDomainValidator()
+                      ]
+              }),
+              'name': new FormControl(this.dataUser.first_name + " " + this.dataUser.last_name,{
+                validators: [
+                  Validators.required,
+                  Validators.pattern(/^[a-zA-Z\s]*$/)
+                ]
+              })
+            })
+
+            // Loading false
+            this.isLoading = false;
+          }
         })
       )
       .subscribe({
@@ -60,22 +87,7 @@ export class ProfileComponent implements OnInit{
 
 
 
-    // Form
-    this.formEditProfile =  new FormGroup({
-      'email': new FormControl(this.dataUser?.email, {
-              validators: [
-                Validators.email,
-                Validators.required,
-                emailDomainValidator()
-              ]
-      }),
-      'name': new FormControl(this.dataUser?.first_name, {
-        validators: [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z\s]*$/)
-        ]
-      })
-    })
+    
 
     
   }
@@ -90,7 +102,6 @@ export class ProfileComponent implements OnInit{
     // Se obtienen los valores ingresados en el formulario
     const name = this.formEditProfile.controls['name'].value;
     const email = this.formEditProfile.controls['email'].value;
-    const bio = this.formEditProfile.controls['bio'].value;
 
     // Se establecen los nuevos valores a los que teniamos almacenados en el navegador
     // this.dataProfile.name = name;
@@ -100,6 +111,7 @@ export class ProfileComponent implements OnInit{
     // Actualizar datos y almacenamos en el navegador
     //localStorage.setItem('profile', JSON.stringify(this.dataProfile)); // Lo vuelves a guardar
 
+    
 
     // Simulacion de peticion HTTP al guardar los cambios
     this.isLoading = true;
