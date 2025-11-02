@@ -3,6 +3,7 @@ import { RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AngularMaterialModule } from "../angular-material.module";
@@ -18,6 +19,7 @@ import { WeekPredictionComponent } from "./prediction/week-prediction/week-predi
 import { TemperatureComponent } from './parameters/temperature/temperature.component';
 
 
+import { BiomassPredictionComponent } from "./prediction/biomass-prediction/biomass-prediction.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { UserAddComponent } from "./users/user-add/user-add.component";
 import { UserListComponent } from "./users/user-list/user-list.component";
@@ -39,6 +41,7 @@ import { SharedModule } from "../shared/shared.module";
     MonthPredictionComponent,
     TemperatureComponent,
     EnvironmentalDataFormComponent,
+    BiomassPredictionComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +50,8 @@ import { SharedModule } from "../shared/shared.module";
     ReactiveFormsModule,
     AngularMaterialModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ]
 })
-export class AlgaeModule {}
+export class AlgaeModule { }

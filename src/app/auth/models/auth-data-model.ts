@@ -18,7 +18,12 @@ export interface authRegister{
     password: string,
 }
 
-
+// Update User PUT
+export interface updateUser {
+  email: string
+  first_name: string
+  last_name: string
+}
 
 // Sign Up (Add User) RESPONSE
 export interface authRegisterResponse {

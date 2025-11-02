@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Prediction } from '../interfaces/prediction';
-import { WeekPrediction, WeeklyGrowth} from '../interfaces/week-prediction';
+import { Prediction } from '../../../interfaces';
+import { WeekPrediction, WeeklyGrowth } from '../interfaces/week-prediction';
 import { Site } from '../interfaces/site';
 import { AlgaeSpecies } from '../interfaces/algae-species';
 import { Observable, of } from 'rxjs';
@@ -13,26 +13,45 @@ import { Observable, of } from 'rxjs';
 export class PredictionService {
 
   // constructor(private http: HttpClient) {} // ← descomentar si se usa HttpClient
-  constructor() {}
+  constructor() { }
 
-  runPrediction(data: Prediction): Observable<{ growth: number; dateActual: string; 
-    temperature: number; din: number; nt: number }> {
-      const temperature = data.temperature ?? Math.random() * 10 + 20; // 20°C a 30°C
-      const din = data.din ?? Math.random() * 5 + 1; // 1 a 6
-      const nt = data.nt ?? Math.random() * 2 + 0.5; // 0.5 a 2.5
+  runPrediction(data: Prediction): Observable<{
+    growth: number; dateActual: string;
+    temperature: number; din: number; nt: number, season: string;
+    confidence: {
+      r2_score: number;
+      rmse: number;
+      mae: number;
+    };
+  }> {
+    const temperature = data.temperature ?? Math.random() * 10 + 20; // 20°C a 30°C
+    const din = data.din ?? Math.random() * 5 + 1; // 1 a 6
+    const nt = data.nt ?? Math.random() * 2 + 0.5; // 0.5 a 2.5
 
-      const simulatedGrowth =
-        temperature * 0.5 + din * 0.3 + nt * 0.2 + Math.random() * 5;
+    const simulatedGrowth =
+      temperature * 0.5 + din * 0.3 + nt * 0.2 + Math.random() * 5;
 
-      const today = new Date().toISOString();
-
-      return of({
-        growth: Number(simulatedGrowth.toFixed(2)),
-        dateActual: today,
-        temperature: Number(temperature.toFixed(2)),
-        din: Number(din.toFixed(2)),
-        nt: Number(nt.toFixed(2))
-      });
+    const today = new Date().toISOString();
+    const date = new Date(data.date);
+    const month = date.getMonth() + 1;
+    let season: string;
+    if (month >= 11 || month <= 2) season = 'cold_season';
+    else if (month >= 3 && month <= 6) season = 'dry_season';
+    else season = 'rainy_season';
+    const confidence = {
+      r2_score: Number((0.3 + Math.random() * 0.4).toFixed(4)),
+      rmse: Number((3 + Math.random() * 5).toFixed(2)),
+      mae: Number((2 + Math.random() * 4).toFixed(2))
+    };
+    return of({
+      growth: Number(simulatedGrowth.toFixed(2)),
+      dateActual: today,
+      temperature: Number(temperature.toFixed(2)),
+      din: Number(din.toFixed(2)),
+      nt: Number(nt.toFixed(2)),
+      season: season,
+      confidence: confidence
+    });
 
     /*
     //API ejemplo:
@@ -132,36 +151,35 @@ export class PredictionService {
   }
 
   runWeekPrediction(data: WeekPrediction): Observable<WeekPrediction> {
-  const temperature = Math.random() * 10 + 20; // 20°C a 30°C
-  const din = Math.random() * 5 + 1;           // 1 a 6
-  const nt = Math.random() * 2 + 0.5;          // 0.5 a 2.5
+    const temperature = Math.random() * 10 + 20; // 20°C a 30°C
+    const din = Math.random() * 5 + 1;           // 1 a 6
+    const nt = Math.random() * 2 + 0.5;          // 0.5 a 2.5
 
-  const predictions: WeeklyGrowth[] = [];
+    const predictions: WeeklyGrowth[] = [];
 
-  const today = new Date();
+    const today = new Date();
 
-  for (let i = 0; i < data.weeks* 7; i++) {
-    const currentDate = new Date(today);
-    currentDate.setDate(today.getDate() + i); // incrementa por semanas
+    for (let i = 0; i < data.weeks * 7; i++) {
+      const currentDate = new Date(today);
+      currentDate.setDate(today.getDate() + i); // incrementa por semanas
 
-    const growth = 
-      temperature * 0.5 + 
-      din * 0.3 + 
-      nt * 0.2 + 
-      Math.random() * 5;
+      const growth =
+        temperature * 0.5 +
+        din * 0.3 +
+        nt * 0.2 +
+        Math.random() * 5;
 
-    predictions.push({
-      date: currentDate,
-      biomass: Number(growth.toFixed(2)),
-      algae: data.specie,
+      predictions.push({
+        date: currentDate,
+        biomass: Number(growth.toFixed(2)),
+        algae: data.specie
+      });
+    }
 
+    return of({
+      ...data,
+      predictions
     });
-  }
-
-  return of({
-    ...data,
-    predictions
-  });
 
   /*
   // Ejemplo de llamado real a backend:
@@ -211,6 +229,13 @@ export class PredictionService {
     data
   );
   */
+    /*
+    // Ejemplo de llamado real a backend:
+    return this.http.post<WeekPrediction>(
+      'http://localhost:3000/api/week-predict',
+      data
+    );
+    */
   }
 
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { authData, authRegister, authRegisterResponse } from '../../auth/models/auth-data-model';
+import { authData, authRegister, authRegisterResponse, updateUser } from '../../auth/models/auth-data-model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { profileData } from '../../algae/users/profile-data-model';
@@ -15,7 +15,8 @@ export class UserService {
   // Usuarios de prueba
   private users: authRegisterResponse[] = [];
   
-  userChanged = new Subject<authRegisterResponse[]>();
+  usersChanged = new Subject<authRegisterResponse[]>();
+  userProfileChanged = new Subject<updateUser>();
   profile: profileData;
 
 
@@ -41,14 +42,14 @@ export class UserService {
       .subscribe((users) => {
         console.log(users)
         this.users = users;
-        this.userChanged.next([...this.users]); // Behavior subject
+        this.usersChanged.next([...this.users]); // Behavior subject
       })
     
   }
 
   // GET Users Subject
   getUsersUpdateListener(){
-    return this.userChanged.asObservable();
+    return this.usersChanged.asObservable();
   }
 
 
@@ -56,6 +57,18 @@ export class UserService {
   deleteUser(userId: string){
     return this.http.delete<{message: string}>(this.apiURL + "auth/user/delete/" + userId) ;
 
+  }
+
+  // UPDATE User
+  updateUser(userId: string, userData: updateUser){
+    this.http.put<{message: string}>(this.apiURL + "auth/user/" + userId + "/updateProfile", userData)
+      .subscribe(()=>{
+        this.userProfileChanged.next(userData);
+      })
+  }
+
+  getUserUpdateListener(){
+    return this.userProfileChanged.asObservable();
   }
   
 }

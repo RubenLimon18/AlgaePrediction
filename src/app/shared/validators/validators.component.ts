@@ -63,7 +63,6 @@ export function passwordValidation(): ValidatorFn{
 
 
 // Name validation
-
 export function onlyLetters(): ValidatorFn {
 return (control: AbstractControl): ValidationErrors | null => {
   const value = control.value;
@@ -76,4 +75,15 @@ return (control: AbstractControl): ValidationErrors | null => {
     ? null
     : { onlyLetters: true };
 };
+}
+
+
+export function futureDayValidator(): ValidatorFn{
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null;
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+    today.setHours(0,0,0,0); // Ignora horas
+    return selectedDate < today ? { pastDate: true } : null;
+  }
 }

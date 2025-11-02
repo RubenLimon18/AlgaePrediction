@@ -13,6 +13,7 @@ import { MonthPredictionComponent } from "./prediction/month-prediction/month-pr
 import { TemperatureComponent } from "./parameters/temperature/temperature.component";
 
 import { EnvironmentalDataFormComponent } from "./environmental-data-form/environmental-data-form.component";
+import { BiomassPredictionComponent } from "./prediction/biomass-prediction/biomass-prediction.component";
 import { AuthGuard } from "../guards/auth.guard";
 
 
@@ -31,17 +32,18 @@ const routes: Routes = [
       { path: 'week-prediction', component: WeekPredictionComponent },
       { path: 'month-prediction', component: MonthPredictionComponent },
       { path: 'temperature', component: TemperatureComponent},
+      { path: 'biomass-prediction', component: BiomassPredictionComponent },
     ]
   }
 ];
 
 
 @NgModule({
-    imports: [
-        RouterModule.forChild(routes)
-    ],
-    exports: [
-        RouterModule
-    ]
+  imports: [
+    RouterModule.forChild(routes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
-export class AlgaeRoutingModule {}
+export class AlgaeRoutingModule { }

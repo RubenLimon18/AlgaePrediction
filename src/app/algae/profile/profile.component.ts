@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { emailDomainValidator, onlyLetters } from '../../shared/validators/validators.component';
 import { profileData } from '../users/profile-data-model';
 import { AuthService } from '../../services/auth/auth.service';
-import { authRegisterResponse } from '../../auth/models/auth-data-model';
-import { of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { authRegisterResponse, updateUser } from '../../auth/models/auth-data-model';
+import { last, of, Subject, Subscription, switchMap, takeUntil, tap } from 'rxjs';
+import { UserService } from '../../services/users/user.service';
 
 
 
@@ -20,6 +21,8 @@ export class ProfileComponent implements OnInit{
   isLoading = false;
   formEditProfile: FormGroup;
   dataUser: authRegisterResponse | null;
+  private userProfileSub: Subscription;
+  id: string;
 
   private destroy = new Subject<void>();
 
@@ -28,7 +31,8 @@ export class ProfileComponent implements OnInit{
   // Metodos
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ){}
 
 
@@ -36,7 +40,19 @@ export class ProfileComponent implements OnInit{
 
     // Inicia a cargar los datos
     this.isLoading = true;
-
+    
+    // Subscripcion para cuando se modifique el perfil
+    this.userProfileSub = this.userService.getUserUpdateListener()
+      .subscribe((userData)=>{
+        if(this.dataUser){
+          this.isLoading = false;
+          this.edit = false;
+          this.dataUser.email = userData.email;
+          this.dataUser.first_name = userData.first_name;
+          this.dataUser.last_name = userData.last_name;
+        }
+      })
+    
 
     // Datos profile
     // Se obtienen los datos almacenados en el navegador, posteriormente sera con un id en la base de datos.
@@ -48,6 +64,7 @@ export class ProfileComponent implements OnInit{
         takeUntil(this.destroy),
         switchMap((id) => { // Con el id, mandamos el sig. observable el user
           if(!id) return of(null);
+          this.id = id;
           return this.authService.getDataUser(id);
         }),
         tap((user)=>{
@@ -100,7 +117,9 @@ export class ProfileComponent implements OnInit{
     }
 
     // Se obtienen los valores ingresados en el formulario
-    const name = this.formEditProfile.controls['name'].value;
+    const fullName = this.formEditProfile.controls['name'].value;
+    const [first_name, ...rest] = fullName.split(' ');
+    const last_name = rest.join(' ')
     const email = this.formEditProfile.controls['email'].value;
 
     // Se establecen los nuevos valores a los que teniamos almacenados en el navegador
@@ -115,12 +134,19 @@ export class ProfileComponent implements OnInit{
 
     // Simulacion de peticion HTTP al guardar los cambios
     this.isLoading = true;
+    const userData: updateUser = {
+      email: email,
+      first_name: first_name,
+      last_name: last_name
 
-    setTimeout(()=>{
-      this.edit = false;
-      console.log(this.formEditProfile.value);
-      this.isLoading = false;
-    },500)
+    }
+    this.userService.updateUser(this.id, userData);
+
+    // setTimeout(()=>{
+    //   this.edit = false;
+    //   console.log(this.formEditProfile.value);
+    //   this.isLoading = false;
+    // },500)
   
 
   }

@@ -66,7 +66,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
         this.data = fullWeekPrediction.predictions?.map(item => ({
           date: item.date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }),
           biomass: item.biomass,
-          alga: item.algae
+          alga: item.algae ?? ''
         })) ?? [];
       },
       error => {
@@ -101,7 +101,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
         date: `${currentBlockStart.toLocaleDateString('es-MX', { day: 'numeric'})
       }-${currentBlockEnd.toLocaleDateString('es-MX', {day: 'numeric', month: 'short', year: '2-digit'})}`,
         biomass: this.calculateAverage(blockValues),
-        alga: fixedAlga
+        alga: fixedAlga ?? ''
       });
 
       currentBlockStart = new Date(currentBlockEnd);
@@ -118,7 +118,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
     date: `${currentBlockStart.toLocaleDateString('es-MX', { day: 'numeric'})
     }-${currentBlockEnd.toLocaleDateString('es-MX', {day: 'numeric', month: 'short', year: '2-digit'})}`,      
     biomass: this.calculateAverage(blockValues),
-    alga: fixedAlga
+    alga: fixedAlga ?? ''
     });
   }
 
@@ -150,7 +150,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
         date: `${currentBlockStart.toLocaleDateString('es-MX', { day: 'numeric'})
       }-${currentBlockEnd.toLocaleDateString('es-MX', {day: 'numeric', month: 'short', year: '2-digit'})}`,
         biomass: this.calculateAverage(blockValues),
-        alga: fixedAlga
+        alga: fixedAlga ?? ''
       });
 
       currentBlockStart = new Date(currentBlockEnd);
@@ -167,7 +167,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
     date: `${currentBlockStart.toLocaleDateString('es-MX', { day: 'numeric'})
     }-${currentBlockEnd.toLocaleDateString('es-MX', {day: 'numeric', month: 'short', year: '2-digit'})}`,      
     biomass: this.calculateAverage(blockValues),
-    alga: fixedAlga
+    alga: fixedAlga,
     });
   }
 
@@ -192,7 +192,7 @@ export class MonthPredictionComponent implements OnInit, AfterViewChecked{
       this.data = this.predictedData.predictions.map(item => ({
         date: item.date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }),
         biomass: item.biomass,
-        alga: item.algae,
+        alga: item.algae ?? '',
 
       }));
     } else if (mode === 'weekly'){
