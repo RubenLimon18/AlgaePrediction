@@ -1,0 +1,320 @@
+<div class="biomass-prediction-container">
+  <div class="page-header">
+    <h1>Predicción de Biomasa de Algas</h1>
+    <p class="subtitle">Predice la biomasa basándose en condiciones ambientales</p>
+  </div>
+
+  <!-- Formulario de Predicción -->
+  <div class="prediction-form-card">
+    <form [formGroup]="predictionForm" (ngSubmit)="runPrediction()">
+      
+      <!-- Campos Obligatorios -->
+      <div class="form-section">
+        <h2 class="section-title">Parámetros Requeridos</h2>
+        
+        <div class="form-row">
+          <!-- Especie -->
+          <div class="form-group">
+            <label for="specie" class="form-label">
+              Especie de Alga <span class="required">*</span>
+            </label>
+            <select 
+              id="specie" 
+              class="form-control"
+              formControlName="specie"
+              [class.is-invalid]="isFieldInvalid('specie')">
+              <option value="" disabled>Selecciona una especie</option>
+              <option *ngFor="let sp of species" [value]="sp.name">
+                {{ sp.name }} 
+                <!-- <span *ngIf="sp.r2Score">(R²: {{ sp.r2Score | number:'1.2-2' }})</span> -->
+              </option>
+            </select>
+            <div class="error-message" *ngIf="isFieldInvalid('specie')">
+              {{ getFieldError('specie') }}
+            </div>
+          </div>
+
+          <!-- Sitio -->
+          <div class="form-group">
+            <label for="site" class="form-label">
+              Sitio de Muestreo <span class="required">*</span>
+            </label>
+            <select 
+              id="site" 
+              class="form-control"
+              formControlName="site"
+              [class.is-invalid]="isFieldInvalid('site')">
+              <option value="" disabled>Selecciona un sitio</option>
+              <option *ngFor="let site of sites" [value]="site.name">
+                {{ site.name }}
+              </option>
+            </select>
+            <div class="error-message" *ngIf="isFieldInvalid('site')">
+              {{ getFieldError('site') }}
+            </div>
+          </div>
+
+          <!-- Fecha -->
+          <div class="form-group">
+            <label for="date" class="form-label">
+              Fecha de Predicción <span class="required">*</span>
+            </label>
+            <input 
+              type="date" 
+              id="date"
+              class="form-control"
+              formControlName="date"
+              [class.is-invalid]="isFieldInvalid('date')">
+            <div class="error-message" *ngIf="isFieldInvalid('date')">
+              {{ getFieldError('date') }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toggle para Campos Opcionales -->
+      <div class="optional-toggle">
+        <button 
+          type="button" 
+          class="toggle-button"
+          (click)="toggleOptionalFields()">
+          <span class="toggle-icon">{{ showOptionalFields ? '▼' : '▶' }}</span>
+          Parámetros Opcionales (Modo Avanzado)
+          <span class="toggle-hint">
+            {{ showOptionalFields ? 'Ocultar' : 'Mostrar' }}
+          </span>
+        </button>
+        <p class="optional-info" *ngIf="!showOptionalFields">
+          <small>
+            Si no proporcionas estos valores, se calcularán automáticamente según la fecha seleccionada.
+          </small>
+        </p>
+      </div>
+
+      <!-- Campos Opcionales -->
+      <div class="form-section optional-section" *ngIf="showOptionalFields">
+        <h2 class="section-title">Parámetros Avanzados</h2>
+        <p class="section-description">
+          Deja los campos vacíos para que se calculen automáticamente según la temporada.
+        </p>
+        
+        <div class="form-row">
+          <!-- Temperatura -->
+          <div class="form-group">
+            <label for="temperature" class="form-label">
+              Temperatura (°C)
+              <span class="optional-badge">Opcional</span>
+            </label>
+            <input 
+              type="number" 
+              id="temperature"
+              class="form-control"
+              formControlName="temperature"
+              placeholder="Auto"
+              step="0.1"
+              min="0"
+              max="50"
+              [class.is-invalid]="isFieldInvalid('temperature')">
+            <small class="field-hint">Rango válido: 0 - 50°C</small>
+            <div class="error-message" *ngIf="isFieldInvalid('temperature')">
+              {{ getFieldError('temperature') }}
+            </div>
+          </div>
+
+          <!-- DIN -->
+          <div class="form-group">
+            <label for="din" class="form-label">
+              DIN (μM)
+              <span class="optional-badge">Opcional</span>
+            </label>
+            <input 
+              type="number" 
+              id="din"
+              class="form-control"
+              formControlName="din"
+              placeholder="Auto"
+              step="0.1"
+              min="0"
+              [class.is-invalid]="isFieldInvalid('din')">
+            <small class="field-hint">Nitrógeno Inorgánico Disuelto</small>
+            <div class="error-message" *ngIf="isFieldInvalid('din')">
+              {{ getFieldError('din') }}
+            </div>
+          </div>
+
+          <!-- NT -->
+          <div class="form-group">
+            <label for="nt" class="form-label">
+              NT (μM)
+              <span class="optional-badge">Opcional</span>
+            </label>
+            <input 
+              type="number" 
+              id="nt"
+              class="form-control"
+              formControlName="nt"
+              placeholder="Auto"
+              step="0.1"
+              min="0"
+              [class.is-invalid]="isFieldInvalid('nt')">
+            <small class="field-hint">Nitrógeno Total</small>
+            <div class="error-message" *ngIf="isFieldInvalid('nt')">
+              {{ getFieldError('nt') }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensaje de Error -->
+      <div class="alert alert-error" *ngIf="errorMessage">
+        <span class="alert-icon"></span>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Botones -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="isLoading || predictionForm.invalid">
+          <span *ngIf="!isLoading">Predecir Biomasa</span>
+          <span *ngIf="isLoading" class="loading-spinner">
+            Prediciendo...
+          </span>
+        </button>
+        
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          (click)="clearForm()"
+          [disabled]="isLoading">
+          Limpiar Formulario
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Resultados de la Predicción -->
+  <div class="prediction-results" *ngIf="prediction">
+    <div class="results-header">
+      <h2>Resultados de la Predicción</h2>
+      <span class="result-badge">Completado</span>
+    </div>
+
+    <!-- Tarjeta Principal de Resultados -->
+    <div class="result-card main-result">
+      <div class="result-icon">🌊</div>
+      <div class="result-content">
+        <h3>Biomasa Predicha</h3>
+        <div class="biomass-value">
+          {{ formatNumber(prediction.growth!) }} g/m²
+        </div>
+        <div class="biomass-range" *ngIf="prediction.confidence">
+          <small>
+            Rango estimado: 
+            {{ formatNumber(prediction.growth! - prediction.confidence.mae) }} - 
+            {{ formatNumber(prediction.growth! + prediction.confidence.mae) }} g/m²
+            <span class="info-tooltip" title="Basado en el MAE del modelo"></span>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detalles de la Predicción -->
+    <div class="details-grid">
+      <!-- Información General -->
+      <div class="detail-card">
+        <h4> Información General</h4>
+        <div class="detail-row">
+          <span class="detail-label">Especie:</span>
+          <span class="detail-value">{{ prediction.specie }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Sitio:</span>
+          <span class="detail-value">{{ prediction.site }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Fecha:</span>
+          <span class="detail-value">{{ prediction.date }}</span>
+        </div>
+        <div class="detail-row" *ngIf="prediction.season">
+          <span class="detail-label">Temporada:</span>
+          <span class="detail-value">{{ getSeasonName(prediction.season) }}</span>
+        </div>
+      </div>
+
+      <!-- Condiciones Ambientales -->
+      <div class="detail-card">
+        <h4>Condiciones Ambientales</h4>
+        <div class="detail-row">
+          <span class="detail-label">Temperatura:</span>
+          <span class="detail-value">{{ formatNumber(prediction.temperature!) }} °C</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">DIN:</span>
+          <span class="detail-value">{{ formatNumber(prediction.din!) }} μM</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">NT:</span>
+          <span class="detail-value">{{ formatNumber(prediction.nt!) }} μM</span>
+        </div>
+      </div>
+
+      <!-- Métricas de Confianza -->
+      <div class="detail-card confidence-card" *ngIf="prediction.confidence">
+        <h4>Métricas de Confianza del Modelo</h4>
+
+        <div class="confidence-level"
+             [ngClass]="getConfidenceClass(prediction.confidence.r2_score)">
+          <span class="confidence-label">Nivel de Confianza:</span>
+          <span class="confidence-badge">
+            {{ getConfidenceText(prediction.confidence.r2_score) }}
+          </span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">
+            R² Score:
+            <span class="info-tooltip" title="Coeficiente de determinación. Indica qué tan bien el modelo explica la variabilidad de los datos."></span>
+          </span>
+          <span class="detail-value">{{ formatNumber(prediction.confidence.r2_score, 4) }}</span>
+        </div> 
+        <div class="detail-row">
+          <span class="detail-label">
+            RMSE:
+            <span class="info-tooltip" title="Raíz del Error Cuadrático Medio. Mide la magnitud promedio del error."></span>
+          </span>
+          <span class="detail-value">{{ formatNumber(prediction.confidence.rmse) }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">
+            MAE:
+            <span class="info-tooltip" title="Error Absoluto Medio. Margen de error promedio de las predicciones."></span>
+          </span>
+          <span class="detail-value">±{{ formatNumber(prediction.confidence.mae) }} g/m²</span>
+        </div>
+
+        <!-- Interpretación -->
+        <div class="confidence-interpretation">
+          <p *ngIf="prediction.confidence.r2_score >= 0.5">
+             <strong>Excelente:</strong> El modelo explica más del 50% de la variabilidad. Predicción confiable.
+          </p>
+          <p *ngIf="prediction.confidence.r2_score >= 0.3 && prediction.confidence.r2_score < 0.5">
+            ✓ <strong>Bueno:</strong> El modelo tiene un rendimiento aceptable. Predicción útil con cierta incertidumbre.
+          </p>
+          <p *ngIf="prediction.confidence.r2_score < 0.3">
+             <strong>Limitado:</strong> El modelo tiene precisión limitada. Usar predicción como estimación aproximada.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado de Carga -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <p>Calculando predicción...</p>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,7 @@ import { DialogComponent } from './features/dialog/dialog.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 import { NotFoundComponent } from './features/not-found/not-found.component';
 @NgModule({
@@ -21,11 +22,12 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
     BaseComponent,
     DialogComponent,
     NotFoundComponent,
-    
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CommonModule,
     SharedModule, // We can use ButtonComponent everywhere
     ReactiveFormsModule,
     HttpClientModule,
@@ -33,7 +35,7 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
 
     // Angular material
     AngularMaterialModule,
-],
+  ],
   providers: [
     provideAnimationsAsync()
   ],

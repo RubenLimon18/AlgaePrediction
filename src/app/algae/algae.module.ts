@@ -3,6 +3,7 @@ import { RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AngularMaterialModule } from "../angular-material.module";
@@ -11,6 +12,7 @@ import { HistoricalDataComponent } from "./historical-data/historical-data.compo
 import { DayPredictionComponent } from "./prediction/day-prediction/day-prediction.component";
 import { MonthPredictionComponent } from "./prediction/month-prediction/month-prediction.component";
 import { WeekPredictionComponent } from "./prediction/week-prediction/week-prediction.component";
+import { BiomassPredictionComponent } from "./prediction/biomass-prediction/biomass-prediction.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { UserAddComponent } from "./users/user-add/user-add.component";
 import { UserListComponent } from "./users/user-list/user-list.component";
@@ -30,6 +32,7 @@ import { SharedModule } from "../shared/shared.module";
     WeekPredictionComponent,
     MonthPredictionComponent,
     EnvironmentalDataFormComponent,
+    BiomassPredictionComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,8 @@ import { SharedModule } from "../shared/shared.module";
     ReactiveFormsModule,
     AngularMaterialModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ]
 })
-export class AlgaeModule {}
+export class AlgaeModule { }
